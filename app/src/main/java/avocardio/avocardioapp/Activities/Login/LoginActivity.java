@@ -32,8 +32,10 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.imei)
     TextView imei;
 
+    //Test
     private UserManager userManager;
 
+    //test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
