@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Avocardio</string>
+
+    <string name="button_register">Rejestracja</string>
+    <string name="button_login">Logowanie</string>
+
+    <string name="login2">Zaloguj</string>
+    <string name="forgotpassword">Zapomniałem hasła</string>
+    <string name="password">Hasło</string>
+    <string name="e_mail">E-mail</string>
+    <string name="Hello">Witaj w naszej aplikacji!</string>
+    <string name="register">Rejestracja</string>
+    <string name="login">Logowanie</string>
+    <string name="empty_error">To pole nie może być puste.</string>
+    <string name="email_not_valid">To nie jest adress e-mail</string>
+    <string name="password_toshort_error">Nie poprawne hasło.</string>
+
+    <string name="register_question1_5">"1 pytanie z 5 "</string>
+    <string name="register_question2_5">"2 pytanie z 5 "</string>
+    <string name="register_question3_5">"3 pytanie z 5 "</string>
+    <string name="register_question4_5">"4 pytanie z 5 "</string>
+    <string name="register_question5_5">"5 pytanie z 5 "</string>
+    <string name="unaccept">Rezygnuję</string>
+    <string name="accept">Akceptuje</string>
+    <string name="regulamin">Zakładając konto wyrażasz zgodę na niniejszy Regulamin założenia Konta, jak również na nasze Ogólne Warunki i Politykę użytkowania, naszą Politykę prywatności oraz Politykę cookies i pozostałych technologii śledzenia, oraz wszystkie szczegółowe warunki każdej z zamawianych usług lub funkcji. Jeśli nie zgadzasz się z postanowieniami niniejszego Regulaminu, prosimy nie kontynuować procesu zakładania konta oraz zaprzestać korzystania z Konta w aplkiacji Avocardio.</string>
+
+
+</resources>
