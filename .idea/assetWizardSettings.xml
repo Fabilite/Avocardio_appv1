@@ -131,11 +131,26 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/C:/Android/plugins/android/lib/android.jar!/images/material_design_icons/notification/ic_event_available_black_24dp.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="avocardio_logo" />
-                            <entry key="sourceFile" value="C:\Users\bpilc\OneDrive\Pulpit\Avocardio_logo\avocardio_logo.svg" />
+                            <entry key="color" value="a7d038" />
+                            <entry key="outputName" value="brithday_date" />
+                            <entry key="sourceFile" value="C:\Users\bpilc\OneDrive\Pulpit\Avocardio_logo\avocardio_logo_vertical-01.svg" />
                           </map>
                         </option>
                       </PersistentState>

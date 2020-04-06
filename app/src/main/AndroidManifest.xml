@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="avocardio.avocardioapp">
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
+        android:name=".Activities.App"
         android:allowBackup="true"
         android:icon="@mipmap/launcher_logo_avocardio"
         android:label="@string/app_name"
-        android:name=".Activities.App"
         android:roundIcon="@mipmap/launcher_logo_avocardio_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Register.RegisterActivity_5_5"/>
-        <activity android:name=".Activities.Register.RegisterActivity_4_5"/>
-        <activity android:name=".Activities.Register.RegisterActivity_3_5"/>
-        <activity android:name=".Activities.Register.RegisterActivity_2_5"/>
-        <activity android:name=".Activities.Register.RegisterActivity_1_5"/>
-        <activity android:name=".Activities.Login.LoginActivity"/>
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.Login.WelcomeActivity"></activity>
+        <activity android:name=".Activities.Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activities.Register.RegisterActivity_1" />
+        <activity android:name=".Activities.Login.LoginActivity">
         </activity>
     </application>
 
