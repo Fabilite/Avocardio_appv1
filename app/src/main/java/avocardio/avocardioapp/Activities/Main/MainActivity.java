@@ -6,11 +6,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import avocardio.avocardioapp.Activities.App;
+import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
-import avocardio.avocardioapp.Activities.Login.WelcomeActivity;
 import avocardio.avocardioapp.R;
-import avocardio.avocardioapp.UserStorage;
+import avocardio.avocardioapp.Helpers.UserStorage;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         userStorage = ((App) getApplication()).getUserStorage();
         //sprawdzam czy uzytkownik jest zalogowany
-        if (userStorage.isHasToLogin()) {
-            startActivity(new Intent(this, WelcomeActivity.class));
-            finish();
-            return;
-        }
+//        if (userStorage.isHasToLogin()) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//            finish();
+//            return;
+//        }
 
-        setContentView(R.layout.activitymain);
+        setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
     }
 

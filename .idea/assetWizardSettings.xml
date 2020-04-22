@@ -138,7 +138,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Android/plugins/android/lib/android.jar!/images/material_design_icons/notification/ic_event_available_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Android/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_forward_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -148,9 +148,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="a7d038" />
-                            <entry key="outputName" value="brithday_date" />
-                            <entry key="sourceFile" value="C:\Users\bpilc\OneDrive\Pulpit\Avocardio_logo\avocardio_logo_vertical-01.svg" />
+                            <entry key="color" value="a0a0a0" />
+                            <entry key="outputName" value="arrow_next" />
+                            <entry key="sourceFile" value="C:\Users\bpilc\OneDrive\Pulpit\Avocardio\language.svg" />
                           </map>
                         </option>
                       </PersistentState>

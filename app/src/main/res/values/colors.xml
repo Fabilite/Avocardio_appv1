@@ -1,10 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <color name="colorPrimary">#A7D038</color>
-    <color name="colorPrimaryDark">#03331F</color>
-    <color name="color_background">#FFFFFF</color>
-    <color name="black_overlay">#66000000</color>
-    <color name="black">#000000</color>
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#75757575</color>
+  <color name="colorPrimary">#A7D038</color>
+  <color name="colortransparent">#00000000</color>
+  <color name="colorPrimaryDark">#03331F</color>
+  <color name="color_background">#FFFFFF</color>
+  <color name="black_overlay">#66000000</color>
+  <color name="black">#000000</color>
+  <color name="text_primary">#212121</color>
+  <color name="text_secondary">#75757575</color>
+  <color name="dimgray">#666666</color>
+  <color name="taupe">#333333</color>
+  <color name="androidgreen">#a7d038</color>
+  <color name="dimgray_1">#707070</color>
+  <color name="pastelgray">#cccccc</color>
+  <color name="white">#ffffff</color>
+  <color name="platinum">#e5e5e5</color>
+  <color name="ashgrey">#b2b2b2</color>
+  <color name="manatee">#999999</color>
+  <color name="error_info">#A30000</color>
 </resources>
+

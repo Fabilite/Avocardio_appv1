@@ -27,7 +27,6 @@ android {
     }
 }
 
-
 dependencies {
 
     def appcompat_version = "1.1.0"
@@ -62,7 +61,7 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.14'
     // ViewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    // New Material Design
-    implementation 'com.google.android.material:material:1.2.0-alpha02'
+
+    implementation 'com.chaos.view:pinview:1.4.3'
 
 }

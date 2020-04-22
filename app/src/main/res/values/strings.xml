@@ -1,8 +1,61 @@
 <resources>
     <string name="app_name">Avocardio</string>
+    <string name="empty"></string>
     <string name="forgot_password">Reset your password</string>
     <string name="create_account">Create an account</string>
-    <string name="sign_up">Sing  up</string>
+    <string name="sign_up">Sing up</string>
+    <string name="login_status_title">Welcome</string>
+    <string name="login_information_title">Please sign in to proceed to your account</string>
+    <string name="login_status_titleEmail">E-mail adress</string>
+    <string name="login_status_titlePassword">Password</string>
+    <string name="login_status_emailhint">your@email.com</string>
+    <string name="login_status_passwordhint">******</string>
+    <string name="login_password_btn">Forgot password?</string>
+    <string name="login_login_btn">Sign in</string>
+    <string name="login_createAccount_btn">sign up</string>
+    <string name="login_btn_signup_title">Don\'t have an account?</string>
 
+    <string name="register_status_title">Let\'s get start</string>
+    <string name="register_information_title">Create your personal account</string>
+    <string name="register_status_titleName">First name</string>
+    <string name="register_status_titleBrithday">Brith date</string>
+    <string name="register_status_titlePassword">Password</string>
+    <string name="register_status_namehint">Your name</string>
+    <string name="register_status_brithdayhint">YY-MM-DD</string>
+    <string name="register_status_titleemail">E-mail adress</string>
+    <string name="register_status_emailhint">your@email.com</string>
+    <string name="register_status_passwordhint">*********</string>
+    <string name="register_status_countrytitle">Country</string>
+    <string name="register_status_countryhint">PL</string>
+    <string name="register_status_checkregulations">"Account registration must be preceded by accepting the terms of service."</string>
+    <string name="register_status_checknewsletter">I want to receive the newsletter</string>
+    <string name="register_register_btn">Sign up</string>
+    <string name="register_checkbox_male">male</string>
+    <string name="register_checkbox_female">female</string>
+
+    <string name="register_error_sex">This field is required, you must select from among the available options</string>
+    <string name="register_error_firstName">This field must contain a minimum of 3 characters. </string>
+    <string name="register_error_empty">This field can\'t be empty.</string>
+    <string name="register_error_email_not_valid">This e-mail adress isn\'t correct.</string>
+    <string name="register_error_password_short">Password must contain a minimum 6 characters</string>
+
+    <string name="onboarding_btn_skip">Skip</string>
+    <string name="choose_language">Polski</string>
+
+    <string name="rememberpassword_status_title">Get a new password</string>
+    <string name="rememberpassword_status_decription">Please give us your e-maila address.\nWe will send you an e-mail\nwith reset code.</string>
+    <string name="rememberpassword_btn_title">Send e-mail</string>
+    <string name="rememberpassword_status_time_information">Didin\'t get the e-mail?</string>
+    <string name="rememberpassword_status_time_information2">Resend e-mail for</string>
+    <string name="rememberpassword_status_time">01:00</string>
+    <string name="remember_password_btn">Confirm</string>
+
+    <string name="resetpassword_status_title">Reset password</string>
+    <string name="resendcode_status_time">05:00</string>
+
+    <string name="activationcode_status_title">Activation code</string>
+    <string name="activationcode_status_decription">We have just sent you the e-mail\nwith activation code.</string>
+    <string name="register_error_is_not_adult">Your age is under 18.</string>
+    <string name="terms_accept_error">This field is require.</string>
 
 </resources>

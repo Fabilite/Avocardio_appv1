@@ -1,36 +1,38 @@
 package avocardio.avocardioapp.Connections.Api;
 
-import avocardio.avocardioapp.Connections.UserResponse;
+import avocardio.avocardioapp.Connections.ResReq.ActivationRequest;
+import avocardio.avocardioapp.Connections.ResReq.ActivationResponse;
+import avocardio.avocardioapp.Connections.ResReq.EmailRequest;
+import avocardio.avocardioapp.Connections.ResReq.LoginRequest;
+import avocardio.avocardioapp.Connections.ResReq.LoginResponse;
+import avocardio.avocardioapp.Connections.ResReq.PasswordRequset;
+import avocardio.avocardioapp.Connections.ResReq.PasswordResponse;
+import avocardio.avocardioapp.Connections.ResReq.RegisterRequest;
+import avocardio.avocardioapp.Connections.ResReq.RegisterResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface AvocardioApi {
 
-
-    @Headers({"Content-Type: application/json"})
-    @GET("/")
-    Call<UserResponse> getAuthorization(
-            @Header("x-imei") String imei,
-            @Header("x-guacamole") String guacamole,
-            @Header("authorization") String authorization);
-
-
-    @Headers({"Content-Type: application/json"})
-    @GET("/")
-    Call<UserResponse> getFirstAuthorization(
-            @Header("x-imei") String input,
-            @Header("x-guacamole") String inputfood);
-
-
-    @Headers({"Content-Type: application/json",
-    "x-imei: 352937084822763",
-    "x-guacamole: 158568977849378",
-    "Authorization: e7d55ec3acdfcbeacdf2d1ab9654cbde"})
+    @Headers("Content-Type: application/json")
     @POST("user/new")
-    Call<UserResponse> postRegister(@Body RegisterRequest request);
+    Call<RegisterResponse> postRegister(@Body RegisterRequest request);
 
+    @Headers("Content-Type: application/json")
+    @POST("user/authorization")
+    Call<LoginResponse> getLogin(@Body LoginRequest request);
+
+    @Headers("Content-Type: application/json")
+    @POST("user/activation")
+    Call<ActivationResponse> getActivations(@Body ActivationRequest request);
+
+    @Headers("Content-Type: application/json")
+    @POST("user/passwordReset")
+    Call<PasswordResponse> getResetCode(@Body EmailRequest request);
+
+    @Headers("Content-Type: application/json")
+    @POST("user/passwordReset")
+    Call<PasswordResponse> postReset(@Body PasswordRequset requset);
 }

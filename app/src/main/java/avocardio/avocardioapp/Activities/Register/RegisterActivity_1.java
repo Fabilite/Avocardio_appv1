@@ -8,21 +8,22 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
-import avocardio.avocardioapp.Activities.App;
-import avocardio.avocardioapp.Activities.Main.MainActivity;
+import avocardio.avocardioapp.Activities.Login.LoginActivity;
+import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,30 +32,30 @@ import butterknife.OnClick;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class RegisterActivity_1 extends AppCompatActivity {
 
-    @BindView(R.id.Firstname)
-    EditText Firstname;
-    @BindView(R.id.Birthday_date)
-    EditText BirthdayDate;
-    @BindView(R.id.next_page)
-    Button nextPage;
-    @BindView(R.id.Birthday)
-    ImageButton Birthday;
-    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            // TODO Auto-generated method stub
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, monthOfYear);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel();
-        }
-    };
-
-
+    private final String TAG = "register_A1";
     final Calendar myCalendar = Calendar.getInstance();
     RegisterManager registerManager;
+    @BindView(R.id.name_field)
+    EditText nameField;
+    @BindView(R.id.brithday_field)
+    EditText brithdayField;
+    @BindView(R.id.goNext)
+    Button goNext;
+    @BindView(R.id.brithday_btn)
+    ImageView brithdayBtn;
+    @BindView(R.id.female_btn)
+    Button femaleBtn;
+    @BindView(R.id.male_btn)
+    Button maleBtn;
+    @BindView(R.id.back_btn)
+    ImageButton backBtn;
+    @BindView(R.id.linearLayout2)
+    LinearLayout linearLayout2;
+    @BindView(R.id.language)
+    LinearLayout language;
+
+    private boolean isAdult = false;
+    private String sexChose = "";
 
 
     @Override
@@ -64,40 +65,131 @@ public class RegisterActivity_1 extends AppCompatActivity {
         ButterKnife.bind(this);
 
         registerManager = ((App) getApplication()).getRegisterManager();
+
     }
 
 
-    @OnClick(R.id.Birthday)
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @OnClick(R.id.brithday_btn)
     public void onViewClicked() {
+
+        DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
+            // TODO Auto-generated method stub
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        };
+
         new DatePickerDialog(RegisterActivity_1.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
 
-    @OnClick(R.id.next_page)
-    public void onNextPage(){
 
     }
 
+    //informujemy Managera o starcie activity
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerManager.onAttach_1(this);
+    }
 
-    public void registerSucessful() {
-        startActivity(new Intent(this, MainActivity.class));
+    //informujemy Managera o zatrzymaniu pracy activity
+    @Override
+    protected void onStop() {
+        super.onStop();
+        registerManager.onStop_1();
+    }
+
+    @OnClick(R.id.female_btn)
+    public void checkFemale() {
+        sexChose = "F";
+        changeBackground(femaleBtn, maleBtn);
+    }
+
+    @OnClick(R.id.male_btn)
+    public void checkMale() {
+        sexChose = "M";
+        changeBackground(maleBtn, femaleBtn);
+    }
+
+    private void changeBackground(Button button, Button button2) {
+        button.setTextColor(getColor(R.color.white));
+        button.setBackground(getResources().getDrawable(R.drawable.register_button_active_f_m));
+
+        button2.setTextColor(getColor(R.color.colorPrimary));
+        button2.setBackground(getResources().getDrawable(R.drawable.register_button_f_m));
+    }
+
+    @OnClick(R.id.back_btn)
+    public void goBack(){
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
-    public void showError(String error) {
-        Toast.makeText(RegisterActivity_1.this, "Error " + error, Toast.LENGTH_LONG).show();
+    @OnClick(R.id.goNext)
+    public void goToNext() {
+        String name = nameField.getText().toString();
+        String brithday = brithdayField.getText().toString();
+        Log.i(TAG, "POBIERAM IMIE" + name);
+        Log.i(TAG, "POBIERAM IMIE" + nameField.getText().toString());
 
+        Intent intent = new Intent(this, RegisterActivity_2.class);
+
+        boolean hasErrors = false;
+
+        if (name.length() < 3) {
+            nameField.setError(getString(R.string.register_error_firstName));
+            hasErrors = true;
+        } else if (name.isEmpty()) {
+            nameField.setError(getString(R.string.register_error_empty));
+            hasErrors = true;
+        }
+
+        if (brithday.isEmpty()) {
+            brithdayField.setError(getString(R.string.register_error_empty));
+            hasErrors = true;
+        }
+//        if(!isAdult){
+//            brithdayField.setError(getString(R.string.register_error_is_not_adult));
+//            hasErrors = true;
+//        }
+        if (sexChose.isEmpty()) {
+            //TODO
+            hasErrors = true;
+        }
+
+        if (!hasErrors) {
+            intent.putExtra("EXTRA_namesesion", name);
+            intent.putExtra("EXTRA_brithdaysesion", brithday);
+            intent.putExtra("EXTRA_sexsesion", sexChose);
+            startActivity(intent);
+        }
     }
 
-    public void showProgress(boolean b) {
-    }
 
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void checkAge(int year, int month, int day){
+//        LocalDate today = LocalDate.now();
+//        LocalDate brithday = LocalDate.of(year,month,day);
+//
+//       Period period = Period.between(brithday, today);
+//
+//        if(period.getYears() > 18 ){
+//            isAdult = true;
+//        }else if(period.getYears() < 18) {
+//            isAdult = false;
+//        }
+//    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateLabel() {
         String myFormat = "yyyy-MM-dd";
         int style = DateFormat.MEDIUM;
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        BirthdayDate.setText(sdf.format(myCalendar.getTime()));
+        brithdayField.setText(sdf.format(myCalendar.getTime()));
         hideKeaybord();
     }
 
@@ -107,6 +199,7 @@ public class RegisterActivity_1 extends AppCompatActivity {
         if (view != null) {
             InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             methodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
         }
     }
 }
