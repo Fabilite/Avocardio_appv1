@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import avocardio.avocardioapp.Activities.ActivationAcount.ActivationManager;
 import avocardio.avocardioapp.Activities.Login.LoginManager;
@@ -52,7 +53,7 @@ public class App extends Application {
                         .addHeader("authorization", generates.getSHA512(generates.getAvocS() + generates.getGuacS())).build();
                 return chain.proceed(newRequest);
             }
-        }).addNetworkInterceptor(loggingInterceptor).build();
+        }).addNetworkInterceptor(loggingInterceptor).connectTimeout(30, TimeUnit.SECONDS).build();
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(urlTest);

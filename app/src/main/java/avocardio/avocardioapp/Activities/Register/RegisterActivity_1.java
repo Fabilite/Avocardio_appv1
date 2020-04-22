@@ -8,7 +8,6 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,8 +31,8 @@ import butterknife.OnClick;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class RegisterActivity_1 extends AppCompatActivity {
 
-    private final String TAG = "register_A1";
     final Calendar myCalendar = Calendar.getInstance();
+
     RegisterManager registerManager;
     @BindView(R.id.name_field)
     EditText nameField;
@@ -54,7 +53,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
     @BindView(R.id.language)
     LinearLayout language;
 
-    private boolean isAdult = false;
     private String sexChose = "";
 
 
@@ -132,8 +130,11 @@ public class RegisterActivity_1 extends AppCompatActivity {
     public void goToNext() {
         String name = nameField.getText().toString();
         String brithday = brithdayField.getText().toString();
-        Log.i(TAG, "POBIERAM IMIE" + name);
-        Log.i(TAG, "POBIERAM IMIE" + nameField.getText().toString());
+
+        //Name to UperCase / remove spaces
+        String nameTransform = name.replaceAll("\\s", "");
+        String finalName = nameTransform.substring(0,1).toUpperCase() + nameTransform.substring(1);
+
 
         Intent intent = new Intent(this, RegisterActivity_2.class);
 
@@ -151,38 +152,19 @@ public class RegisterActivity_1 extends AppCompatActivity {
             brithdayField.setError(getString(R.string.register_error_empty));
             hasErrors = true;
         }
-//        if(!isAdult){
-//            brithdayField.setError(getString(R.string.register_error_is_not_adult));
-//            hasErrors = true;
-//        }
+
         if (sexChose.isEmpty()) {
             //TODO
             hasErrors = true;
         }
 
         if (!hasErrors) {
-            intent.putExtra("EXTRA_namesesion", name);
+            intent.putExtra("EXTRA_namesesion", finalName);
             intent.putExtra("EXTRA_brithdaysesion", brithday);
             intent.putExtra("EXTRA_sexsesion", sexChose);
             startActivity(intent);
         }
     }
-
-
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    private void checkAge(int year, int month, int day){
-//        LocalDate today = LocalDate.now();
-//        LocalDate brithday = LocalDate.of(year,month,day);
-//
-//       Period period = Period.between(brithday, today);
-//
-//        if(period.getYears() > 18 ){
-//            isAdult = true;
-//        }else if(period.getYears() < 18) {
-//            isAdult = false;
-//        }
-//    }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateLabel() {
