@@ -42,19 +42,24 @@ public class App extends Application {
         super.onCreate();
         final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addNetworkInterceptor(new Interceptor() {
-            @NotNull
-            @Override
-            public Response intercept(@NotNull Chain chain) throws IOException {
-                Request request = chain.request();
-                Request newRequest = request.newBuilder()
-                        .addHeader("x-api-key", generates.getAvocS())
-                        .addHeader("x-api-secret", generates.getGuacS())
-                        .addHeader("authorization", generates.getSHA512(generates.getAvocS() + generates.getGuacS())).build();
-                return chain.proceed(newRequest);
-            }
-        }).addNetworkInterceptor(loggingInterceptor).connectTimeout(30, TimeUnit.SECONDS).build();
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
+                .addNetworkInterceptor(new Interceptor() {
+                    @NotNull
+                    @Override
+                    public Response intercept(@NotNull Chain chain) throws IOException {
+                        Request request = chain.request();
+                        Request newRequest = request.newBuilder()
+                                .addHeader("x-api-key", generates.getAvocS())
+                                .addHeader("x-api-secret", generates.getGuacS())
+                                .addHeader("authorization", generates.getSHA512(generates.getAvocS() + generates.getGuacS())).build();
+                        return chain.proceed(newRequest);
+                    }
+                }).addNetworkInterceptor(loggingInterceptor).build();
 
+//        client.readTimeoutMillis();
+//        client.connectTimeoutMillis();
+//        client.writeTimeoutMillis();
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(urlTest);
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -65,8 +70,8 @@ public class App extends Application {
         userStorage = new UserStorage(PreferenceManager.getDefaultSharedPreferences(this));
         loginManager = new LoginManager(userStorage, avocardioApi, retrofit);
         registerManager = new RegisterManager(userStorage, avocardioApi, retrofit);
-        activationManager = new ActivationManager(userStorage,avocardioApi,retrofit);
-        passwordManager = new PasswordManager(userStorage,avocardioApi,retrofit);
+        activationManager = new ActivationManager(userStorage, avocardioApi, retrofit);
+        passwordManager = new PasswordManager(userStorage, avocardioApi, retrofit);
     }
 
     public LoginManager getLoginManager() {

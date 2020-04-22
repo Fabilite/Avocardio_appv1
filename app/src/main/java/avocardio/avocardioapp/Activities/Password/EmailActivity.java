@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,15 +27,22 @@ public class EmailActivity extends AppCompatActivity {
     @BindView(R.id.send_email_btn)
     Button sendEmailBtn;
 
+
+    private ProgressBar progressBar;
     private PasswordManager passwordManager;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.remember_password_activity);
         ButterKnife.bind(this);
-
         passwordManager = ((App) getApplication()).getPasswordManager();
+    }
+
+    private void startProgress(){
+        this.progressBar = findViewById(R.id.progressbar_viewer);
     }
 
     @Override
@@ -57,7 +65,6 @@ public class EmailActivity extends AppCompatActivity {
 
     @OnClick(R.id.send_email_btn)
     public void goNext() {
-
         String email = emailField.getText().toString();
         Intent intent = new Intent(this, ResetPasswordActivity.class);
 
