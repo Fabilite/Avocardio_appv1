@@ -34,7 +34,7 @@ public class App extends Application {
     private Retrofit retrofit;
     private AvocardioApi avocardioApi;
     private Generates generates = new Generates();
-    final String urlTest = "http://avocardio.hopto.org/avocardio/";
+    final String urlTest = "https://avocardio.hopto.org/avocardio/";
     //final String url = "";
 
     @Override
