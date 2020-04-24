@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayoutLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="30dp"
@@ -49,11 +50,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
+
     <EditText
         android:id="@+id/email_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_status_emailhint"
+        android:layout_marginTop="10dp"
         android:inputType="textEmailAddress"
         android:textColor="@color/ashgrey"
         android:textColorHint="@color/ashgrey"
@@ -61,6 +63,7 @@
         android:textCursorDrawable="@color/colorPrimary"
         android:textIsSelectable="false"
         android:textSize="14sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
@@ -78,21 +81,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_field" />
 
-    <EditText
-        android:id="@+id/password_field"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_status_passwordhint"
-        android:inputType="textPassword"
-        android:textColor="@color/ashgrey"
-        android:textColorHint="@color/ashgrey"
-        android:textColorLink="@color/colorPrimary"
-        android:textCursorDrawable="@color/colorPrimary"
-        android:textIsSelectable="false"
-        android:textSize="14sp"
+        android:baselineAligned="true"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="false"
+        app:hintTextColor="@color/ashgrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPassword"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/password_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_status_passwordhint"
+            android:inputType="textPassword"
+            android:textColor="@color/ashgrey"
+            android:textColorHint="@color/ashgrey"
+            android:textColorLink="@color/colorPrimary"
+            android:textCursorDrawable="@color/colorPrimary"
+            android:textIsSelectable="false"
+            android:textSize="14sp"
+            android:theme="@style/EditTextTheme" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/forgot_Password_btn"
@@ -106,14 +121,14 @@
         android:textColor="@color/colorPrimary"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_field" />
+        app:layout_constraintTop_toBottomOf="@+id/password_layout" />
 
     <Button
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="27dp"
-        android:background="@drawable/button_login"
+        android:background="@drawable/button_action_active"
         android:fontFamily="@font/quicksand_medium"
         android:text="@string/login_login_btn"
         android:textAllCaps="false"

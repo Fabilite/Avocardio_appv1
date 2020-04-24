@@ -1,6 +1,5 @@
 package avocardio.avocardioapp.Activities.Register;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -13,20 +12,25 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import avocardio.avocardioapp.Activities.ActivationAcount.ActivationAccountActivity;
+import avocardio.avocardioapp.Activities.LoadingProgressBar;
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
 public class RegisterActivity_2 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -36,29 +40,29 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     EditText editTextEmail;
     @BindView(R.id.textView2)
     TextView textView2;
-    @BindView(R.id.editText_password)
+    @BindView(R.id.password_field)
     EditText editTextPassword;
     @BindView(R.id.textView3)
     TextView textView3;
-    @BindView(R.id.action_bar_spinner_country)
-    Spinner country_spinner;
     @BindView(R.id.checkbox_regulations)
     CheckBox checkboxRegulations;
     @BindView(R.id.checkbox_newsletter)
     CheckBox checkboxNewsletter;
     @BindView(R.id.create_account_btn)
     Button createAccountBtn;
-
-    RegisterManager registerManager;
-
+    @BindView(R.id.action_bar_spinner_country)
+    Spinner country_spinner;
     @BindView(R.id.back_btn)
     ImageButton backBtn;
-    @BindView(R.id.linearLayout)
-    LinearLayout linearLayout;
+    @BindView(R.id.mainLayoutRegister2)
+    ConstraintLayout mainLayout;
+
+    LoadingProgressBar loadingProgressBar;
+    RegisterManager registerManager;
+
 
     private String email;
     private String password;
-    private String country;
     private String newsleter = "0";
     private String acceptTerms = "0";
 
@@ -75,6 +79,12 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
         registerManager = ((App) getApplication()).getRegisterManager();
         spinnerDate();
 
+    }
+
+    @OnTouch(R.id.mainLayoutRegister2)
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     @Override
@@ -110,9 +120,9 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
             editTextPassword.setError(getText(R.string.register_error_password_short));
             hasErrors = true;
         }
-        if(acceptTerms.equals("0")){
-            Toast toast = Toast.makeText(this,"You must accept the terms", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL,Gravity.CENTER_VERTICAL,0);
+        if (acceptTerms.equals("0")) {
+            Toast toast = Toast.makeText(this, "You must accept the terms", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
             toast.show();
             hasErrors = true;
         }
@@ -131,7 +141,7 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     }
 
     @OnClick(R.id.back_btn)
-    public void goBack(){
+    public void goBack() {
         startActivity(new Intent(this, RegisterActivity_1.class));
         finish();
     }
@@ -142,9 +152,14 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
         finish();
     }
 
-    public void showError(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+    public void popUpError(String text) {
+        Snackbar snackbar = Snackbar.make(mainLayout, text, Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.error_info));
+        snackbar.show();
     }
+
 
 //    public void showProgress(boolean b) {
 //    }
@@ -161,15 +176,6 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
                 R.array.Country_array, android.R.layout.simple_spinner_dropdown_item);
         country_spinner.setAdapter(arrayAdapter);
         country_spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-    }
-
-    //UKRYWANIE KLAWIATURY
-    private void hideKeaybord() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            methodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
 
 

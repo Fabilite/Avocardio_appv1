@@ -30,6 +30,9 @@ public class OnBoardingActivity extends AppCompatActivity {
     LinearLayout onboardingIndicators;
     @BindView(R.id.skip_btn)
     TextView skipBtn;
+
+
+
     private OnBoardingAdapter onBoardingAdapter;
     private LinearLayout linearIndicator;
 
@@ -65,17 +68,17 @@ public class OnBoardingActivity extends AppCompatActivity {
         OnBoardingItem item1 = new OnBoardingItem();
         item1.setTitle("Personalise your diet");
         item1.setDescription("Avocardio diet is way to eat\nhealthy and tasty meals,\nwhich you will love.");
-        item1.setImage(R.drawable.illustration_diet);
+        item1.setImage(R.drawable.image1);
 
         OnBoardingItem item2 = new OnBoardingItem();
         item2.setTitle("Work out with pleasure");
         item2.setDescription("Avoacrdio trening guarantees\nyou a set of favourite exercises\nang good motivation.");
-        item2.setImage(R.drawable.illustration_fit);
+        item2.setImage(R.drawable.image2);
 
         OnBoardingItem item3 = new OnBoardingItem();
         item3.setTitle("Observe your progress");
         item3.setDescription("The diagram allows you to observe\nyour progress and way\nto the goal");
-        item3.setImage(R.drawable.illustration_goal);
+        item3.setImage(R.drawable.image3);
 
         onBoardingItems.add(item1);
         onBoardingItems.add(item2);
@@ -122,4 +125,5 @@ public class OnBoardingActivity extends AppCompatActivity {
         startActivity(new Intent(OnBoardingActivity.this, LoginActivity.class));
         finish();
     }
+
 }

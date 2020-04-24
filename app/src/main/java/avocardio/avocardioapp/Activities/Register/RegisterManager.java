@@ -1,14 +1,13 @@
 package avocardio.avocardioapp.Activities.Register;
 
-import android.widget.Toast;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
+import avocardio.avocardioapp.Activities.LoadingProgressBar;
 import avocardio.avocardioapp.Connections.Api.AvocardioApi;
+import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
 import avocardio.avocardioapp.Connections.ResReq.RegisterRequest;
 import avocardio.avocardioapp.Connections.ResReq.RegisterResponse;
-import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
 import avocardio.avocardioapp.Helpers.UserStorage;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -25,9 +24,7 @@ public class RegisterManager {
     private final AvocardioApi avocardioApi;
     private final Retrofit retrofit;
     private Call<RegisterResponse> registerResponseCall;
-
-
-
+    private LoadingProgressBar loadingProgressBar;
 
     public RegisterManager(UserStorage userStorage, AvocardioApi avocardioApi, Retrofit retrofit) {
         this.userStorage = userStorage;
@@ -54,7 +51,7 @@ public class RegisterManager {
     }
 
 
-    public void register(String email, String password,String firstname, String brithday,String sex,String newsletter) {
+    public void register(String email, String password, String firstname, String brithday,String sex,String newsletter) {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.email = email;
         registerRequest.firstname = firstname;
@@ -89,9 +86,8 @@ public class RegisterManager {
                             try {
                                 Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
                                 ErrorResponse errorResponse = converter.convert(responseBody);
-                                Toast.makeText(registerActivity_2, errorResponse.error + "TESTTTTT" , Toast.LENGTH_SHORT).show();
                                 if (registerActivity_2 != null) {
-                                    Toast.makeText(registerActivity_2, errorResponse.error , Toast.LENGTH_SHORT).show();
+                                    registerActivity_2.popUpError(errorResponse.error);
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -102,35 +98,35 @@ public class RegisterManager {
                             //obsluga bledow
                             switch (response.code()) {
                                 case 403:
-                                    Toast.makeText(registerActivity_2, "This e-mail is already taken", Toast.LENGTH_SHORT).show();
+                                    registerActivity_2.popUpError("This e-mail is already taken");
                                     break;
                                 case 404:
-                                    Toast.makeText(registerActivity_2, ":( Server broken :(", Toast.LENGTH_SHORT).show();
+                                    registerActivity_2.popUpError(":( Server broken :(");
                                     break;
                                 case 500:
-                                    Toast.makeText(registerActivity_2, " :( Server broken :(", Toast.LENGTH_SHORT).show();
+                                    registerActivity_2.popUpError(":( Server broken :(");
                                     break;
                                 default:
-                                    Toast.makeText(registerActivity_2, "unknown error", Toast.LENGTH_SHORT).show();
+                                    registerActivity_2.popUpError("Something went wrong try again later");
                                     break;
                             }
                         }
-                    }
-                }
+            }
+        }
 
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable t) {
                     registerResponseCall = null;
                     //upDateProgress();
-
                     if (registerActivity_2 != null) {
-                        registerActivity_2.showError(t.getLocalizedMessage());
+                        registerActivity_2.popUpError(t.getLocalizedMessage());
                     }
                 }
             });
         }
 
     }
+
 
 //    private void upDateProgress() {
 //        if (registerActivity_2 == null) {

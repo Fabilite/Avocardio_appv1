@@ -3,6 +3,7 @@ package avocardio.avocardioapp.Activities.Password;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
@@ -17,6 +19,7 @@ import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
 public class EmailActivity extends AppCompatActivity {
 
@@ -26,6 +29,8 @@ public class EmailActivity extends AppCompatActivity {
     EditText emailField;
     @BindView(R.id.send_email_btn)
     Button sendEmailBtn;
+    @BindView(R.id.mainLayoutRPassword)
+    ConstraintLayout mainLayout;
 
 
     private ProgressBar progressBar;
@@ -41,8 +46,10 @@ public class EmailActivity extends AppCompatActivity {
         passwordManager = ((App) getApplication()).getPasswordManager();
     }
 
-    private void startProgress(){
-        this.progressBar = findViewById(R.id.progressbar_viewer);
+    @OnTouch(R.id.mainLayoutRPassword)
+    public void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     @Override

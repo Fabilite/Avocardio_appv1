@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.chaos.view.PinView;
+import com.google.android.material.snackbar.Snackbar;
 
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
@@ -23,6 +26,7 @@ import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 
 public class ActivationAccountActivity extends AppCompatActivity {
 
@@ -36,6 +40,8 @@ public class ActivationAccountActivity extends AppCompatActivity {
     Button confirmButton;
     @BindView(R.id.time_view)
     TextView timeView;
+    @BindView(R.id.mainLayoutActivation)
+    ConstraintLayout mainLayout;
 
     ActivationManager activationManager;
 
@@ -47,6 +53,12 @@ public class ActivationAccountActivity extends AppCompatActivity {
 
         activationManager = ((App) getApplication()).getActivationManager();
 
+    }
+
+    @OnTouch(R.id.mainLayoutActivation)
+    public void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     @Override
@@ -129,5 +141,13 @@ public class ActivationAccountActivity extends AppCompatActivity {
 
     public void showProgress(boolean b) {
         // loginBtn.setEnabled(!b);
+    }
+
+    public void popUpError(String text) {
+        Snackbar snackbar = Snackbar.make(mainLayout, text, Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.error_info));
+        snackbar.show();
     }
 }

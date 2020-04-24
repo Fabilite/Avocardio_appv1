@@ -30,6 +30,7 @@ public class ActivationManager {
         this.retrofit = retrofit;
         this.userStorage = userStorage;
     }
+
     //Zapamientuje activity do ktorego jestesmy podpieci
     public void onAttach(ActivationAccountActivity activationAccountActivity) {
         this.activationAccountActivity = activationAccountActivity;
@@ -41,37 +42,49 @@ public class ActivationManager {
         this.activationAccountActivity = null;
     }
 
-    public void tryToActive(String code){
+    public void tryToActive(String code) {
         ActivationRequest request = new ActivationRequest();
         request.user_hash = userStorage.getUserHash();
         request.activation_code = code;
         Log.i(ActivationAccountActivity.class.getSimpleName(), "-----------------------------------------------------------User Hash = " + userStorage.getUserHash());
-        if(activationResponseCall == null){
+        if (activationResponseCall == null) {
             activationResponseCall = avocardioApi.getActivations(request);
 
             activationResponseCall.enqueue(new Callback<ActivationResponse>() {
                 @Override
                 public void onResponse(Call<ActivationResponse> call, Response<ActivationResponse> response) {
                     activationResponseCall = null;
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         ActivationResponse body = response.body();
                         Log.i(ActivationAccountActivity.class.getSimpleName(), "-----------------------------------------------------------User Hash = " + userStorage.getUserHash());
                         Log.d(ActivationAccountActivity.class.getSimpleName(), "Resp: " + body.toString());
-                        if(activationAccountActivity != null){
+                        if (activationAccountActivity != null) {
                             activationAccountActivity.loginSuccess();
-                        }
-                    }else{
-                        ResponseBody responseBody = response.errorBody();
-                        try {
-                            Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
-                            ErrorResponse errorResponse = converter.convert(responseBody);
-                            Log.d(ActivationAccountActivity.class.getSimpleName(), "Resp: " + errorResponse.toString());
-                            if (activationAccountActivity != null) {
-                                //wywolanie komunikatu z bledami
-                                activationAccountActivity.showError(errorResponse.error);
+                        } else {
+                            ResponseBody responseBody = response.errorBody();
+                            try {
+                                Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
+                                ErrorResponse errorResponse = converter.convert(responseBody);
+                                Log.d(ActivationAccountActivity.class.getSimpleName(), "Resp: " + errorResponse.toString());
+                                if (activationAccountActivity != null) {
+                                    //wywolanie komunikatu z bledami
+                                    activationAccountActivity.showError(errorResponse.error);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        }
+                    } else {
+                        {
+                            //obsluga bledow
+                            switch (response.code()) {
+                                case 1002:
+                                    activationAccountActivity.popUpError("Invalid activation code");
+                                    break;
+                                default:
+                                    activationAccountActivity.popUpError("Something went wrong try again later");
+                                    break;
+                            }
                         }
                     }
 
@@ -80,7 +93,7 @@ public class ActivationManager {
                 @Override
                 public void onFailure(Call<ActivationResponse> call, Throwable t) {
                     activationResponseCall = null;
-                    if (activationAccountActivity!= null) {
+                    if (activationAccountActivity != null) {
                         //wywolanie komunikatu z problemami
                         activationAccountActivity.showError(t.getLocalizedMessage());
                     }
@@ -91,6 +104,7 @@ public class ActivationManager {
         }
 
     }
+
     private void updateProgress() {
         if (activationResponseCall != null) {
             activationAccountActivity.showProgress(activationResponseCall != null);

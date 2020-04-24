@@ -6,7 +6,7 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import avocardio.avocardioapp.Activities.OnBoarding.OnBoardingActivity;
+import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -17,15 +17,16 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_activity);
-
     }
 
-    private Runnable runnable =  new Runnable() {
+    private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if(!isFinishing()){
-                startActivity(new Intent(getApplicationContext(), OnBoardingActivity.class));
+            if (!isFinishing()) {
+
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 finish();
+
             }
         }
     };

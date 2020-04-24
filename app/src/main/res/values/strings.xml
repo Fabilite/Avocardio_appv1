@@ -21,12 +21,12 @@
     <string name="register_status_titleBrithday">Brith date</string>
     <string name="register_status_titlePassword">Password</string>
     <string name="register_status_namehint">Your name</string>
-    <string name="register_status_brithdayhint">YY-MM-DD</string>
+    <string name="register_status_brithdayhint">DD-MM-YYYY</string>
     <string name="register_status_titleemail">E-mail adress</string>
     <string name="register_status_emailhint">your@email.com</string>
     <string name="register_status_passwordhint">*********</string>
     <string name="register_status_countrytitle">Country</string>
-    <string name="register_status_countryhint">PL</string>
+    <string name="register_status_countryhint">Poland</string>
     <string name="register_status_checkregulations">"Account registration must be preceded by accepting the terms of service."</string>
     <string name="register_status_checknewsletter">I want to receive the newsletter</string>
     <string name="register_register_btn">Sign up</string>
@@ -34,7 +34,7 @@
     <string name="register_checkbox_female">female</string>
 
     <string name="register_error_sex">This field is required, you must select from among the available options</string>
-    <string name="register_error_firstName">This field must contain a minimum of 3 characters. </string>
+    <string name="register_error_firstName">Your name is too short.</string>
     <string name="register_error_empty">This field can\'t be empty.</string>
     <string name="register_error_email_not_valid">This e-mail adress isn\'t correct.</string>
     <string name="register_error_password_short">Password must contain a minimum 6 characters</string>

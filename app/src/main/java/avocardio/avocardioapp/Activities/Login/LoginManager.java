@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 
 import avocardio.avocardioapp.Connections.Api.AvocardioApi;
-import avocardio.avocardioapp.Connections.ResReq.LoginRequest;
 import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
+import avocardio.avocardioapp.Connections.ResReq.LoginRequest;
 import avocardio.avocardioapp.Connections.ResReq.LoginResponse;
 import avocardio.avocardioapp.Helpers.UserStorage;
 import okhttp3.ResponseBody;
@@ -46,7 +46,6 @@ public class LoginManager {
         LoginRequest loginRequest =  new LoginRequest();
         loginRequest.email = email;
         loginRequest.password = password;
-
         //zabezpieczenie przed podwojnym wywolaniem akcji logowania
         if (loginResponseCall == null) {
             loginResponseCall = avocardioApi.getLogin(loginRequest);
@@ -73,8 +72,6 @@ public class LoginManager {
                             e.printStackTrace();
                         }
                     }
-
-
                 }
 
                 @Override
