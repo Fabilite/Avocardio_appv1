@@ -8,6 +8,7 @@ import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
 import avocardio.avocardioapp.Connections.ResReq.LoginRequest;
 import avocardio.avocardioapp.Connections.ResReq.LoginResponse;
 import avocardio.avocardioapp.Helpers.UserStorage;
+import avocardio.avocardioapp.R;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,8 +23,6 @@ public class LoginManager {
     private final AvocardioApi avocardioApi;
     private final Retrofit retrofit;
     private Call<LoginResponse> loginResponseCall;
-
-    private static String TAG = "UserManager";
 
     public LoginManager(UserStorage userStorage, AvocardioApi avocardioApi, Retrofit retrofit) {
         this.userStorage = userStorage;
@@ -58,20 +57,35 @@ public class LoginManager {
                         response.body().toString();
                         if (loginActivity != null) {
                             loginActivity.loginSuccess();
-                        }
-                    } else {
-                        ResponseBody responseBody = response.errorBody();
-                        try {
-                            Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
-                            ErrorResponse errorResponse = converter.convert(responseBody);
-                            if (loginActivity != null) {
-                                //wywolanie komunikatu z bledami
-                                loginActivity.showError(errorResponse.error);
+                        } else {
+                            ResponseBody responseBody = response.errorBody();
+                            try {
+                                Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
+                                ErrorResponse errorResponse = converter.convert(responseBody);
+                                if (loginActivity != null) {
+                                    //wywolanie komunikatu z bledami
+                                    loginActivity.showError(errorResponse.error);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-                    }
+                    }else{
+                        {
+                            //obsluga bledow
+                            switch (response.code()) {
+                                case 401:
+                                    loginActivity.popUpError("This e-mail or password is not valid.", R.color.error_info);
+                                    break;
+                                case 404:
+                                    loginActivity.popUpError(":( Server broken :(",R.color.error_info);
+                                    break;
+                                default:
+                                    loginActivity.popUpError("Something went wrong try again later",R.color.error_info);
+                                    break;
+                            }
+                        }
+                        }
                 }
 
                 @Override

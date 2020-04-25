@@ -1,7 +1,7 @@
 package avocardio.avocardioapp.Activities.Login;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import avocardio.avocardioapp.Activities.LoadingProgressBar;
 import avocardio.avocardioapp.Activities.Main.MainActivity;
 import avocardio.avocardioapp.Activities.Password.EmailActivity;
 import avocardio.avocardioapp.Activities.Register.RegisterActivity_1;
@@ -30,7 +29,6 @@ import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 import butterknife.OnTouch;
 
 public class LoginActivity extends AppCompatActivity {
@@ -48,10 +46,13 @@ public class LoginActivity extends AppCompatActivity {
     Generates generates = new Generates();
     @BindView(R.id.mainLayoutLogin)
     ConstraintLayout mainLayout;
+    @BindView(R.id.email_validation)
+    TextView emailValidation;
+    @BindView(R.id.password_validation)
+    TextView passwordValidation;
 
     //Obiekt przechowywania activity
     private LoginManager loginManager;
-    LoadingProgressBar loadingProgressBar;
 
     private static String TAG = "LoginActivity class";
 
@@ -63,38 +64,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
 
-        loadingProgressBar = new LoadingProgressBar(this);
-        //DANE NIE ULEGNA ZNISZCZENIU
-        //Tworzenie jednej isntancji obiektu
         loginManager = ((App) getApplication()).getLoginManager();
 
+        hidePlaceHolder(passwordField, R.string.login_status_passwordhint);
+        hidePlaceHolder(emailField, R.string.login_status_emailhint);
     }
 
-    @OnFocusChange(R.id.email_field)
-    public void setEmailChange(View view) {
-        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus)
-                    emailField.setHint(R.string.login_status_emailhint);
-                else
-                    emailField.setHint("");
-            }
-        });
-    }
-
-
-    @OnFocusChange(R.id.password_field)
-    public void setPasswordChange(View view) {
-        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus)
-                    passwordField.setHint(R.string.login_status_passwordhint);
-                else
-                    passwordField.setHint("");
-            }
-        });
-    }
-
+    //Ukrywanie klawiatury po kliknieciu w puste pole
     @OnTouch(R.id.mainLayoutLogin)
     public void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -115,43 +91,49 @@ public class LoginActivity extends AppCompatActivity {
         loginManager.onStop();
     }
 
-
-    public void popUp(Activity activity, String text) {
+    //Bottom popUp message
+    public void popUpError(String text, int color) {
         Snackbar snackbar = Snackbar.make(mainLayout, text, Snackbar.LENGTH_LONG)
                 .setActionTextColor(ContextCompat.getColor(this, R.color.white));
         View sbView = snackbar.getView();
-        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.error_info));
+        sbView.setBackgroundColor(ContextCompat.getColor(this, color));
         snackbar.show();
-
     }
 
     @OnClick(R.id.login_btn)
-    public void loginValidation() {
-        popUp(this, "test");
+    public void tryLogin() {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
         boolean hasErrors = false;
 
         //EMAIL VALIDATION
         if (email.isEmpty()) {
-            emailField.setError(getString(R.string.register_error_empty));
+            emailValidation.setText(getString(R.string.register_error_empty));
+            emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailField.setError(getString(R.string.register_error_email_not_valid));
+            emailValidation.setText(getString(R.string.register_error_email_not_valid));
+            emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
+        }else{
+            emailValidation.setText(getString(R.string.empty));
+            emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.ashgrey), PorterDuff.Mode.SRC_ATOP);
         }
         // PASSWORD VALIDATION
         if (password.isEmpty()) {
-            passwordField.setError(getString(R.string.register_error_empty));
+            passwordValidation.setText(getString(R.string.register_error_empty));
+            passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
         } else if (password.length() <= 5) {
-            passwordField.setError(getString(R.string.register_error_password_short));
+            passwordValidation.setText(getString(R.string.register_error_password_short));
+            passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
+        }else {
+            passwordValidation.setText(getString(R.string.empty));
+            passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.ashgrey), PorterDuff.Mode.SRC_ATOP);
         }
-
         // LOGOWANIE DO APLIKACJI
         if (!hasErrors) {
-            loadingProgressBar.startLoadingProgressBar();
             try {
                 loginManager.login(email, generates.getSHA512(password));
 
@@ -160,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @OnClick(R.id.signUp_btn)
     public void goToRegister() {
@@ -172,6 +153,16 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, EmailActivity.class));
     }
 
+    public void hidePlaceHolder(EditText editText, int textToSend) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus)
+                    editText.setHint(textToSend);
+                else
+                    editText.setHint("");
+            }
+        });
+    }
 
     public void loginSuccess() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -180,7 +171,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showError(String error) {
         Toast.makeText(LoginActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
-        loadingProgressBar.stopProgressBar();
     }
 
     public void showProgress(boolean b) {

@@ -9,6 +9,9 @@ import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,8 +25,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
@@ -63,8 +66,15 @@ public class RegisterActivity_1 extends AppCompatActivity {
     TextView brithdayFieldValidation;
 
     private String sexChose = "";
+    private boolean hasErrors = false;
+    private boolean sexActive = false;
     private boolean isAdult = false;
 
+    private String day = "";
+    private String month = "";
+    private String year = "";
+
+    private String TAG = "Register activity ------------------";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +83,8 @@ public class RegisterActivity_1 extends AppCompatActivity {
         ButterKnife.bind(this);
 
         registerManager = ((App) getApplication()).getRegisterManager();
+
+        editTextValidation();
 
     }
 
@@ -96,37 +108,114 @@ public class RegisterActivity_1 extends AppCompatActivity {
         finish();
     }
 
+    public void editTextValidation() {
+
+        brithdayField.addTextChangedListener(new TextWatcher() {
+
+            private String current = "";
+            private String ddmmyyyy = "DDMMYYYY";
+            private Calendar cal = Calendar.getInstance();
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                    String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 8){
+                        clean = clean + ddmmyyyy.substring(clean.length());
+                    }else{
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int day  = Integer.parseInt(clean.substring(0,2));
+                        int mon  = Integer.parseInt(clean.substring(2,4));
+                        int year = Integer.parseInt(clean.substring(4,8));
+
+                        mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
+                        cal.set(Calendar.MONTH, mon-1);
+                        year = (year<1950)?1950:(year>2020)?2020:year;
+                        cal.set(Calendar.YEAR, year);
+                        // ^ first set year for the line below to work correctly
+                        //with leap years - otherwise, date e.g. 29/02/2012
+                        //would be automatically corrected to 28/02/2012
+
+                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
+                        clean = String.format("%02d%02d%02d",day, mon, year);
+                    }
+
+                    clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                            clean.substring(2, 4),
+                            clean.substring(4, 8));
+
+
+
+                    sel = sel < 0 ? 0 : sel;
+                    current = clean;
+                    brithdayField.setText(current);
+                    brithdayField.setSelection(sel < current.length() ? sel : current.length());
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+}
+
     @OnClick(R.id.goNext)
     public void goToNext() {
         String name = nameField.getText().toString();
         String brithday = brithdayField.getText().toString();
-        String finalName = "";
+        Log.i(TAG,"data urodzenia "+ brithday);
+        Log.i(TAG,"data urodzenia "+ brithdayField.getText());
 
         Intent intent = new Intent(this, RegisterActivity_2.class);
 
-        boolean hasErrors = false;
-
         if (name.length() > 3) {
             firstNameValidation.setText("");
+            hasErrors = false;
         } else if (name.isEmpty()) {
             firstNameValidation.setText(getString(R.string.register_error_empty));
             hasErrors = true;
         } else if (name.length() < 3) {
             firstNameValidation.setText(R.string.register_error_firstName);
             hasErrors = true;
-        } else if (!name.isEmpty()) {
-            finalName = name.replaceAll("\\s", "");
-            finalName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        }else{
+            hasErrors = false;
         }
 
-
-        if (brithday.isEmpty()) {
-            brithdayFieldValidation.setText(getString(R.string.register_error_empty));
-            hasErrors = true;
-        } else if (!isAdult) {
-            brithdayFieldValidation.setText("Sorry, you must be 16 years old");
-            hasErrors = true;
+        if(!brithday.isEmpty()){
+            day = brithday.substring(0,2);
+            month = brithday.substring(3,5);
+            year =  brithday.substring(6,brithday.length());
+            britdayDateValidation(year,month,day);
         }
+//        if(isAdult){
+//            hasErrors = false;
+//            brithdayFieldValidation.setText("");
+//
+//        }
+//        if (brithday.isEmpty()) {
+//            brithdayFieldValidation.setText(getString(R.string.register_error_empty));
+//            hasErrors = true;
+//        } else if(!isAdult){
+//            brithdayFieldValidation.setText("Sorry, you must be 16 years old");
+//            hasErrors = true;
+//        }
 
         if (sexChose.isEmpty()) {
             //TODO
@@ -134,22 +223,27 @@ public class RegisterActivity_1 extends AppCompatActivity {
         }
 
         if (!hasErrors) {
+
+            String brithdayDate = year+"-"+month+"-"+day;
+
             intent.putExtra("EXTRA_namesesion", name);
-            intent.putExtra("EXTRA_brithdaysesion", brithday);
+            intent.putExtra("EXTRA_brithdaysesion", brithdayDate);
             intent.putExtra("EXTRA_sexsesion", sexChose);
             startActivity(intent);
         }
     }
 
+    //Ukrywanie klawiatury
     @OnTouch(R.id.mainLayoutRegister)
     public void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
+    // aktualizacja tabel kalendarza
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void updateLabel() {
-        String myFormat = "yyyy-MM-dd";
+        String myFormat = "dd/MM/yyyy";
         int style = DateFormat.MEDIUM;
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         brithdayField.setText(sdf.format(myCalendar.getTime()));
@@ -179,41 +273,26 @@ public class RegisterActivity_1 extends AppCompatActivity {
         });
     }
 
-
-//    @OnFocusChange(R.id.name_field)
-//    public void setNameField(View view) {
-//        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus)
-//                    nameField.setHint("");
-//                else
-//                    nameField.setHint(R.string.register_status_namehint);
-//            }
-//        });
-//    }
-
-//    @OnFocusChange(R.id.brithday_field)
-//    public void setBrithdayChange(View view) {
-//        view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus)
-//                    brithdayField.setHint("");
-//                else
-//                    brithdayField.setHint(R.string.register_status_brithdayhint);
-//            }
-//        });
-//    }
-
+    //Walidacja female
     @OnClick(R.id.female_btn)
     public void checkFemale() {
         sexChose = "F";
         changeBackground(femaleBtn, maleBtn);
+        if(!sexActive) {
+            changeBtnActionBackgroundActive(goNext, 1);
+            sexActive = true;
+        }
     }
 
+    //Walidacja male
     @OnClick(R.id.male_btn)
     public void checkMale() {
         sexChose = "M";
         changeBackground(maleBtn, femaleBtn);
+        if(!sexActive) {
+            changeBtnActionBackgroundActive(goNext, 1);
+            sexActive = true;
+        }
     }
 
     //ZMIANA BACKGROUND
@@ -225,23 +304,47 @@ public class RegisterActivity_1 extends AppCompatActivity {
         button2.setBackground(getResources().getDrawable(R.drawable.register_button_f_m));
     }
 
-    private void changeBtnActionBackgroundActive(Button button) {
-        button.setTextColor(getColor(R.color.white));
-        button.setBackground(getResources().getDrawable(R.drawable.button_action_active));
+    //zmiana coloru buttona
+    private void changeBtnActionBackgroundActive(Button button, int active) {
+        if (active == 1) {
+            button.setTextColor(getColor(R.color.white));
+            button.setBackground(getResources().getDrawable(R.drawable.button_action_active));
+        } else {
+            button.setTextColor(getColor(R.color.white));
+            button.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
+        }
     }
 
 
     //VALIDACJA WIEKU
+
     @SuppressLint("WrongConstant")
-    public void onDateSet(int year, int month, int day) {
-        GregorianCalendar userAge = new GregorianCalendar(year, month, day);
-        GregorianCalendar minAdultAge = new GregorianCalendar();
-        minAdultAge.add(Calendar.YEAR, -15);
-        if (minAdultAge.before(userAge)) {
-            isAdult = false;
-        }else{
+    public void britdayDateValidation(String yearB, String monthB, String dayB) {
+
+        int year = Integer.parseInt(yearB);
+        int month = Integer.parseInt(monthB);
+        int day = Integer.parseInt(dayB);
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance(TimeZone.getDefault());
+
+        int todayYear = calendar.get(java.util.Calendar.YEAR);
+        int todayMont = calendar.get(java.util.Calendar.MONTH) + 1;
+        int todayDay = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+
+        if((todayYear - year) > 16){
             isAdult = true;
+        }else if((todayYear - year == 16)){
+            if(todayMont > month){
+                isAdult = true;
+            }else if(todayMont == month){
+                if(todayDay >= day){
+                    isAdult = true;
+                }else{
+                    isAdult = false;
+                }
+            }
         }
+        isAdult = false;
     }
 
     //UKRYWANIE KLAWIATURY
@@ -254,6 +357,7 @@ public class RegisterActivity_1 extends AppCompatActivity {
         }
     }
 
+
     public void dateAction() {
 
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
@@ -262,8 +366,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
             myCalendar.set(Calendar.MONTH, monthOfYear);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateLabel();
-            onDateSet(year, monthOfYear, dayOfMonth);
-
         };
 
         new DatePickerDialog(RegisterActivity_1.this, R.style.MyDataPickerTheme, date, myCalendar

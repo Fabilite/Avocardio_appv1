@@ -6,7 +6,6 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         public void run() {
             if (!isFinishing()) {
 
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                startActivity(new Intent(getApplicationContext(), OnBoardingActivity.class));
                 finish();
 
             }
