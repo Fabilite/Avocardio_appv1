@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,20 +86,20 @@ public class ResetPasswordActivity extends AppCompatActivity {
         String code = pinView.getText().toString();
 
         if (code.length() < 6) {
-            pinView.setLineColor(getColor(R.color.error_info));
-            pinView.setTextColor(getColor(R.color.error_info));
-            information.setText("Your reset code isn't valid.");
-            information.setTextColor(getColor(R.color.error_info));
+//            pinView.setLineColor(getColor(R.color.error_info));
+//            pinView.setTextColor(getColor(R.color.error_info));
+//            information.setText("Your reset code isn't valid.");
+//            information.setTextColor(getColor(R.color.error_info));
             hasErrors = true;
         }
 
         if (!hasErrors) {
             Intent intent = getIntent();
             String email = intent.getStringExtra("EXTRA_email1session");
-            Log.i(ResetPasswordActivity.class.getSimpleName(), "--------------------------------------------------------------------------email" + email);
-            pinView.setLineColor(getColor(R.color.colorPrimary));
-            pinView.setTextColor(getColor(R.color.colorPrimary));
-            information.setText("Your reset code is correct.");
+//            Log.i(ResetPasswordActivity.class.getSimpleName(), "--------------------------------------------------------------------------email" + email);
+//            pinView.setLineColor(getColor(R.color.colorPrimary));
+//            pinView.setTextColor(getColor(R.color.colorPrimary));
+//            information.setText("Your reset code is correct.");
             information.setTextColor(getColor(R.color.colorPrimary));
 
             try {

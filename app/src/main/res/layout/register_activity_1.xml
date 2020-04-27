@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_bold"
-            android:text="@string/register_status_title"
+            android:text="@string/s_register_status_title"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/quicksand"
-            android:text="@string/register_information_title"
+            android:text="@string/s_register_information_title"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
         android:fontFamily="@font/quicksand_medium"
-        android:text="@string/register_status_titleName"
+        android:text="@string/s_name_status"
         android:textColor="@color/taupe"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/quicksand"
-        android:text="@string/register_status_titleBrithday"
+        android:text="@string/s_brithday_status"
         android:textColor="@color/taupe"
         android:textColorLink="@color/colorPrimary"
         android:textCursorDrawable="@color/colorPrimary"
@@ -122,7 +122,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand"
-        android:hint="@string/register_status_brithdayhint"
+        android:hint="@string/s_brithday_hint"
         android:inputType="date"
         android:drawableRight="@drawable/calendar"
         android:textColor="@color/ashgrey"
@@ -157,7 +157,7 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/register_button_f_m"
         android:fontFamily="@font/quicksand_medium"
-        android:text="@string/register_checkbox_female"
+        android:text="@string/s_female"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
@@ -174,7 +174,7 @@
         android:layout_marginTop="46dp"
         android:background="@drawable/register_button_f_m"
         android:fontFamily="@font/quicksand_medium"
-        android:text="@string/register_checkbox_male"
+        android:text="@string/s_male"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
@@ -191,7 +191,7 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/button_action_unactive"
         android:fontFamily="@font/quicksand_medium"
-        android:text="Next"
+        android:text="@string/g_next"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15sp"
@@ -222,7 +222,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_medium"
             android:paddingLeft="5dp"
-            android:text="@string/choose_language"
+            android:text="@string/g_choose_language"
             android:textColor="@color/pastelgray"
             android:textSize="14sp" />
     </LinearLayout>

@@ -22,8 +22,7 @@ import butterknife.OnClick;
 
 public class OnBoardingActivity extends AppCompatActivity {
 
-    @BindView(R.id.next_btn)
-    ImageView nextBtn;
+
     @BindView(R.id.onboarding_viewpager)
     ViewPager2 onboardingViewpager;
     @BindView(R.id.onboarding_indicators)
@@ -66,18 +65,18 @@ public class OnBoardingActivity extends AppCompatActivity {
         List<OnBoardingItem> onBoardingItems = new ArrayList<>();
 
         OnBoardingItem item1 = new OnBoardingItem();
-        item1.setTitle("Personalise your diet");
-        item1.setDescription("Avocardio diet is way to eat\nhealthy and tasty meals,\nwhich you will love.");
+        item1.setTitle(getString(R.string.s_diet_ob_title));
+        item1.setDescription(getString(R.string.s_diet_ob_description));
         item1.setImage(R.drawable.image1);
 
         OnBoardingItem item2 = new OnBoardingItem();
-        item2.setTitle("Work out with pleasure");
-        item2.setDescription("Avoacrdio trening guarantees\nyou a set of favourite exercises\nang good motivation.");
+        item2.setTitle(getString(R.string.s_trainig_ob_title));
+        item2.setDescription(getString(R.string.s_training_ob_description));
         item2.setImage(R.drawable.image2);
 
         OnBoardingItem item3 = new OnBoardingItem();
-        item3.setTitle("Observe your progress");
-        item3.setDescription("The diagram allows you to observe\nyour progress and way\nto the goal");
+        item3.setTitle(getString(R.string.s_progress_ob_title));
+        item3.setDescription(getString(R.string.s_progress_ob_description));
         item3.setImage(R.drawable.image3);
 
         onBoardingItems.add(item1);
@@ -120,10 +119,5 @@ public class OnBoardingActivity extends AppCompatActivity {
         finish();
     }
 
-    @OnClick(R.id.next_btn)
-    public void onViewClicked() {
-        startActivity(new Intent(OnBoardingActivity.this, LoginActivity.class));
-        finish();
-    }
 
 }

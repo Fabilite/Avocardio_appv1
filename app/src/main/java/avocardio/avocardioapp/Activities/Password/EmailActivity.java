@@ -79,10 +79,10 @@ public class EmailActivity extends AppCompatActivity {
 
         //EMAIL VALIDATION
         if (email.isEmpty()) {
-            emailField.setError(getString(R.string.register_error_empty));
+            emailField.setError(getString(R.string.g_error_empty));
             hasErrors = true;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailField.setError(getString(R.string.register_error_email_not_valid));
+            emailField.setError(getString(R.string.g_error_email_notvalid));
             hasErrors = true;
         }
 

@@ -109,15 +109,15 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
         boolean hasErrors = false;
 
         if (email.isEmpty()) {
-            editTextEmail.setError(getText(R.string.register_error_empty));
+            editTextEmail.setError(getText(R.string.g_error_empty));
             hasErrors = true;
         }
         if (!isEmailValid(email)) {
-            editTextEmail.setError(getText(R.string.register_error_email_not_valid));
+            editTextEmail.setError(getText(R.string.g_error_email_notvalid));
             hasErrors = true;
         }
         if (password.length() < 6) {
-            editTextPassword.setError(getText(R.string.register_error_password_short));
+            editTextPassword.setError(getText(R.string.g_error_password_short));
             hasErrors = true;
         }
         if (acceptTerms.equals("0")) {
@@ -203,12 +203,9 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

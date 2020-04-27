@@ -109,10 +109,8 @@ public class ActivationAccountActivity extends AppCompatActivity {
         boolean hasErrors = false;
         String code = pinView.getText().toString();
         if (code.length() < 6) {
-            pinView.setLineColor(getColor(R.color.error_info));
-            pinView.setTextColor(getColor(R.color.error_info));
-            information.setText("Your activation code isn't valid.");
-            information.setTextColor(getColor(R.color.error_info));
+//            pinView.setLineColor(getColor(R.color.error_info));
+////            pinView.setTextColor(getColor(R.color.error_info));
             hasErrors = true;
         }
         if(code.length() == 6){
@@ -120,10 +118,10 @@ public class ActivationAccountActivity extends AppCompatActivity {
         }
 
         if (!hasErrors) {
-            pinView.setLineColor(getColor(R.color.colorPrimary));
-            pinView.setTextColor(getColor(R.color.colorPrimary));
-            information.setText("Your activation code is correct.");
-            information.setTextColor(getColor(R.color.colorPrimary));
+//            pinView.setLineColor(getColor(R.color.colorPrimary));
+//            pinView.setTextColor(getColor(R.color.colorPrimary));
+//            information.setText("Your activation code is correct.");
+//            information.setTextColor(getColor(R.color.colorPrimary));
 
             activationManager.tryToActive(code);
         }

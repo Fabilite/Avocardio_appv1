@@ -24,6 +24,9 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 import java.util.TimeZone;
@@ -130,31 +133,30 @@ public class RegisterActivity_1 extends AppCompatActivity {
                     //Fix for pressing delete next to a forward slash
                     if (clean.equals(cleanC)) sel--;
 
-                    if (clean.length() < 8){
+                    if (clean.length() < 8) {
                         clean = clean + ddmmyyyy.substring(clean.length());
-                    }else{
+                    } else {
                         //This part makes sure that when we finish entering numbers
                         //the date is correct, fixing it otherwise
-                        int day  = Integer.parseInt(clean.substring(0,2));
-                        int mon  = Integer.parseInt(clean.substring(2,4));
-                        int year = Integer.parseInt(clean.substring(4,8));
+                        int day = Integer.parseInt(clean.substring(0, 2));
+                        int mon = Integer.parseInt(clean.substring(2, 4));
+                        int year = Integer.parseInt(clean.substring(4, 8));
 
                         mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
-                        cal.set(Calendar.MONTH, mon-1);
-                        year = (year<1950)?1950:(year>2020)?2020:year;
+                        cal.set(Calendar.MONTH, mon - 1);
+                        year = (year < 1950) ? 1950 : (year > 2020) ? 2020 : year;
                         cal.set(Calendar.YEAR, year);
                         // ^ first set year for the line below to work correctly
                         //with leap years - otherwise, date e.g. 29/02/2012
                         //would be automatically corrected to 28/02/2012
 
-                        day = (day > cal.getActualMaximum(Calendar.DATE))? cal.getActualMaximum(Calendar.DATE):day;
-                        clean = String.format("%02d%02d%02d",day, mon, year);
+                        day = (day > cal.getActualMaximum(Calendar.DATE)) ? cal.getActualMaximum(Calendar.DATE) : day;
+                        clean = String.format("%02d%02d%02d", day, mon, year);
                     }
 
                     clean = String.format("%s/%s/%s", clean.substring(0, 2),
                             clean.substring(2, 4),
                             clean.substring(4, 8));
-
 
 
                     sel = sel < 0 ? 0 : sel;
@@ -174,57 +176,69 @@ public class RegisterActivity_1 extends AppCompatActivity {
 
             }
         });
-}
+    }
 
     @OnClick(R.id.goNext)
-    public void goToNext() {
+    public void goToNext(){
         String name = nameField.getText().toString();
         String brithday = brithdayField.getText().toString();
-        Log.i(TAG,"data urodzenia "+ brithday);
-        Log.i(TAG,"data urodzenia "+ brithdayField.getText());
-
         Intent intent = new Intent(this, RegisterActivity_2.class);
 
-        if (name.length() > 3) {
-            firstNameValidation.setText("");
-            hasErrors = false;
-        } else if (name.isEmpty()) {
-            firstNameValidation.setText(getString(R.string.register_error_empty));
+        if(name.length() > 2){
+            if (!name.matches("[A-Z][a-z]*")) {
+                firstNameValidation.setText(getString(R.string.g_errors_notvalid));
+                hasErrors = true;
+            }else {
+                firstNameValidation.setText(getString(R.string.g_empty));
+                hasErrors = false;
+            }
+        }else if (name.isEmpty()) {
+            firstNameValidation.setText(getString(R.string.g_error_empty));
             hasErrors = true;
-        } else if (name.length() < 3) {
-            firstNameValidation.setText(R.string.register_error_firstName);
+        }else if(name.length() < 3) {
+            firstNameValidation.setText(getString(R.string.g_errors_notvalid));
+            hasErrors = true;
+        }
+
+
+        if(brithday.length() < 10) {
+            brithdayFieldValidation.setText(getString(R.string.g_errors_notvalid));
+            hasErrors = true;
+        } else if (brithday.length() == 10) {
+            day = brithday.substring(0, 2);
+            month = brithday.substring(3, 5);
+            year = brithday.substring(6, brithday.length());
+            Log.i("-----------", day + "------------");
+            Log.i("-----------", month + "------------");
+            Log.i("-----------", year + "------------");
+
+            if(day.matches("[0-9]*") & month.matches("[0-9]*") & year.matches("[0-9]*")) {
+                if (!britdayDateValidation(year, month, day)) {
+                    brithdayFieldValidation.setText(getString(R.string.s_britday_adult_validation));
+                    hasErrors = true;
+                    Log.i("-----------", brithday + "------------");
+                } else {
+                    brithdayFieldValidation.setText(getString(R.string.g_empty));
+                    hasErrors = false;
+                }
+            }else{
+                brithdayFieldValidation.setText(getString(R.string.g_errors_notvalid));
+                hasErrors = true;
+            }
+        } else{
+            brithdayFieldValidation.setText(getString(R.string.g_errors_notvalid));
+            hasErrors = true;
+        }
+
+        if (sexChose.isEmpty()) {
+            popUpError("Choose your sex",R.color.error_info);
             hasErrors = true;
         }else{
             hasErrors = false;
         }
 
-        if(!brithday.isEmpty()){
-            day = brithday.substring(0,2);
-            month = brithday.substring(3,5);
-            year =  brithday.substring(6,brithday.length());
-            britdayDateValidation(year,month,day);
-        }
-//        if(isAdult){
-//            hasErrors = false;
-//            brithdayFieldValidation.setText("");
-//
-//        }
-//        if (brithday.isEmpty()) {
-//            brithdayFieldValidation.setText(getString(R.string.register_error_empty));
-//            hasErrors = true;
-//        } else if(!isAdult){
-//            brithdayFieldValidation.setText("Sorry, you must be 16 years old");
-//            hasErrors = true;
-//        }
-
-        if (sexChose.isEmpty()) {
-            //TODO
-            hasErrors = true;
-        }
-
         if (!hasErrors) {
-
-            String brithdayDate = year+"-"+month+"-"+day;
+            String brithdayDate = year + "-" + month + "-" + day;
 
             intent.putExtra("EXTRA_namesesion", name);
             intent.putExtra("EXTRA_brithdaysesion", brithdayDate);
@@ -278,7 +292,7 @@ public class RegisterActivity_1 extends AppCompatActivity {
     public void checkFemale() {
         sexChose = "F";
         changeBackground(femaleBtn, maleBtn);
-        if(!sexActive) {
+        if (!sexActive) {
             changeBtnActionBackgroundActive(goNext, 1);
             sexActive = true;
         }
@@ -289,10 +303,18 @@ public class RegisterActivity_1 extends AppCompatActivity {
     public void checkMale() {
         sexChose = "M";
         changeBackground(maleBtn, femaleBtn);
-        if(!sexActive) {
+        if (!sexActive) {
             changeBtnActionBackgroundActive(goNext, 1);
             sexActive = true;
         }
+    }
+
+    public void popUpError(String text, int color) {
+        Snackbar snackbar = Snackbar.make(mainLayoutRegister, text, Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(this, color));
+        snackbar.show();
     }
 
     //ZMIANA BACKGROUND
@@ -317,9 +339,8 @@ public class RegisterActivity_1 extends AppCompatActivity {
 
 
     //VALIDACJA WIEKU
-
     @SuppressLint("WrongConstant")
-    public void britdayDateValidation(String yearB, String monthB, String dayB) {
+    public boolean britdayDateValidation(String yearB, String monthB, String dayB) {
 
         int year = Integer.parseInt(yearB);
         int month = Integer.parseInt(monthB);
@@ -331,20 +352,20 @@ public class RegisterActivity_1 extends AppCompatActivity {
         int todayMont = calendar.get(java.util.Calendar.MONTH) + 1;
         int todayDay = calendar.get(java.util.Calendar.DAY_OF_MONTH);
 
-        if((todayYear - year) > 16){
-            isAdult = true;
-        }else if((todayYear - year == 16)){
-            if(todayMont > month){
-                isAdult = true;
-            }else if(todayMont == month){
-                if(todayDay >= day){
-                    isAdult = true;
-                }else{
-                    isAdult = false;
+        if ((todayYear - year) > 16) {
+            return true;
+        } else if ((todayYear - year == 16)) {
+            if (todayMont > month) {
+                return true;
+            } else if (todayMont == month) {
+                if (todayDay >= day) {
+                    return true;
+                } else {
+                    return false;
                 }
             }
         }
-        isAdult = false;
+        return false;
     }
 
     //UKRYWANIE KLAWIATURY

@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/quicksand_bold"
-            android:text="@string/activationcode_status_title"
+            android:text="@string/s_activation_code"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -45,9 +45,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="11dp"
+            android:layout_marginHorizontal="20dp"
             android:fontFamily="@font/quicksand"
             android:gravity="center"
-            android:text="@string/activationcode_status_decription"
+            android:text="@string/s_activationcode_status_decription"
             android:textColor="@color/dimgray"
             android:textSize="16sp" />
     </LinearLayout>
@@ -103,7 +104,7 @@
         android:layout_marginBottom="56dp"
         android:background="@drawable/register_button_f_m"
         android:fontFamily="@font/quicksand_medium"
-        android:text="@string/remember_password_btn"
+        android:text="@string/g_confirm"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
@@ -115,8 +116,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand_medium"
+        android:layout_marginHorizontal="20dp"
         android:gravity="center"
-        android:text="@string/rememberpassword_status_time_information"
+        android:text="@string/g_dont_resend_code"
         android:textColor="@color/text_secondary"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
@@ -138,7 +140,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_medium"
             android:gravity="center"
-            android:text="@string/rememberpassword_status_time_information2"
+            android:text="@string/g_resend_code"
             android:textColor="@color/manatee"
             android:textSize="15sp" />
 
@@ -149,7 +151,7 @@
             android:fontFamily="@font/quicksand_medium"
             android:gravity="center"
             android:paddingLeft="5dp"
-            android:text="@string/resendcode_status_time"
+            android:text="05:00"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
 

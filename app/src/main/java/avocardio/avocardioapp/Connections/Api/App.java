@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import avocardio.avocardioapp.Activities.ActivationAcount.ActivationManager;
 import avocardio.avocardioapp.Activities.Login.LoginManager;
+import avocardio.avocardioapp.Activities.Main.MainManager;
 import avocardio.avocardioapp.Activities.Password.PasswordManager;
 import avocardio.avocardioapp.Activities.Register.RegisterManager;
 import avocardio.avocardioapp.Helpers.Generates;
@@ -26,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //Tworzy jedną instancję na cały czas pracy aplikacji
 public class App extends Application {
 
+    private MainManager  mainManager;
     private LoginManager loginManager;
     private RegisterManager registerManager;
     private ActivationManager activationManager;
@@ -72,6 +74,7 @@ public class App extends Application {
         registerManager = new RegisterManager(userStorage, avocardioApi, retrofit);
         activationManager = new ActivationManager(userStorage, avocardioApi, retrofit);
         passwordManager = new PasswordManager(userStorage, avocardioApi, retrofit);
+        mainManager =  new MainManager(userStorage, avocardioApi, retrofit);
     }
 
     public LoginManager getLoginManager() {
@@ -102,5 +105,9 @@ public class App extends Application {
 
     public PasswordManager getPasswordManager() {
         return passwordManager;
+    }
+
+    public MainManager getMainManager() {
+        return mainManager;
     }
 }

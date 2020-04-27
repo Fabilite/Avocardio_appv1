@@ -11,8 +11,10 @@ import avocardio.avocardioapp.Connections.ResReq.RegisterRequest;
 import avocardio.avocardioapp.Connections.ResReq.RegisterResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface AvocardioApi {
 
@@ -35,4 +37,10 @@ public interface AvocardioApi {
     @Headers("Content-Type: application/json")
     @POST("user/passwordReset")
     Call<PasswordResponse> postReset(@Body PasswordRequset requset);
+
+    @Headers("Content-Type: application/json")
+    @GET("user/userData")
+    Call<LoginResponse> getUserData(@Query("user_hash") String requset);
+
+
 }

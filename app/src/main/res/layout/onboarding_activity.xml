@@ -37,24 +37,11 @@
         android:fontFamily="@font/quicksand_medium"
         android:paddingLeft="15dp"
         android:paddingBottom="15dp"
-        android:text="@string/onboarding_btn_skip"
+        android:text="@string/g_skip"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="27dp"
-        android:layout_marginRight="27dp"
-        android:background="@drawable/arrow_next"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -73,13 +60,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/language_icon" />
+            android:background="@drawable/language_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_medium"
-            android:text="@string/choose_language"
+            android:text="@string/g_choose_language"
             android:textColor="@color/pastelgray"
             android:textSize="14sp" />
     </LinearLayout>

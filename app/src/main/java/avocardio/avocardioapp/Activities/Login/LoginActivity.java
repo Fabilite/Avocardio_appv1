@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
 
         loginManager = ((App) getApplication()).getLoginManager();
 
-        hidePlaceHolder(passwordField, R.string.login_status_passwordhint);
-        hidePlaceHolder(emailField, R.string.login_status_emailhint);
+        hidePlaceHolder(passwordField, R.string.g_password_hint);
+        hidePlaceHolder(emailField, R.string.g_email_hint);
     }
 
     //Ukrywanie klawiatury po kliknieciu w puste pole
@@ -108,28 +108,28 @@ public class LoginActivity extends AppCompatActivity {
 
         //EMAIL VALIDATION
         if (email.isEmpty()) {
-            emailValidation.setText(getString(R.string.register_error_empty));
+            emailValidation.setText(getString(R.string.g_error_empty));
             emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailValidation.setText(getString(R.string.register_error_email_not_valid));
+            emailValidation.setText(getString(R.string.g_error_email_notvalid));
             emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
         }else{
-            emailValidation.setText(getString(R.string.empty));
+            emailValidation.setText(getString(R.string.g_empty));
             emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.ashgrey), PorterDuff.Mode.SRC_ATOP);
         }
         // PASSWORD VALIDATION
         if (password.isEmpty()) {
-            passwordValidation.setText(getString(R.string.register_error_empty));
+            passwordValidation.setText(getString(R.string.g_error_empty));
             passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
         } else if (password.length() <= 5) {
-            passwordValidation.setText(getString(R.string.register_error_password_short));
+            passwordValidation.setText(getString(R.string.g_error_password_short));
             passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
             hasErrors = true;
         }else {
-            passwordValidation.setText(getString(R.string.empty));
+            passwordValidation.setText(getString(R.string.g_empty));
             passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.ashgrey), PorterDuff.Mode.SRC_ATOP);
         }
         // LOGOWANIE DO APLIKACJI
@@ -176,6 +176,5 @@ public class LoginActivity extends AppCompatActivity {
     public void showProgress(boolean b) {
         // loginBtn.setEnabled(!b);
     }
-
 }
 
