@@ -42,7 +42,7 @@ public class LoginManager {
     }
 
     public void login(String email, String password) {
-        LoginRequest loginRequest =  new LoginRequest();
+        LoginRequest loginRequest = new LoginRequest();
         loginRequest.email = email;
         loginRequest.password = password;
         //zabezpieczenie przed podwojnym wywolaniem akcji logowania
@@ -57,35 +57,27 @@ public class LoginManager {
                         response.body().toString();
                         if (loginActivity != null) {
                             loginActivity.loginSuccess();
-                        } else {
-                            ResponseBody responseBody = response.errorBody();
-                            try {
-                                Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
-                                ErrorResponse errorResponse = converter.convert(responseBody);
-                                if (loginActivity != null) {
-                                    //wywolanie komunikatu z bledami
-                                    loginActivity.showError(errorResponse.error);
+                        }
+                    } else {
+                        ResponseBody responseBody = response.errorBody();
+                        try {
+                            Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
+                            ErrorResponse errorResponse = converter.convert(responseBody);
+                            if (loginActivity != null) {
+                                //wywolanie komunikatu z bledami
+                                switch (errorResponse.error_code) {
+                                    case 1002:
+                                        loginActivity.popUpError("This e-mail or password is not valid.", R.color.error_info);
+                                        break;
+                                    default:
+                                        loginActivity.popUpError("Something went wrong try again later", R.color.error_info);
+                                        break;
                                 }
-                            } catch (IOException e) {
-                                e.printStackTrace();
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }else{
-                        {
-                            //obsluga bledow
-                            switch (response.code()) {
-                                case 401:
-                                    loginActivity.popUpError("This e-mail or password is not valid.", R.color.error_info);
-                                    break;
-                                case 404:
-                                    loginActivity.popUpError(":( Server broken :(",R.color.error_info);
-                                    break;
-                                default:
-                                    loginActivity.popUpError("Something went wrong try again later",R.color.error_info);
-                                    break;
-                            }
-                        }
-                        }
+                    }
                 }
 
                 @Override
@@ -93,7 +85,7 @@ public class LoginManager {
                     loginResponseCall = null;
                     if (loginActivity != null) {
                         //wywolanie komunikatu z problemami
-                        loginActivity.showError(t.getLocalizedMessage());
+                        //loginActivity.showError(t.getLocalizedMessage());
                     }
 
                 }

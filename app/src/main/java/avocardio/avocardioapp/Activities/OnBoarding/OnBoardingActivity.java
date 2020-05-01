@@ -3,6 +3,7 @@ package avocardio.avocardioapp.Activities.OnBoarding;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,7 +30,8 @@ public class OnBoardingActivity extends AppCompatActivity {
     LinearLayout onboardingIndicators;
     @BindView(R.id.skip_btn)
     TextView skipBtn;
-
+    @BindView(R.id.lets_start)
+    Button letsStart;
 
 
     private OnBoardingAdapter onBoardingAdapter;
@@ -65,18 +67,17 @@ public class OnBoardingActivity extends AppCompatActivity {
         List<OnBoardingItem> onBoardingItems = new ArrayList<>();
 
         OnBoardingItem item1 = new OnBoardingItem();
-        item1.setTitle(getString(R.string.s_diet_ob_title));
-        item1.setDescription(getString(R.string.s_diet_ob_description));
+        item1.setTitle(getString(R.string.l_screen_first_title));
+        item1.setDescription(getString(R.string.l_screen_first_desc));
         item1.setImage(R.drawable.image1);
-
         OnBoardingItem item2 = new OnBoardingItem();
-        item2.setTitle(getString(R.string.s_trainig_ob_title));
-        item2.setDescription(getString(R.string.s_training_ob_description));
+        item2.setTitle(getString(R.string.l_screen_second_title));
+        item2.setDescription(getString(R.string.l_screen_second_desc));
         item2.setImage(R.drawable.image2);
 
         OnBoardingItem item3 = new OnBoardingItem();
-        item3.setTitle(getString(R.string.s_progress_ob_title));
-        item3.setDescription(getString(R.string.s_progress_ob_description));
+        item3.setTitle(getString(R.string.l_screen_third_title));
+        item3.setDescription(getString(R.string.l_screen_third_desc));
         item3.setImage(R.drawable.image3);
 
         onBoardingItems.add(item1);

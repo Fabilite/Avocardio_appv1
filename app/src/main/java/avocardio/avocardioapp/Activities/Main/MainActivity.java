@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
@@ -22,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Button logoutBtn;
     @BindView(R.id.user_information)
     TextView userInformation;
-
-
+    @BindView(R.id.mainLayout)
+    ConstraintLayout mainLayout;
     //private UserStorage userStorage;
     private MainManager mainManager;
 
@@ -41,9 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
-
-        mainManager = ((App)getApplication()).getMainManager();
-       // getUserDates();
+        mainManager = ((App) getApplication()).getMainManager();
+        // getUserDates();
     }
 
     @Override
@@ -66,14 +66,15 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+
+
     public void loginSuccess(String text) {
         userInformation.setText(text);
-
         //startActivity();
         //finish();
     }
 
-    public void getUserDates(){
+    public void getUserDates() {
         mainManager.getUserInformation();
     }
 

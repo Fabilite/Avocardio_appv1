@@ -1,62 +1,88 @@
 <resources>
-    <string name="app_name">Avocardio</string>
-    <string name="powered_by_itcloud">powered by\nitcloud</string>
-
+    <!--
+     ========================================================================================================================
+     ***** GLOBAL STRINGS *********
+     Words used in several screens
+     Designation g_ (as global)
+     ========================================================================================================================
+     -->
+    <string name="g_app_name">avocardio</string>
     <string name="g_empty"></string>
-    <string name="g_login_status_title">Welcome</string>
-    <string name="g_email_adress">E-mail adress</string>
+    <string name="g_powered_by">powered by\nitcloud</string>
+    <string name="g_welcome">Welcome</string>
+    <string name="g_email">E-mail</string>
+    <string name="g_email_adress">E-mail address</string>
+    <string name="g_your_email">your e-mail</string>
+    <string name="g_email_placeholder">your@email.com</string>
     <string name="g_password">Password</string>
-    <string name="g_email_hint">your@email.com</string>
-    <string name="g_password_hint">******</string>
-    <string name="g_signin">Sign in</string>
+    <string name="g_password_placeholder">*********</string>
+    <string name="g_sign_in">Sign in</string>
     <string name="g_sign_up">Sign up</string>
-    <string name="g_errors_notvalid">This field is not valid</string>
-    <string name="g_error_firstName">Your name is too short.</string>
-    <string name="g_error_empty">This field can\'t be empty.</string>
-    <string name="g_error_email_notvalid">This e-mail adress isn\'t correct.</string>
-    <string name="g_error_password_short">Password must contain a minimum 6 characters</string>
+    <string name="g_field_not_valid">This field is not valid</string>
+    <string name="g_field_is_empty">This field can\'t be empty.</string>
+    <string name="g_name_too_short">Your name is too short.</string>
+    <string name="g_wrong_email">This e-mail address isn\'t correct.</string>
+    <string name="g_password_is_too_short">Password must contain a minimum 6 characters</string>
     <string name="g_skip">Skip</string>
-    <string name="g_choose_language">Polski</string>
+    <string name="g_language">English</string>
     <string name="g_send_email">Send e-mail</string>
-    <string name="g_email_error_information">Didin\'t get the e-mail?</string>
+    <string name="g_didnt_get_email">Didin\'t get the e-mail?</string>
     <string name="g_resend_email">Resend e-mail for</string>
     <string name="g_resend_code">Resend code for</string>
     <string name="g_confirm">Confirm</string>
-    <string name="g_dont_resend_code">Didn\'t get reset code?</string>
-
-
-    <string name="s_forgot_password">Reset your password</string>
-    <string name="s_create_account">Create an account</string>
-    <string name="s_sign_up">Sing up</string>
-    <string name="s_login_description_title">Please sign in to proceed to your account</string>
-    <string name="s_forgot_password_btn">Forgot password?</string>
-    <string name="s_login_btn_signup_title">Don\'t have an account?</string>
-    <string name="s_register_status_title">Let\'s get start</string>
-    <string name="s_register_information_title">Create your personal account</string>
-    <string name="s_name_status">First name</string>
-    <string name="s_brithday_status">Brith date</string>
-    <string name="s_britday_adult_validation">Sorry, you must be 16 years old</string>
-    <string name="s_name_hint">Your name</string>
-    <string name="s_brithday_hint">DD/MM/YYYY</string>
-    <string name="s_country_title">Country</string>
-    <string name="s_country_hint">Poland</string>
-    <string name="s_terms_description">"Account registration must be preceded by accepting the terms of service."</string>
-    <string name="s_newsletter_description">I want to receive the newsletter</string>
-    <string name="s_male">male</string>
-    <string name="s_female">female</string>
-    <string name="s_error_sex">This field is required, you must select from among the available options</string>
-    <string name="s_rememberpassword_status_title">Get a new password</string>
-    <string name="s_rememberpassword_status_decription">Please give us your e-maila address.We will send you an e-mail with reset code.</string>
-    <string name="s_reset_password">Reset password</string>
-    <string name="s_activation_code">Activation code</string>
-    <string name="s_activationcode_status_decription">We have just sent you the e-mail with reset code.</string>
+    <string name="g_didnt_resend_code">Didn\'t get reset code?</string>
+    <string name="g_reset_your_password">Reset your password</string>
+    <string name="g_create_account">Create an account</string>
+    <string name="g_activation_code">Activation code</string>
+    <string name="g_first_name">First name</string>
+    <string name="g_name_placeholder">your name</string>
+    <string name="g_brith_date">Brith date</string>
+    <string name="g_lets_start">Let\'s get start</string>
+    <string name="g_birth_date_placeholder">DD/MM/YYYY</string>
+    <string name="g_country">Country</string>
+    <string name="g_poland">Poland</string>
+    <string name="g_male">male</string>
+    <string name="g_female">female</string>
     <string name="g_next">Next</string>
-    <string name="g_enter_numbers">Enter 6 digit number</string>
-    <string name="s_diet_ob_title">Personalise your diet</string>
-    <string name="s_diet_ob_description">Avocardio diet is way to eat healthy and tasty meals, which you will love.</string>
-    <string name="s_trainig_ob_title">Work out with pleasure</string>
-    <string name="s_training_ob_description">Avoacrdio trening guarantees you a set of favourite exercises ang good motivation.</string>
-    <string name="s_progress_ob_title">Observe your progress</string>
-    <string name="s_progress_ob_description">The diagram allows you to observe your progress and way to the goal</string>
+    <string name="g_enter_number">Enter 6 digit number</string>
+    ​
+    <!--
+    ========================================================================================================================
+    ***** LOCAL STRINGS *********
+    Words used in single screens
+    Designation l_ (as local)
+    ========================================================================================================================
+    -->
+    ​
+    <!-- ***** WELCOME SCREENS ***** -->
+    <string name="l_screen_first_title">Personalise your diet</string>
+    <string name="l_screen_first_desc">Avocardio diet is way to eat healthy and tasty meals, which you will love.</string>
+    <string name="l_screen_second_title">Work out with pleasure</string>
+    <string name="l_screen_second_desc">Avoacrdio trening guarantees you a set of favourite exercises ang good motivation.</string>
+    <string name="l_screen_third_title">Observe your progress</string>
+    <string name="l_screen_third_desc">The diagram allows you to observe your progress and way to the goal</string>
+    ​
+    <!-- ***** SIGN IN SCREEN ***** -->
+    <string name="l_welcome_text">Please sign in to proceed to your account</string>
+    <string name="l_dont_have_account">Don\'t have an account?</string>
+    <string name="l_get_new_password">Get a new password</string>
+    <string name="l_forgot_password">Forgot password?</string>
+    ​
+    <!-- ***** SIGN UP SCREEN ***** -->
+    <string name="l_you_must_be_16_yo">Sorry, you must be 16 years old</string>
+    <string name="l_you_must_be_18_yo">Sorry, you must be 18 years old</string>
+    <string name="l_create_personal_account">Create your personal account</string>
+    <string name="l_please_accept_terms">"Account registration must be preceded by accepting the terms of service."</string>
+    <string name="l_newsletter_sign_up">I want to receive the newsletter</string>
+    <string name="l_must_choose_sex">You must choose your sex.</string>
+    <string name="l_activation_code_sended">We have just sent you the\ne-mail with reset code.</string>
+    ​
+    <!-- ***** RESET PASSWORD SCREEN ***** -->
+    <string name="l_email_for_reset_code">Please give us your e-mail address. We will send you an e-mail with reset code.</string>
+    <string name="l_reset_password">Reset password</string>
+
+    <!-- ***** ACTIVATION SCREEN ***** -->
+    <string name="l_get_again_activation_code">Didn\'t get the activation code?</string>
+
 
 </resources>

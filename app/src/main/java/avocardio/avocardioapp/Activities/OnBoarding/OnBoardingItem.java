@@ -1,10 +1,31 @@
 package avocardio.avocardioapp.Activities.OnBoarding;
 
+import android.view.View;
+import android.widget.Button;
+
 public class OnBoardingItem {
 
     private int image;
     private String title;
     private String description;
+    private Button button;
+
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+        button.setVisibility(View.VISIBLE);
+    }
+
+    public void buttonVisable(Button button){
+        button.setVisibility(View.VISIBLE);
+    }
+    public void buttonGone(Button button){
+        button.setVisibility(View.GONE);
+    }
+
 
     public int getImage() {
         return image;

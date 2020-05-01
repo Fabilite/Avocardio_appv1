@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,15 +23,13 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 import java.util.TimeZone;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
+import avocardio.avocardioapp.Helpers.HelperMethod;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,15 +66,15 @@ public class RegisterActivity_1 extends AppCompatActivity {
     TextView brithdayFieldValidation;
 
     private String sexChose = "";
-    private boolean hasErrors = false;
     private boolean sexActive = false;
-    private boolean isAdult = false;
+    private boolean brithdayV = false;
+    private boolean nameV = false;
 
     private String day = "";
     private String month = "";
     private String year = "";
 
-    private String TAG = "Register activity ------------------";
+    HelperMethod helpers = new HelperMethod();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +85,7 @@ public class RegisterActivity_1 extends AppCompatActivity {
         registerManager = ((App) getApplication()).getRegisterManager();
 
         editTextValidation();
-
+        helpers.hidePlaceHolder(nameField, R.string.g_name_placeholder);
     }
 
     //informujemy Managera o starcie activity
@@ -111,6 +108,7 @@ public class RegisterActivity_1 extends AppCompatActivity {
         finish();
     }
 
+    //OBSLUGA BRITHDAY_FIELD
     public void editTextValidation() {
 
         brithdayField.addTextChangedListener(new TextWatcher() {
@@ -178,122 +176,12 @@ public class RegisterActivity_1 extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.goNext)
-    public void goToNext(){
-        String name = nameField.getText().toString();
-        String brithday = brithdayField.getText().toString();
-        Intent intent = new Intent(this, RegisterActivity_2.class);
-
-        if(name.length() > 2){
-            if (!name.matches("[A-Z][a-z]*")) {
-                firstNameValidation.setText(getString(R.string.g_errors_notvalid));
-                hasErrors = true;
-            }else {
-                firstNameValidation.setText(getString(R.string.g_empty));
-                hasErrors = false;
-            }
-        }else if (name.isEmpty()) {
-            firstNameValidation.setText(getString(R.string.g_error_empty));
-            hasErrors = true;
-        }else if(name.length() < 3) {
-            firstNameValidation.setText(getString(R.string.g_errors_notvalid));
-            hasErrors = true;
-        }
-
-
-        if(brithday.length() < 10) {
-            brithdayFieldValidation.setText(getString(R.string.g_errors_notvalid));
-            hasErrors = true;
-        } else if (brithday.length() == 10) {
-            day = brithday.substring(0, 2);
-            month = brithday.substring(3, 5);
-            year = brithday.substring(6, brithday.length());
-            Log.i("-----------", day + "------------");
-            Log.i("-----------", month + "------------");
-            Log.i("-----------", year + "------------");
-
-            if(day.matches("[0-9]*") & month.matches("[0-9]*") & year.matches("[0-9]*")) {
-                if (!britdayDateValidation(year, month, day)) {
-                    brithdayFieldValidation.setText(getString(R.string.s_britday_adult_validation));
-                    hasErrors = true;
-                    Log.i("-----------", brithday + "------------");
-                } else {
-                    brithdayFieldValidation.setText(getString(R.string.g_empty));
-                    hasErrors = false;
-                }
-            }else{
-                brithdayFieldValidation.setText(getString(R.string.g_errors_notvalid));
-                hasErrors = true;
-            }
-        } else{
-            brithdayFieldValidation.setText(getString(R.string.g_errors_notvalid));
-            hasErrors = true;
-        }
-
-        if (sexChose.isEmpty()) {
-            popUpError("Choose your sex",R.color.error_info);
-            hasErrors = true;
-        }else{
-            hasErrors = false;
-        }
-
-        if (!hasErrors) {
-            String brithdayDate = year + "-" + month + "-" + day;
-
-            intent.putExtra("EXTRA_namesesion", name);
-            intent.putExtra("EXTRA_brithdaysesion", brithdayDate);
-            intent.putExtra("EXTRA_sexsesion", sexChose);
-            startActivity(intent);
-        }
-    }
-
-    //Ukrywanie klawiatury
-    @OnTouch(R.id.mainLayoutRegister)
-    public void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-    }
-
-    // aktualizacja tabel kalendarza
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void updateLabel() {
-        String myFormat = "dd/MM/yyyy";
-        int style = DateFormat.MEDIUM;
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        brithdayField.setText(sdf.format(myCalendar.getTime()));
-        hideKeaybord();
-
-    }
-
-    //Ikona kalendarza jest klikalna
-    @OnTouch(R.id.brithday_field)
-    public void setDatePicker(View view) {
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (brithdayField.getRight() - brithdayField.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        dateAction();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
     //Walidacja female
     @OnClick(R.id.female_btn)
     public void checkFemale() {
         sexChose = "F";
         changeBackground(femaleBtn, maleBtn);
         if (!sexActive) {
-            changeBtnActionBackgroundActive(goNext, 1);
             sexActive = true;
         }
     }
@@ -304,43 +192,13 @@ public class RegisterActivity_1 extends AppCompatActivity {
         sexChose = "M";
         changeBackground(maleBtn, femaleBtn);
         if (!sexActive) {
-            changeBtnActionBackgroundActive(goNext, 1);
             sexActive = true;
         }
     }
 
-    public void popUpError(String text, int color) {
-        Snackbar snackbar = Snackbar.make(mainLayoutRegister, text, Snackbar.LENGTH_LONG)
-                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
-        View sbView = snackbar.getView();
-        sbView.setBackgroundColor(ContextCompat.getColor(this, color));
-        snackbar.show();
-    }
-
-    //ZMIANA BACKGROUND
-    private void changeBackground(Button button, Button button2) {
-        button.setTextColor(getColor(R.color.white));
-        button.setBackground(getResources().getDrawable(R.drawable.register_button_active_f_m));
-
-        button2.setTextColor(getColor(R.color.colorPrimary));
-        button2.setBackground(getResources().getDrawable(R.drawable.register_button_f_m));
-    }
-
-    //zmiana coloru buttona
-    private void changeBtnActionBackgroundActive(Button button, int active) {
-        if (active == 1) {
-            button.setTextColor(getColor(R.color.white));
-            button.setBackground(getResources().getDrawable(R.drawable.button_action_active));
-        } else {
-            button.setTextColor(getColor(R.color.white));
-            button.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
-        }
-    }
-
-
     //VALIDACJA WIEKU
     @SuppressLint("WrongConstant")
-    public boolean britdayDateValidation(String yearB, String monthB, String dayB) {
+    public boolean isAdultValidation(String yearB, String monthB, String dayB) {
 
         int year = Integer.parseInt(yearB);
         int month = Integer.parseInt(monthB);
@@ -368,19 +226,126 @@ public class RegisterActivity_1 extends AppCompatActivity {
         return false;
     }
 
-    //UKRYWANIE KLAWIATURY
-    private void hideKeaybord() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            methodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    //WALIDACJA NAME_FIELD
+    private boolean nameValidation(String name) {
+        if (name.length() > 2) {
+            if (!name.matches("[A-z]*")) {
+                firstNameValidation.setText(getString(R.string.g_field_not_valid));
+                nameV = false;
+                return false;
+            } else {
+                firstNameValidation.setText(getString(R.string.g_empty));
+                nameV = true;
+                return true;
+            }
+        } else if (name.isEmpty()) {
+            firstNameValidation.setText(getString(R.string.g_field_is_empty));
+            nameV = false;
+            return false;
+        } else if (name.length() < 3) {
+            firstNameValidation.setText(getString(R.string.g_field_not_valid));
+            nameV = false;
+            return false;
+        }
+        nameV = false;
+        return false;
+    }
 
+    //WALIDACJA BRITHDAY_FIELD
+    private boolean brithdayValidation(String brithday) {
+
+        if (brithday.length() < 10) {
+            brithdayFieldValidation.setText(getString(R.string.g_field_not_valid));
+            brithdayV = false;
+            return false;
+        } else if (brithday.length() == 10) {
+            day = brithday.substring(0, 2);
+            month = brithday.substring(3, 5);
+            year = brithday.substring(6, brithday.length());
+
+            if (day.matches("[0-9]*") & month.matches("[0-9]*") & year.matches("[0-9]*")) {
+                if (!isAdultValidation(year, month, day)) {
+                    brithdayFieldValidation.setText(getString(R.string.l_you_must_be_16_yo));
+                    brithdayV = false;
+                    return false;
+                } else {
+                    brithdayFieldValidation.setText(getString(R.string.g_empty));
+                    brithdayV = true;
+                    return true;
+                }
+            } else {
+                brithdayFieldValidation.setText(getString(R.string.g_field_not_valid));
+                brithdayV = false;
+                return false;
+            }
+        } else {
+            brithdayFieldValidation.setText(getString(R.string.g_field_not_valid));
+            brithdayV = false;
+            return false;
         }
     }
 
+    @OnClick(R.id.goNext)
+    public void goToNext() {
+        String name = nameField.getText().toString();
+        String brithday = brithdayField.getText().toString();
+        Intent intent = new Intent(this, RegisterActivity_2.class);
 
+        if (!sexActive) {
+            helpers.showErrorPopUp(R.string.l_must_choose_sex, mainLayoutRegister, RegisterActivity_1.this);
+        }
+
+        if (nameValidation(name) & brithdayValidation(brithday) & (sexActive)) {
+            String brithdayDate = year + "-" + month + "-" + day;
+
+            intent.putExtra("EXTRA_namesesion", name);
+            intent.putExtra("EXTRA_brithdaysesion", brithdayDate);
+            intent.putExtra("EXTRA_sexsesion", sexChose);
+            startActivity(intent);
+        }
+    }
+
+    //Ukrywanie klawiatury
+    @OnTouch(R.id.mainLayoutRegister)
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
+
+    // aktualizacja tabel kalendarza
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy";
+        int style = DateFormat.MEDIUM;
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        brithdayField.setText(sdf.format(myCalendar.getTime()));
+        hideKeaybordAfterAction();
+    }
+
+    //Ikona kalendarza jest klikalna
+    @OnTouch(R.id.brithday_field)
+    public void setDatePicker(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (brithdayField.getRight() - brithdayField.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        dateAction();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    // OBLSUGA KALENDARZA
     public void dateAction() {
-
         DatePickerDialog.OnDateSetListener date = (view, year, monthOfYear, dayOfMonth) -> {
             // TODO Auto-generated method stub
             myCalendar.set(Calendar.YEAR, year);
@@ -392,5 +357,24 @@ public class RegisterActivity_1 extends AppCompatActivity {
         new DatePickerDialog(RegisterActivity_1.this, R.style.MyDataPickerTheme, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    //ZMIANA BACKGROUND
+    private void changeBackground(Button button, Button button2) {
+        button.setTextColor(getColor(R.color.white));
+        button.setBackground(getResources().getDrawable(R.drawable.register_button_active_f_m));
+
+        button2.setTextColor(getColor(R.color.colorPrimary));
+        button2.setBackground(getResources().getDrawable(R.drawable.register_button_f_m));
+    }
+
+    //UKRYWANIE KLAWIATURY PO OPUSZCZENIU KALENDARZA
+    private void hideKeaybordAfterAction() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            methodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+        }
     }
 }

@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayoutRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_marginHorizontal="30dp"
-    tools:context=".Activities.Register.RegisterActivity_1"
-    android:id="@+id/mainLayoutRegister">
+    tools:context=".Activities.Register.RegisterActivity_1">
 
     <ImageButton
         android:id="@+id/back_btn"
@@ -34,8 +34,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/quicksand_bold"
-            android:text="@string/s_register_status_title"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="@string/g_lets_start"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp" />
 
@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/quicksand"
-            android:text="@string/s_register_information_title"
+            android:text="@string/l_create_personal_account"
+            android:textColor="@color/manatee"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -53,8 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:fontFamily="@font/quicksand_medium"
-        android:text="@string/s_name_status"
+        android:fontFamily="@font/quicksand"
+        android:text="@string/g_first_name"
         android:textColor="@color/taupe"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
@@ -65,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/quicksand"
+        android:hint="@string/g_name_placeholder"
         android:inputType="textPersonName"
         android:textColor="@color/ashgrey"
         android:textColorHint="@color/ashgrey"
@@ -79,10 +81,10 @@
         android:id="@+id/first_name_validation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/error_info"
         android:fontFamily="@font/quicksand_medium"
-        android:textSize="12sp"
         android:gravity="right"
+        android:textColor="@color/error_info"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_field" />
@@ -94,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/quicksand"
-        android:text="@string/s_brithday_status"
+        android:text="@string/g_brith_date"
         android:textColor="@color/taupe"
         android:textColorLink="@color/colorPrimary"
         android:textCursorDrawable="@color/colorPrimary"
@@ -103,38 +105,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_field" />
 
-    
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/brithday_field1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintEnabled="false"
-        app:hintAnimationEnabled="false"
         app:counterEnabled="false"
         app:counterMaxLength="10"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBrithday"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/textViewBrithday">
 
-    <EditText
-        android:id="@+id/brithday_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/quicksand"
-        android:hint="@string/s_brithday_hint"
-        android:inputType="date"
-        android:drawableRight="@drawable/calendar"
-        android:textColor="@color/ashgrey"
-        android:textColorHint="@color/ashgrey"
-        android:textColorLink="@color/colorPrimary"
-        android:textCursorDrawable="@color/colorPrimary"
-        android:textSize="14sp"
-        android:theme="@style/EditTextTheme"
-        app:layout_constraintEnd_toStartOf="@+id/brithday_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBrithday" />
+        <EditText
+            android:id="@+id/brithday_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/calendar"
+            android:fontFamily="@font/quicksand"
+            android:hint="@string/g_birth_date_placeholder"
+            android:inputType="date"
+            android:textColor="@color/ashgrey"
+            android:textColorHint="@color/ashgrey"
+            android:textColorLink="@color/colorPrimary"
+            android:textCursorDrawable="@color/colorPrimary"
+            android:textSize="14sp"
+            android:theme="@style/EditTextTheme"
+            app:layout_constraintEnd_toStartOf="@+id/brithday_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBrithday" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -157,7 +158,7 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/register_button_f_m"
         android:fontFamily="@font/quicksand_medium"
-        android:text="@string/s_female"
+        android:text="@string/g_female"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
@@ -174,7 +175,7 @@
         android:layout_marginTop="46dp"
         android:background="@drawable/register_button_f_m"
         android:fontFamily="@font/quicksand_medium"
-        android:text="@string/s_male"
+        android:text="@string/g_male"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
@@ -189,7 +190,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/button_action_unactive"
+        android:background="@drawable/button_action_active"
         android:fontFamily="@font/quicksand_medium"
         android:text="@string/g_next"
         android:textAllCaps="false"
@@ -222,7 +223,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_medium"
             android:paddingLeft="5dp"
-            android:text="@string/g_choose_language"
+            android:text="@string/g_language"
             android:textColor="@color/pastelgray"
             android:textSize="14sp" />
     </LinearLayout>

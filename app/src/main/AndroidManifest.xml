@@ -11,7 +11,7 @@
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/launcher_logo_avocardio"
-        android:label="@string/app_name"
+        android:label="@string/g_app_name"
         android:roundIcon="@mipmap/launcher_logo_avocardio_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -22,12 +22,7 @@
             android:name=".Activities.OnBoarding.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.ActivationAcount.ActivationAccountActivity"
@@ -37,22 +32,37 @@
         </activity>
         <activity
             android:name=".Activities.Password.ResetPasswordActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".Activities.Password.EmailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activities.Main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity
             android:name=".Activities.Register.RegisterActivity_2"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity
             android:name=".Activities.Register.RegisterActivity_1"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity
             android:name=".Activities.Login.LoginActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

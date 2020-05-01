@@ -2,7 +2,6 @@ package avocardio.avocardioapp.Activities.Password;
 
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -79,15 +78,22 @@ public class PasswordManager {
                             Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
                             ErrorResponse errorResponse = converter.convert(responseBody);
                             if (emailActivity != null) {
-                                //wywolanie komunikatu z bledami
-                                emailActivity.showError(errorResponse.error);
+                                switch (errorResponse.error_code) {
+                                    case 1002:
+                                        emailActivity.popUpError("This e-mail isn't correct");
+                                        break;
+                                    case 1004:
+                                        emailActivity.popUpError("Time lock");
+                                        break;
+                                    default:
+                                        emailActivity.popUpError("Something went wrong try again later");
+                                        break;
+                                }
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-
-
                 }
 
                 @Override
@@ -123,32 +129,33 @@ public class PasswordManager {
                         response.body().toString();
                         if (resetPasswordActivity != null) {
                             resetPasswordActivity.loginSuccess();
-                        } else {
+                        }
+                    }else {
                             ResponseBody responseBody = response.errorBody();
                             try {
                                 Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
                                 ErrorResponse errorResponse = converter.convert(responseBody);
                                 if (resetPasswordActivity != null) {
                                     //wywolanie komunikatu z bledami
-                                    resetPasswordActivity.showError(errorResponse.error);
+                                    switch (errorResponse.error_code) {
+                                        case 1002:
+                                            resetPasswordActivity.popUpError("This code isn't correct");
+                                            break;
+                                        case 1003:
+                                            resetPasswordActivity.popUpError("This code has expired");
+                                            break;
+                                        case 1004:
+                                            resetPasswordActivity.popUpError("Time lock");
+                                            break;
+                                        default:
+                                            resetPasswordActivity.popUpError("Something went wrong try again later");
+                                            break;
+                                    }
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
-                    }else{
-                        {
-                            //obsluga bledow
-                            switch (response.code()) {
-                                case 1004:
-                                    Toast.makeText(resetPasswordActivity, ":( Sorry you must wait 15 minutes.", Toast.LENGTH_SHORT).show();
-                                    break;
-                                case 1003:
-                                    Toast.makeText(resetPasswordActivity, "The reset code has expired ", Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-                        }
-                    }
                 }
 
                 @Override
@@ -156,7 +163,7 @@ public class PasswordManager {
                     passwordResponseCall = null;
                     if (resetPasswordActivity != null) {
                         //wywolanie komunikatu z problemami
-                        resetPasswordActivity.showError(t.getLocalizedMessage());
+                        //resetPasswordActivity.showError(t.getLocalizedMessage());
                     }
 
                 }

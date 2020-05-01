@@ -1,21 +1,24 @@
 package avocardio.avocardioapp.Activities.Password;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.chaos.view.PinView;
+import com.google.android.material.snackbar.Snackbar;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
@@ -53,9 +56,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     @OnTouch(R.id.mainLayoutRCode)
-    public void hideKeyboard(){
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(pinView.getWindowToken(), 0);
     }
 
     @Override
@@ -85,23 +88,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         String code = pinView.getText().toString();
 
-        if (code.length() < 6) {
-//            pinView.setLineColor(getColor(R.color.error_info));
-//            pinView.setTextColor(getColor(R.color.error_info));
-//            information.setText("Your reset code isn't valid.");
-//            information.setTextColor(getColor(R.color.error_info));
+        if(code.length() < 6) {
+            popUpError("Code is to short");
             hasErrors = true;
+        }else if(pinView.length() == 6) {
+            hasErrors = false;
+            hideKeyboard();
         }
 
         if (!hasErrors) {
             Intent intent = getIntent();
             String email = intent.getStringExtra("EXTRA_email1session");
-//            Log.i(ResetPasswordActivity.class.getSimpleName(), "--------------------------------------------------------------------------email" + email);
-//            pinView.setLineColor(getColor(R.color.colorPrimary));
-//            pinView.setTextColor(getColor(R.color.colorPrimary));
-//            information.setText("Your reset code is correct.");
             information.setTextColor(getColor(R.color.colorPrimary));
-
             try {
                 passwordManager.tryReset(email, code);
             } catch (NullPointerException e) {
@@ -110,12 +108,16 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
     }
 
+    public void popUpError(String text) {
+        Snackbar snackbar = Snackbar.make(mainLayout, text, Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.error_info));
+        snackbar.show();
+    }
+
     public void loginSuccess() {
         startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
         finish();
-    }
-
-    public void showError(String error) {
-        Toast.makeText(ResetPasswordActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
     }
 }

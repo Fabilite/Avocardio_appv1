@@ -43,6 +43,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/lets_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="27dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/button_action_active"
+        android:fontFamily="@font/quicksand_medium"
+        android:paddingHorizontal="20dp"
+        android:visibility="gone"
+        android:text="Let's start!"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
@@ -66,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_medium"
-            android:text="@string/g_choose_language"
+            android:text="@string/g_language"
             android:textColor="@color/pastelgray"
             android:textSize="14sp" />
     </LinearLayout>

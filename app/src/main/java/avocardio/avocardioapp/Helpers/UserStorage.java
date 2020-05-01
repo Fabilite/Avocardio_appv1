@@ -29,4 +29,16 @@ public class UserStorage {
 
     public String getUserHash(){return sharedPreferences.getString(USER_HASH,"");}
 
+    //zapamietywanie danych logowania
+//    public void login(UserResponse userResponse){
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(GUACAMOLE, userResponse.getGuacamole());
+//        editor.apply();
+//    }
+//
+//    public boolean isHasToLogin() {
+//        sharedPreferences.getString(GUACAMOLE,"");
+//        return sharedPreferences.getString(GUACAMOLE, "").isEmpty();
+//    }
+
 }

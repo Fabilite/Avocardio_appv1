@@ -35,7 +35,7 @@
         android:textColor="@color/text_secondary"
         android:fontFamily="@font/quicksand_medium"
         android:textSize="15sp"
-        android:text="@string/powered_by_itcloud"
+        android:text="@string/g_powered_by"
         android:alpha="0.5"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"

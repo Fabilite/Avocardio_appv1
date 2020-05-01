@@ -1,9 +1,10 @@
 package avocardio.avocardioapp.Activities.Login;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -11,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +24,6 @@ import avocardio.avocardioapp.Activities.Main.MainActivity;
 import avocardio.avocardioapp.Activities.Password.EmailActivity;
 import avocardio.avocardioapp.Activities.Register.RegisterActivity_1;
 import avocardio.avocardioapp.Connections.Api.App;
-import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgotPasswordBtn;
     @BindView(R.id.signUp_btn)
     LinearLayout signUpBtn;
-    Generates generates = new Generates();
     @BindView(R.id.mainLayoutLogin)
     ConstraintLayout mainLayout;
     @BindView(R.id.email_validation)
@@ -54,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     //Obiekt przechowywania activity
     private LoginManager loginManager;
 
-    private static String TAG = "LoginActivity class";
-
+    private boolean emailV = false;
+    private boolean passwordV = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -66,8 +64,11 @@ public class LoginActivity extends AppCompatActivity {
 
         loginManager = ((App) getApplication()).getLoginManager();
 
-        hidePlaceHolder(passwordField, R.string.g_password_hint);
-        hidePlaceHolder(emailField, R.string.g_email_hint);
+        hidePlaceHolder(passwordField, R.string.g_password_placeholder);
+        hidePlaceHolder(emailField, R.string.g_email_placeholder);
+        passwordField.addTextChangedListener(activeButton);
+        emailField.addTextChangedListener(activeButton);
+        loginBtn.addTextChangedListener(activeButton);
     }
 
     //Ukrywanie klawiatury po kliknieciu w puste pole
@@ -100,47 +101,72 @@ public class LoginActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    @OnClick(R.id.login_btn)
-    public void tryLogin() {
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
-        boolean hasErrors = false;
+    private TextWatcher activeButton = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        //EMAIL VALIDATION
-        if (email.isEmpty()) {
-            emailValidation.setText(getString(R.string.g_error_empty));
-            emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
-            hasErrors = true;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailValidation.setText(getString(R.string.g_error_email_notvalid));
-            emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
-            hasErrors = true;
-        }else{
-            emailValidation.setText(getString(R.string.g_empty));
-            emailField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.ashgrey), PorterDuff.Mode.SRC_ATOP);
         }
-        // PASSWORD VALIDATION
-        if (password.isEmpty()) {
-            passwordValidation.setText(getString(R.string.g_error_empty));
-            passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
-            hasErrors = true;
-        } else if (password.length() <= 5) {
-            passwordValidation.setText(getString(R.string.g_error_password_short));
-            passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.error_info), PorterDuff.Mode.SRC_ATOP);
-            hasErrors = true;
-        }else {
-            passwordValidation.setText(getString(R.string.g_empty));
-            passwordField.getBackground().mutate().setColorFilter(getResources().getColor(R.color.ashgrey), PorterDuff.Mode.SRC_ATOP);
-        }
-        // LOGOWANIE DO APLIKACJI
-        if (!hasErrors) {
-            try {
-                loginManager.login(email, generates.getSHA512(password));
 
-            } catch (NullPointerException e) {
-                System.out.println("-------!!!!-------" + e.getMessage());
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String email = emailField.getText().toString();
+            String password = passwordField.getText().toString();
+            if (email.isEmpty()) {
+                emailValidation.setText(getString(R.string.g_field_is_empty));
+                emailV = false;
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailValidation.setText(getString(R.string.g_wrong_email));
+                emailV = false;
+            } else {
+                emailValidation.setText(getString(R.string.g_empty));
+                emailV = true;
+            }
+
+            if (password.isEmpty()) {
+                passwordValidation.setText(getString(R.string.g_field_is_empty));
+                passwordV = false;
+            } else if (password.length() <= 5) {
+                passwordValidation.setText(getString(R.string.g_password_is_too_short));
+                passwordV = false;
+            } else {
+                passwordValidation.setText(getString(R.string.g_empty));
+                passwordV = true;
+            }
+
+            if(passwordV & emailV){
+                loginBtn.setEnabled(true);
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.button_action_active));
+
+            }else{
+                loginBtn.setEnabled(false);
+                loginBtn.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
             }
         }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean emailValidation(){
+        String email = emailField.getText().toString();
+        if (email.isEmpty()) {
+            emailValidation.setText(getString(R.string.g_field_is_empty));
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailValidation.setText(getString(R.string.g_wrong_email));
+            return false;
+        } else {
+            emailValidation.setText(getString(R.string.g_empty));
+            return true;
+        }
+    }
+
+    @OnClick(R.id.login_btn)
+    public void tryLogin() {
+        loginSuccess();
     }
 
     @OnClick(R.id.signUp_btn)
@@ -167,10 +193,6 @@ public class LoginActivity extends AppCompatActivity {
     public void loginSuccess() {
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
-    }
-
-    public void showError(String error) {
-        Toast.makeText(LoginActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
     }
 
     public void showProgress(boolean b) {

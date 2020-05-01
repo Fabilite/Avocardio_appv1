@@ -133,7 +133,7 @@ public class ActivationAccountActivity extends AppCompatActivity {
         finish();
     }
 
-    public void showError(String error) {
+    public void showError(int error) {
         Toast.makeText(ActivationAccountActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
     }
 

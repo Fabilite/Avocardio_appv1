@@ -3,7 +3,7 @@ package avocardio.avocardioapp.Activities.Register;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.snackbar.Snackbar;
 
 import avocardio.avocardioapp.Activities.ActivationAcount.ActivationAccountActivity;
-import avocardio.avocardioapp.Activities.LoadingProgressBar;
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.R;
@@ -56,17 +55,18 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     ImageButton backBtn;
     @BindView(R.id.mainLayoutRegister2)
     ConstraintLayout mainLayout;
+    @BindView(R.id.email_field_validation)
+    TextView emailFieldValidation;
+    @BindView(R.id.password_field_validation)
+    TextView passwordFieldValidation;
+    @BindView(R.id.linearLayout)
+    LinearLayout linearLayout;
 
-    LoadingProgressBar loadingProgressBar;
-    RegisterManager registerManager;
+    private RegisterManager registerManager;
 
 
-    private String email;
-    private String password;
     private String newsleter = "0";
-    private String acceptTerms = "0";
-
-    private final String TAG = "SPINNER TEST";
+    private boolean acceptRegulations = false;
 
     private Generates generates = new Generates();
 
@@ -99,35 +99,42 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
         registerManager.onStop_2();
     }
 
+    private boolean emailValidation(String email) {
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            emailFieldValidation.setText(getString(R.string.g_empty));
+            return true;
+        }else if (email.isEmpty()) {
+            emailFieldValidation.setText(getString(R.string.g_field_is_empty));
+            return false;
+        }else{
+            emailFieldValidation.setText(getString(R.string.g_wrong_email));
+            return false;
+        }
+    }
+
+    private boolean passwordValidation(String password){
+        if(password.length() > 5){
+            passwordFieldValidation.setText(getString(R.string.g_empty));
+            return true;
+        }else{
+            passwordFieldValidation.setText(getString(R.string.g_password_is_too_short));
+            return false;
+        }
+    }
+
     @OnClick(R.id.create_account_btn)
     public void tryToRegister() {
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
         String name;
         String brithday;
         String sex;
-        email = editTextEmail.getText().toString();
-        password = editTextPassword.getText().toString();
-        boolean hasErrors = false;
 
-        if (email.isEmpty()) {
-            editTextEmail.setError(getText(R.string.g_error_empty));
-            hasErrors = true;
-        }
-        if (!isEmailValid(email)) {
-            editTextEmail.setError(getText(R.string.g_error_email_notvalid));
-            hasErrors = true;
-        }
-        if (password.length() < 6) {
-            editTextPassword.setError(getText(R.string.g_error_password_short));
-            hasErrors = true;
-        }
-        if (acceptTerms.equals("0")) {
-            Toast toast = Toast.makeText(this, "You must accept the terms", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            toast.show();
-            hasErrors = true;
+        if(!acceptRegulations){
+            popUpError("You must accept the terms");
         }
 
-        if (!hasErrors) {
+        if(emailValidation(email) & passwordValidation(password) & acceptRegulations){
             Intent intent = getIntent();
             name = intent.getStringExtra("EXTRA_namesesion");
             brithday = intent.getStringExtra("EXTRA_brithdaysesion");
@@ -149,6 +156,7 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
 
     public void registerSucessful() {
         startActivity(new Intent(this, ActivationAccountActivity.class));
+        popUpError("SUCCES");
         finish();
     }
 
@@ -158,16 +166,6 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.error_info));
         snackbar.show();
-    }
-
-
-//    public void showProgress(boolean b) {
-//    }
-
-    //email valid
-    static boolean isEmailValid(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regex);
     }
 
     private void spinnerDate() {
@@ -186,10 +184,11 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
 
         switch (view.getId()) {
             case R.id.checkbox_regulations:
-                if (checked)
-                    acceptTerms = "1";
+                if (checked) {
+                    acceptRegulations = true;
+                }
                 else {
-                    acceptTerms = "0";
+                    acceptRegulations = false;
                 }
                 break;
             case R.id.checkbox_newsletter:
@@ -203,7 +202,8 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

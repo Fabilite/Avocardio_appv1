@@ -5,9 +5,9 @@ import android.util.Log;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
-import avocardio.avocardioapp.Connections.ResReq.ActivationResponse;
-import avocardio.avocardioapp.Connections.ResReq.ActivationRequest;
 import avocardio.avocardioapp.Connections.Api.AvocardioApi;
+import avocardio.avocardioapp.Connections.ResReq.ActivationRequest;
+import avocardio.avocardioapp.Connections.ResReq.ActivationResponse;
 import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
 import avocardio.avocardioapp.Helpers.UserStorage;
 import okhttp3.ResponseBody;
@@ -46,7 +46,6 @@ public class ActivationManager {
         ActivationRequest request = new ActivationRequest();
         request.user_hash = userStorage.getUserHash();
         request.activation_code = code;
-        Log.i(ActivationAccountActivity.class.getSimpleName(), "-----------------------------------------------------------User Hash = " + userStorage.getUserHash());
         if (activationResponseCall == null) {
             activationResponseCall = avocardioApi.getActivations(request);
 
@@ -56,35 +55,31 @@ public class ActivationManager {
                     activationResponseCall = null;
                     if (response.isSuccessful()) {
                         ActivationResponse body = response.body();
-                        Log.i(ActivationAccountActivity.class.getSimpleName(), "-----------------------------------------------------------User Hash = " + userStorage.getUserHash());
-                        Log.d(ActivationAccountActivity.class.getSimpleName(), "Resp: " + body.toString());
                         if (activationAccountActivity != null) {
                             activationAccountActivity.loginSuccess();
-                        } else {
-                            ResponseBody responseBody = response.errorBody();
-                            try {
-                                Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
-                                ErrorResponse errorResponse = converter.convert(responseBody);
-                                Log.d(ActivationAccountActivity.class.getSimpleName(), "Resp: " + errorResponse.toString());
-                                if (activationAccountActivity != null) {
-                                    //wywolanie komunikatu z bledami
-                                    activationAccountActivity.showError(errorResponse.error);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
                         }
                     } else {
-                        {
-                            //obsluga bledow
-                            switch (response.code()) {
-                                case 1002:
-                                    activationAccountActivity.popUpError("Invalid activation code");
-                                    break;
-                                default:
-                                    activationAccountActivity.popUpError("Something went wrong try again later");
-                                    break;
+                        ResponseBody responseBody = response.errorBody();
+                        try {
+                            Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
+                            ErrorResponse errorResponse = converter.convert(responseBody);
+                            Log.d(ActivationAccountActivity.class.getSimpleName(), "Resp: " + errorResponse.toString());
+                            if (activationAccountActivity != null) {
+                                //wywolanie komunikatu z bledami
+                                switch (errorResponse.error_code) {
+                                    case 1002:
+                                        activationAccountActivity.popUpError("This activation code isn't correct");
+                                        break;
+                                    case 1003:
+                                        activationAccountActivity.popUpError("This activation activation code has expired");
+                                        break;
+                                    default:
+                                        activationAccountActivity.popUpError("Something went wrong try again later");
+                                        break;
+                                }
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
 
@@ -95,7 +90,7 @@ public class ActivationManager {
                     activationResponseCall = null;
                     if (activationAccountActivity != null) {
                         //wywolanie komunikatu z problemami
-                        activationAccountActivity.showError(t.getLocalizedMessage());
+                        //activationAccountActivity.showError(t.getLocalizedMessage());
                     }
 
                 }

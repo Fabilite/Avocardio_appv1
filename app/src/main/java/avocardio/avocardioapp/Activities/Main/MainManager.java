@@ -61,7 +61,6 @@ public class MainManager {
                             ErrorResponse errorResponse = converter.convert(responseBody);
                             if (mainActivity != null) {
                                 //wywolanie komunikatu z bledami
-                                mainActivity.showError(errorResponse.error);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();

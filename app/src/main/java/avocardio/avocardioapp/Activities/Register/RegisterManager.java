@@ -51,7 +51,7 @@ public class RegisterManager {
     }
 
 
-    public void register(String email, String password, String firstname, String brithday,String sex,String newsletter) {
+    public void register(String email, String password, String firstname, String brithday, String sex, String newsletter) {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.email = email;
         registerRequest.firstname = firstname;
@@ -79,40 +79,34 @@ public class RegisterManager {
                         userStorage.save(registerResponse);
                         if (registerActivity_2 != null) {
                             registerActivity_2.registerSucessful();
-
-                        } else {
-                            ResponseBody responseBody = response.errorBody();
-
-                            try {
-                                Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
-                                ErrorResponse errorResponse = converter.convert(responseBody);
-                                if (registerActivity_2 != null) {
-                                    registerActivity_2.popUpError(errorResponse.error);
+                        }
+                    } else {
+                        ResponseBody responseBody = response.errorBody();
+                        try {
+                            Converter<ResponseBody, ErrorResponse> converter = retrofit.responseBodyConverter(ErrorResponse.class, new Annotation[]{});
+                            ErrorResponse errorResponse = converter.convert(responseBody);
+                            if (registerActivity_2 != null) {
+                                //obsluga bledow
+                                switch (errorResponse.error_code) {
+//                                    case 403:
+//                                        registerActivity_2.popUpError("This e-mail is already taken");
+//                                        break;
+//                                    case 404:
+//                                        registerActivity_2.popUpError(":( Server broken :(");
+//                                        break;
+//                                    case 500:
+//                                        registerActivity_2.popUpError(":( Server broken :(");
+//                                        break;
+                                    default:
+                                        registerActivity_2.popUpError("Something went wrong try again later");
+                                        break;
                                 }
-                            } catch (IOException e) {
-                                e.printStackTrace();
                             }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }else{
-                        {
-                            //obsluga bledow
-                            switch (response.code()) {
-                                case 403:
-                                    registerActivity_2.popUpError("This e-mail is already taken");
-                                    break;
-                                case 404:
-                                    registerActivity_2.popUpError(":( Server broken :(");
-                                    break;
-                                case 500:
-                                    registerActivity_2.popUpError(":( Server broken :(");
-                                    break;
-                                default:
-                                    registerActivity_2.popUpError("Something went wrong try again later");
-                                    break;
-                            }
-                        }
-            }
-        }
+                    }
+                }
 
                 @Override
                 public void onFailure(Call<RegisterResponse> call, Throwable t) {
