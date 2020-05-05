@@ -21,7 +21,7 @@
     <string name="g_field_not_valid">This field is not valid</string>
     <string name="g_field_is_empty">This field can\'t be empty.</string>
     <string name="g_name_too_short">Your name is too short.</string>
-    <string name="g_wrong_email">This e-mail address isn\'t correct.</string>
+    <string name="g_wrong_email">This isn\'t an e-mail address.</string>
     <string name="g_password_is_too_short">Password must contain a minimum 6 characters</string>
     <string name="g_skip">Skip</string>
     <string name="g_language">English</string>
@@ -41,8 +41,8 @@
     <string name="g_birth_date_placeholder">DD/MM/YYYY</string>
     <string name="g_country">Country</string>
     <string name="g_poland">Poland</string>
-    <string name="g_male">male</string>
-    <string name="g_female">female</string>
+    <string name="g_male">Male</string>
+    <string name="g_female">Female</string>
     <string name="g_next">Next</string>
     <string name="g_enter_number">Enter 6 digit number</string>
     ​
@@ -79,10 +79,9 @@
     ​
     <!-- ***** RESET PASSWORD SCREEN ***** -->
     <string name="l_email_for_reset_code">Please give us your e-mail address. We will send you an e-mail with reset code.</string>
-    <string name="l_reset_password">Reset password</string>
 
     <!-- ***** ACTIVATION SCREEN ***** -->
-    <string name="l_get_again_activation_code">Didn\'t get the activation code?</string>
+    <string name="l_didint_activation_code">Didn\'t get the activation code?</string>
 
 
 </resources>

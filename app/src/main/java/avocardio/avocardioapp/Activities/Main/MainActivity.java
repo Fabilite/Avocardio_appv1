@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     TextView userInformation;
     @BindView(R.id.mainLayout)
     ConstraintLayout mainLayout;
+    @BindView(R.id.get_userData)
+    Button getUserData;
+
     //private UserStorage userStorage;
     private MainManager mainManager;
 
@@ -67,15 +70,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void loginSuccess(String text) {
         userInformation.setText(text);
         //startActivity();
         //finish();
     }
 
+    @OnClick(R.id.get_userData)
+    public void getUserData(){
+        try{
+            mainManager.getUserInformation();
+        }catch(NullPointerException e){
+            e.getMessage();
+        }
+    }
+
     public void getUserDates() {
-        mainManager.getUserInformation();
+
     }
 
     public void showError(String error) {

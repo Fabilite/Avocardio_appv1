@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //Tworzy jedną instancję na cały czas pracy aplikacji
 public class App extends Application {
 
-    private MainManager  mainManager;
+    private MainManager mainManager;
     private LoginManager loginManager;
     private RegisterManager registerManager;
     private ActivationManager activationManager;
@@ -54,6 +54,7 @@ public class App extends Application {
                         Request newRequest = request.newBuilder()
                                 .addHeader("x-api-key", generates.getAvocS())
                                 .addHeader("x-api-secret", generates.getGuacS())
+                                .addHeader("x-access-token",userStorage.getAccesToken())
                                 .addHeader("authorization", generates.getSHA512(generates.getAvocS() + generates.getGuacS())).build();
                         return chain.proceed(newRequest);
                     }
@@ -74,7 +75,7 @@ public class App extends Application {
         registerManager = new RegisterManager(userStorage, avocardioApi, retrofit);
         activationManager = new ActivationManager(userStorage, avocardioApi, retrofit);
         passwordManager = new PasswordManager(userStorage, avocardioApi, retrofit);
-        mainManager =  new MainManager(userStorage, avocardioApi, retrofit);
+        mainManager = new MainManager(userStorage, avocardioApi, retrofit);
     }
 
     public LoginManager getLoginManager() {

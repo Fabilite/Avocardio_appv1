@@ -39,12 +39,16 @@ public class MainManager {
         this.mainActivity = null;
     }
 
-    public void getUserInformation() {
-        String user_hash = userStorage.getUserHash();;
-        if (responseCall == null) {
-            responseCall = avocardioApi.getUserData(user_hash);
-            responseCall.enqueue(new Callback<LoginResponse>() {
 
+
+    public void getUserInformation() {
+        String user_hash = userStorage.getUserHash();
+        Log.i("User_hash----", " -------------------------------------" + userStorage.getUserHash());
+        Log.i("Acces Token----", " -------------------------------------" + userStorage.getAccesToken());
+        if (responseCall == null) {
+            Log.i("User_hash----", " -------------------------------------" + user_hash);
+            responseCall = avocardioApi.gettUserData(userStorage.getUserHash());
+            responseCall.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     responseCall = null;

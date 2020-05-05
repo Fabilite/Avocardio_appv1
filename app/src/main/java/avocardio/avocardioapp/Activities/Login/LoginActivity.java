@@ -3,8 +3,6 @@ package avocardio.avocardioapp.Activities.Login;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,6 +22,7 @@ import avocardio.avocardioapp.Activities.Main.MainActivity;
 import avocardio.avocardioapp.Activities.Password.EmailActivity;
 import avocardio.avocardioapp.Activities.Register.RegisterActivity_1;
 import avocardio.avocardioapp.Connections.Api.App;
+import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     //Obiekt przechowywania activity
     private LoginManager loginManager;
 
+    Generates generates =  new Generates();
+
     private boolean emailV = false;
     private boolean passwordV = false;
 
@@ -66,9 +67,6 @@ public class LoginActivity extends AppCompatActivity {
 
         hidePlaceHolder(passwordField, R.string.g_password_placeholder);
         hidePlaceHolder(emailField, R.string.g_email_placeholder);
-        passwordField.addTextChangedListener(activeButton);
-        emailField.addTextChangedListener(activeButton);
-        loginBtn.addTextChangedListener(activeButton);
     }
 
     //Ukrywanie klawiatury po kliknieciu w puste pole
@@ -101,57 +99,8 @@ public class LoginActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    private TextWatcher activeButton = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String email = emailField.getText().toString();
-            String password = passwordField.getText().toString();
-            if (email.isEmpty()) {
-                emailValidation.setText(getString(R.string.g_field_is_empty));
-                emailV = false;
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                emailValidation.setText(getString(R.string.g_wrong_email));
-                emailV = false;
-            } else {
-                emailValidation.setText(getString(R.string.g_empty));
-                emailV = true;
-            }
-
-            if (password.isEmpty()) {
-                passwordValidation.setText(getString(R.string.g_field_is_empty));
-                passwordV = false;
-            } else if (password.length() <= 5) {
-                passwordValidation.setText(getString(R.string.g_password_is_too_short));
-                passwordV = false;
-            } else {
-                passwordValidation.setText(getString(R.string.g_empty));
-                passwordV = true;
-            }
-
-            if(passwordV & emailV){
-                loginBtn.setEnabled(true);
-                loginBtn.setBackground(getResources().getDrawable(R.drawable.button_action_active));
-
-            }else{
-                loginBtn.setEnabled(false);
-                loginBtn.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean emailValidation(){
-        String email = emailField.getText().toString();
+    private boolean emailValidation(String email){
         if (email.isEmpty()) {
             emailValidation.setText(getString(R.string.g_field_is_empty));
             return false;
@@ -164,9 +113,33 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private boolean passwordValidation(String password){
+        if (password.isEmpty()) {
+            passwordValidation.setText(getString(R.string.g_field_is_empty));
+            return false;
+        } else if (password.length() <= 5) {
+            passwordValidation.setText(getString(R.string.g_password_is_too_short));
+            return false;
+        } else {
+            passwordValidation.setText(getString(R.string.g_empty));
+            return true;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @OnClick(R.id.login_btn)
     public void tryLogin() {
-        loginSuccess();
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+
+//        if(emailValidation(email) && passwordValidation(password)){
+            try{
+                loginManager.clearSession();
+                loginManager.login(email, generates.getSHA512(password));
+            }catch (NullPointerException e){
+                e.getMessage();
+            }
+        //}
     }
 
     @OnClick(R.id.signUp_btn)

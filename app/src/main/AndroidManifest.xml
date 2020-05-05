@@ -22,7 +22,12 @@
             android:name=".Activities.OnBoarding.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.ActivationAcount.ActivationAccountActivity"
@@ -37,12 +42,6 @@
         <activity
             android:name=".Activities.Password.EmailActivity"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.Main.MainActivity"

@@ -48,10 +48,10 @@ public class RegisterActivity_1 extends AppCompatActivity {
     EditText brithdayField;
     @BindView(R.id.goNext)
     Button goNext;
-    @BindView(R.id.female_btn)
-    Button femaleBtn;
-    @BindView(R.id.male_btn)
-    Button maleBtn;
+    @BindView(R.id.female_box)
+    Button femaleBox;
+    @BindView(R.id.male_box)
+    Button maleBox;
     @BindView(R.id.back_btn)
     ImageButton backBtn;
     @BindView(R.id.linearLayout2)
@@ -65,11 +65,9 @@ public class RegisterActivity_1 extends AppCompatActivity {
     @BindView(R.id.brithday_field_validation)
     TextView brithdayFieldValidation;
 
-    private String sexChose = "";
     private boolean sexActive = false;
-    private boolean brithdayV = false;
-    private boolean nameV = false;
 
+    private String sexChose = "";
     private String day = "";
     private String month = "";
     private String year = "";
@@ -83,6 +81,9 @@ public class RegisterActivity_1 extends AppCompatActivity {
         ButterKnife.bind(this);
 
         registerManager = ((App) getApplication()).getRegisterManager();
+
+//        nameField.addTextChangedListener(activeButton);
+//        brithdayField.addTextChangedListener(activeButton);
 
         editTextValidation();
         helpers.hidePlaceHolder(nameField, R.string.g_name_placeholder);
@@ -107,6 +108,32 @@ public class RegisterActivity_1 extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
+
+    private TextWatcher activeButton = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String email = nameField.getText().toString().trim();
+            if ((!email.isEmpty()) && (brithdayField.length() < 10) & (!sexActive)) {
+                goNext.setEnabled(true);
+                goNext.setBackground(getResources().getDrawable(R.drawable.button_action_active));
+
+            } else {
+                goNext.setEnabled(false);
+                goNext.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     //OBSLUGA BRITHDAY_FIELD
     public void editTextValidation() {
@@ -176,25 +203,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
         });
     }
 
-    //Walidacja female
-    @OnClick(R.id.female_btn)
-    public void checkFemale() {
-        sexChose = "F";
-        changeBackground(femaleBtn, maleBtn);
-        if (!sexActive) {
-            sexActive = true;
-        }
-    }
-
-    //Walidacja male
-    @OnClick(R.id.male_btn)
-    public void checkMale() {
-        sexChose = "M";
-        changeBackground(maleBtn, femaleBtn);
-        if (!sexActive) {
-            sexActive = true;
-        }
-    }
 
     //VALIDACJA WIEKU
     @SuppressLint("WrongConstant")
@@ -231,23 +239,21 @@ public class RegisterActivity_1 extends AppCompatActivity {
         if (name.length() > 2) {
             if (!name.matches("[A-z]*")) {
                 firstNameValidation.setText(getString(R.string.g_field_not_valid));
-                nameV = false;
                 return false;
             } else {
                 firstNameValidation.setText(getString(R.string.g_empty));
-                nameV = true;
                 return true;
             }
         } else if (name.isEmpty()) {
             firstNameValidation.setText(getString(R.string.g_field_is_empty));
-            nameV = false;
+
             return false;
         } else if (name.length() < 3) {
             firstNameValidation.setText(getString(R.string.g_field_not_valid));
-            nameV = false;
+
             return false;
         }
-        nameV = false;
+
         return false;
     }
 
@@ -256,7 +262,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
 
         if (brithday.length() < 10) {
             brithdayFieldValidation.setText(getString(R.string.g_field_not_valid));
-            brithdayV = false;
             return false;
         } else if (brithday.length() == 10) {
             day = brithday.substring(0, 2);
@@ -266,21 +271,17 @@ public class RegisterActivity_1 extends AppCompatActivity {
             if (day.matches("[0-9]*") & month.matches("[0-9]*") & year.matches("[0-9]*")) {
                 if (!isAdultValidation(year, month, day)) {
                     brithdayFieldValidation.setText(getString(R.string.l_you_must_be_16_yo));
-                    brithdayV = false;
                     return false;
                 } else {
                     brithdayFieldValidation.setText(getString(R.string.g_empty));
-                    brithdayV = true;
                     return true;
                 }
             } else {
                 brithdayFieldValidation.setText(getString(R.string.g_field_not_valid));
-                brithdayV = false;
                 return false;
             }
         } else {
             brithdayFieldValidation.setText(getString(R.string.g_field_not_valid));
-            brithdayV = false;
             return false;
         }
     }
@@ -375,6 +376,20 @@ public class RegisterActivity_1 extends AppCompatActivity {
             InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             methodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+        }
+    }
+
+    @OnClick({R.id.female_box, R.id.male_box})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.female_box:
+                sexChose = "F";
+                sexActive = true;
+                break;
+            case R.id.male_box:
+                sexChose = "M";
+                sexActive = true;
+                break;
         }
     }
 }

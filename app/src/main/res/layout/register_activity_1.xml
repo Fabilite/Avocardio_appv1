@@ -150,39 +150,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brithday_field1" />
 
-    <Button
-        android:id="@+id/female_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/register_button_f_m"
-        android:fontFamily="@font/quicksand_medium"
-        android:text="@string/g_female"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/male_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brithday_field1" />
 
-    <Button
-        android:id="@+id/male_btn"
-        android:layout_width="0dp"
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="46dp"
-        android:background="@drawable/register_button_f_m"
-        android:fontFamily="@font/quicksand_medium"
-        android:text="@string/g_male"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
-        android:textSize="15sp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/female_btn"
-        app:layout_constraintTop_toBottomOf="@+id/brithday_field1" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brithday_field_validation">
+
+        <RadioButton
+            android:id="@+id/female_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="@string/g_female"
+            android:textColor="@color/ashgrey"
+            android:buttonTint="@color/ashgrey"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:id="@+id/male_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:fontFamily="@font/quicksand_medium"
+            android:text="@string/g_male"
+            android:textColor="@color/ashgrey"
+            android:buttonTint="@color/ashgrey"
+            android:textSize="15sp" />
+    </RadioGroup>
 
 
     <Button
@@ -227,5 +229,6 @@
             android:textColor="@color/pastelgray"
             android:textSize="14sp" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,10 @@
 package avocardio.avocardioapp.Activities.Register;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
-import avocardio.avocardioapp.Activities.LoadingProgressBar;
 import avocardio.avocardioapp.Connections.Api.AvocardioApi;
 import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
 import avocardio.avocardioapp.Connections.ResReq.RegisterRequest;
@@ -24,7 +25,6 @@ public class RegisterManager {
     private final AvocardioApi avocardioApi;
     private final Retrofit retrofit;
     private Call<RegisterResponse> registerResponseCall;
-    private LoadingProgressBar loadingProgressBar;
 
     public RegisterManager(UserStorage userStorage, AvocardioApi avocardioApi, Retrofit retrofit) {
         this.userStorage = userStorage;
@@ -50,6 +50,10 @@ public class RegisterManager {
         this.registerActivity_2 = null;
     }
 
+    public void clearUserStorage(){
+        userStorage.clearAll();
+    }
+
 
     public void register(String email, String password, String firstname, String brithday, String sex, String newsletter) {
         RegisterRequest registerRequest = new RegisterRequest();
@@ -65,18 +69,25 @@ public class RegisterManager {
         registerRequest.activation_mail = "1";
         //PAMIETAJ ZEBY ZMIENIC NA 0
         registerRequest.active = "0";
-
         registerRequest.newsletter = newsletter;
+
+        //userStorage.deleteAccesToken();
 
         if (registerResponseCall == null) {
             registerResponseCall = avocardioApi.postRegister(registerRequest);
             registerResponseCall.enqueue(new Callback<RegisterResponse>() {
                 @Override
-                public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response){
                     registerResponseCall = null;
-                    if (response.isSuccessful()) {
+                    //userStorage.deleteAccesToken();
+                    if (response.isSuccessful()){
                         RegisterResponse registerResponse = response.body();
-                        userStorage.save(registerResponse);
+                       // userStorage.saveRegisterResponse(registerResponse);
+                        Log.i("User_hash","-------------------------------------------------------------------");
+                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.getUserHash());
+                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.getAccesToken());
+                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.USER_HASH);
+                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.ACCESS_TOKEN);
                         if (registerActivity_2 != null) {
                             registerActivity_2.registerSucessful();
                         }
@@ -122,9 +133,4 @@ public class RegisterManager {
     }
 
 
-//    private void upDateProgress() {
-//        if (registerActivity_2 == null) {
-//            registerActivity_2.showProgress(userResponseCall != null);
-//        }
-//    }
 }

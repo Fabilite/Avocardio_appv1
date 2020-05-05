@@ -1,5 +1,7 @@
 package avocardio.avocardioapp.Activities.Login;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
@@ -41,7 +43,12 @@ public class LoginManager {
         this.loginActivity = null;
     }
 
+    public void clearSession(){
+        userStorage.clearAll();
+    }
+
     public void login(String email, String password) {
+        Log.i("------ACCESS TOKEN -", "\n\n-------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----" + userStorage.getAccesToken());
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.email = email;
         loginRequest.password = password;
@@ -54,7 +61,13 @@ public class LoginManager {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     loginResponseCall = null;
                     if (response.isSuccessful()) {
-                        response.body().toString();
+                        LoginResponse loginResponse = response.body();
+                        Log.i("------response Body -", "\n\n-------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----" + response.body().toString());
+                        Log.i("------USER_HASH -", "\n\n-------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----" + loginResponse.user_hash);
+                        Log.i("------ACCESS TOKEN -", "\n\n-------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----" + loginResponse.access_token);
+                        userStorage.saveLoginResponse(loginResponse);
+                        Log.i("------ACCESS TOKEN -", "\n\n-------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----" + userStorage.getAccesToken());
+                        Log.i("------USER HASH -", "\n\n-------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----" + userStorage.getUserHash());
                         if (loginActivity != null) {
                             loginActivity.loginSuccess();
                         }

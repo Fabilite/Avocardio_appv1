@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="ZALOGOWANY"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/logout_btn"
+        app:layout_constraintBottom_toTopOf="@+id/get_userData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -28,6 +28,15 @@
         android:layout_marginBottom="100dp"
         android:text="wyloguj"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/get_userData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get user data"
+        app:layout_constraintBottom_toTopOf="@+id/logout_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

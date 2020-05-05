@@ -140,6 +140,7 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
             brithday = intent.getStringExtra("EXTRA_brithdaysesion");
             sex = intent.getStringExtra("EXTRA_sexsesion");
             try {
+                registerManager.clearUserStorage();
                 registerManager.register(email, generates.getSHA512(password), name, brithday, sex, newsleter);
             } catch (NullPointerException e) {
                 System.out.println("" + e.getMessage());

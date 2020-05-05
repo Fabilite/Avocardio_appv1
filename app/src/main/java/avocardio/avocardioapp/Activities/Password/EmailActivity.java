@@ -67,6 +67,7 @@ public class EmailActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -95,18 +96,7 @@ public class EmailActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String email = emailField.getText().toString().trim();
-            if (email.isEmpty()){
-                emailValidation.setText(getString(R.string.g_field_is_empty));
-                emailV = false;
-            }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                emailValidation.setText(getString(R.string.g_wrong_email));
-                emailV = false;
-            }else{
-                emailValidation.setText(getString(R.string.g_empty));
-                emailV = true;
-            }
-
-            if(emailV){
+            if(!email.isEmpty()){
                 sendEmailBtn.setEnabled(true);
                 sendEmailBtn.setBackground(getResources().getDrawable(R.drawable.button_action_active));
 
@@ -124,8 +114,8 @@ public class EmailActivity extends AppCompatActivity {
     };
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean emailValidation(){
-        String email = emailField.getText().toString();
+    private boolean emailValidation(String email){
+
         if (email.isEmpty()){
             emailValidation.setText(getString(R.string.g_field_is_empty));
             return false;
@@ -139,12 +129,15 @@ public class EmailActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @OnClick(R.id.send_email_btn)
     public void goNext() {
-            String email = emailField.getText().toString();
+        String email = emailField.getText().toString();
+        if(emailValidation(email)) {
             Intent intent = new Intent(this, ResetPasswordActivity.class);
             intent.putExtra("EXTRA_email1session", email);
             passwordManager.sendEmail(email, intent);
+        }
 
     }
 

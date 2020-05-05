@@ -118,7 +118,7 @@
         android:fontFamily="@font/quicksand_medium"
         android:layout_marginHorizontal="20dp"
         android:gravity="center"
-        android:text="@string/l_get_again_activation_code"
+        android:text="@string/l_didint_activation_code"
         android:textColor="@color/text_secondary"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
