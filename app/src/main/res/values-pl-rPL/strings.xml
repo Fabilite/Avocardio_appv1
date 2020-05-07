@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="g_app_name">Avocardio</string>
-    <string name="g_powered_by">Stworzone przez \\nitcloud</string>
+    <string name="g_powered_by">Stworzone przez\nitcloud</string>
     <string name="g_welcome">Witaj</string>
     <string name="g_email">E-mail</string>
     <string name="g_email_adress">Adres e-mail</string>
     <string name="g_your_email">Twój e-mail</string>
     <string name="g_email_placeholder">adres@email.pl</string>
     <string name="g_password">Hasło</string>
-    <string name="g_password_placeholder">*********</string>
     <string name="g_sign_in">Zaloguj się</string>
     <string name="g_sign_up">Zarejestruj się</string>
     <string name="g_field_not_valid">To pole nie jest poprawne</string>
@@ -17,7 +16,7 @@
     <string name="g_wrong_email">Adres e-mail nie jest poprawny</string>
     <string name="g_password_is_too_short">Hasło musi zawierać minimum 6 znaków</string>
     <string name="g_skip">Pomiń</string>
-    <string name="g_language">Angielski</string>
+    <string name="g_language">Polski</string>
     <string name="g_send_email">Wyślij e-mail</string>
     <string name="g_didnt_get_email">Wiadomość nie dotarła?</string>
     <string name="g_resend_email">Wyślij ponownie e-mail za</string>
@@ -58,5 +57,8 @@
     <string name="l_email_for_reset_code">Prosimy o podanie adresu e-mail, na który wyślemy kod resetujący</string>
     <string name="l_reset_password">Resetuj hasło</string>
     <string name="l_get_again_activation_code">Nie otrzymałeś kodu aktywacyjnego?</string>
-    <string name="g_empty">"  "</string>
+    <string name="l_select_your_language">Wybierz swój język</string>
+    <string name="g_Poland">Polski</string>
+    <string name="g_English">Angielski</string>
+    <string name="g_German">Niemiecki</string>
 </resources>

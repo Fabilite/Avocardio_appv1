@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="g_app_name">Avocardio</string>
-    <string name="g_powered_by">Erstellt von \\nitcloud</string>
+    <string name="g_powered_by">Erstellt von\nitcloud</string>
     <string name="g_welcome">Herzlich willkommen</string>
     <string name="g_email">Email</string>
     <string name="g_email_adress">E-Mail-Addresse</string>
@@ -16,7 +16,7 @@
     <string name="g_wrong_email">E-Mail-Adresse ist ungültig</string>
     <string name="g_password_is_too_short">Das Passwort muss mindestens 6 Zeichen enthalten</string>
     <string name="g_skip">überspringen</string>
-    <string name="g_language">Englisch</string>
+    <string name="g_language">Deutsch</string>
     <string name="g_send_email">E-Mail senden</string>
     <string name="g_didnt_get_email">Haben Sie die Nachricht nicht erhalten?</string>
     <string name="g_resend_email">E-Mail erneut senden in</string>
@@ -57,4 +57,8 @@
     <string name="l_email_for_reset_code">Bitte geben Sie die E-Mail-Adresse ein, an die wir den Rücksetzcode senden</string>
     <string name="l_reset_password">Passwort zurücksetzen</string>
     <string name="l_get_again_activation_code">Sie haben den Aktivierungscode nicht erhalten?</string>
+    <string name="l_select_your_language">Wähle deine Sprache</string>
+    <string name="g_Poland">Polen</string>
+    <string name="g_English">Englisch</string>
+    <string name="g_German">Deutsche</string>
 </resources>

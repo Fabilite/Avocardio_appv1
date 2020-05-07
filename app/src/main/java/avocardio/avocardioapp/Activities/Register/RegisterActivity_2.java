@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import avocardio.avocardioapp.Activities.ActivationAcount.ActivationAccountActivity;
+import avocardio.avocardioapp.Activities.Others.LanguageActivity;
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.Helpers.HelperMethod;
@@ -64,8 +65,8 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     TextView emailFieldValidation;
     @BindView(R.id.password_field_validation)
     TextView passwordFieldValidation;
-    @BindView(R.id.linearLayout)
-    LinearLayout linearLayout;
+    @BindView(R.id.change_language)
+    LinearLayout changeLanguage;
 
 
     private RegisterManager registerManager;
@@ -285,5 +286,10 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @OnClick(R.id.change_language)
+    public void onViewClicked() {
+        startActivity(new Intent(this, LanguageActivity.class));
     }
 }

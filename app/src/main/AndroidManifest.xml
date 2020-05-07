@@ -64,6 +64,13 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".Activities.Others.LanguageActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -24,10 +24,13 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.Locale;
 import java.util.TimeZone;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
+import avocardio.avocardioapp.Activities.Others.LanguageActivity;
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Helpers.HelperMethod;
 import avocardio.avocardioapp.R;
@@ -56,14 +59,16 @@ public class RegisterActivity_1 extends AppCompatActivity {
     ImageButton backBtn;
     @BindView(R.id.linearLayout2)
     LinearLayout linearLayout2;
-    @BindView(R.id.language)
-    LinearLayout language;
+    @BindView(R.id.change_language)
+    LinearLayout change_language;
     @BindView(R.id.mainLayoutRegister)
     ConstraintLayout mainLayoutRegister;
     @BindView(R.id.first_name_validation)
     TextView firstNameValidation;
     @BindView(R.id.brithday_field_validation)
     TextView brithdayFieldValidation;
+    @BindView(R.id.brithday_field1)
+    TextInputLayout brithdayField1;
 
     private boolean sexActive = false;
     private boolean nameAvtive = false;
@@ -299,7 +304,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
 
         if (nameValidation(name) & brithdayValidation(brithday) & (sexActive)) {
             String brithdayDate = year + "-" + month + "-" + day;
-
             intent.putExtra("EXTRA_namesesion", name);
             intent.putExtra("EXTRA_brithdaysesion", brithdayDate);
             intent.putExtra("EXTRA_sexsesion", sexChose);
@@ -383,5 +387,10 @@ public class RegisterActivity_1 extends AppCompatActivity {
                 sexActive = true;
                 break;
         }
+    }
+
+    @OnClick(R.id.change_language)
+    public void onViewClicked() {
+        startActivity(new Intent(this, LanguageActivity.class));
     }
 }

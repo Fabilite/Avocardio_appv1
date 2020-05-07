@@ -138,7 +138,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Android/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_down_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Android/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_check_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -148,8 +148,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="27ff00" />
-                            <entry key="outputName" value="picker_arrow" />
+                            <entry key="color" value="a7d038" />
+                            <entry key="outputName" value="arrow_check" />
                             <entry key="sourceFile" value="C:\Users\bpilc\OneDrive\Pulpit\Avocardio_logo\eye.svg" />
                           </map>
                         </option>

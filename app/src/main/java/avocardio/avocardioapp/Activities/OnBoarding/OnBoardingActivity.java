@@ -1,19 +1,11 @@
 package avocardio.avocardioapp.Activities.OnBoarding;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,9 +14,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
+import avocardio.avocardioapp.Activities.Others.LanguageActivity;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,8 +35,6 @@ public class OnBoardingActivity extends AppCompatActivity {
     Button letsStart;
     @BindView(R.id.change_language)
     LinearLayout changeLanguage;
-
-    Locale myLocale;
     @BindView(R.id.country_name)
     TextView countryName;
 
@@ -103,7 +93,6 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     private void setIndicators() {
         ImageView[] imageViews = new ImageView[onBoardingAdapter.getItemCount()];
-
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         );
@@ -134,72 +123,10 @@ public class OnBoardingActivity extends AppCompatActivity {
         finish();
     }
 
-    //ZMIANA JEZYKA
-    public void setLocale(String lang) {
-        myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, OnBoardingActivity.class);
-        startActivity(refresh);
-
-    }
 
     @OnClick(R.id.change_language)
     public void onViewClicked() {
-      countryList();
-
+        startActivity(new Intent(this, LanguageActivity.class));
     }
 
-    private void countryList() {
-        ListView listView = new ListView(this);
-        List<String> countryData = new ArrayList<>();
-        countryData.add("Poland");
-        countryData.add("Germany");
-        countryData.add("United Kingdom");
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, countryData);
-        listView.setAdapter(arrayAdapter);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(OnBoardingActivity.this);
-        builder.setCancelable(true);
-        builder.setView(listView);
-        final AlertDialog dialog = builder.create();
-
-        changeLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String country = countryData.get(position).toString();
-                countryName.setText(country);
-                countryCode(country);
-                dialog.dismiss();
-            }
-        });
-    }
-
-    private void countryCode(String country) {
-        switch (country) {
-            case "Poland":
-                setLocale("PL");
-                break;
-            case "Germany":
-                setLocale("DE");
-                break;
-            case "United Kingdom":
-                setLocale("EN");
-                break;
-            default:
-                setLocale("EN");
-                break;
-        }
-    }
 }

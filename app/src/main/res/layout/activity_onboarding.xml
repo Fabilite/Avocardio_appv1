@@ -65,11 +65,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="30dp"
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

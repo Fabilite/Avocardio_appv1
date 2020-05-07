@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.snackbar.Snackbar;
 
 import avocardio.avocardioapp.Activities.Main.MainActivity;
+import avocardio.avocardioapp.Activities.Others.LanguageActivity;
 import avocardio.avocardioapp.Activities.Password.EmailActivity;
 import avocardio.avocardioapp.Activities.Register.RegisterActivity_1;
 import avocardio.avocardioapp.Connections.Api.App;
@@ -48,12 +49,14 @@ public class LoginActivity extends AppCompatActivity {
     TextView emailValidation;
     @BindView(R.id.password_validation)
     TextView passwordValidation;
+    @BindView(R.id.change_language)
+    LinearLayout changeLanguage;
 
     //Obiekt przechowywania activity
     private LoginManager loginManager;
 
-    Generates generates =  new Generates();
-    HelperMethod helperMethod =  new HelperMethod();
+    Generates generates = new Generates();
+    HelperMethod helperMethod = new HelperMethod();
 
     private boolean emailV = false;
     private boolean passwordV = false;
@@ -102,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean emailValidation(String email){
+    private boolean emailValidation(String email) {
         if (email.isEmpty()) {
             emailValidation.setText(getString(R.string.g_field_is_empty));
             return false;
@@ -115,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean passwordValidation(String password){
+    private boolean passwordValidation(String password) {
         if (password.isEmpty()) {
             passwordValidation.setText(getString(R.string.g_field_is_empty));
             return false;
@@ -134,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
 
-        if(emailValidation(email) && passwordValidation(password)) {
+        if (emailValidation(email) && passwordValidation(password)) {
             try {
                 loginManager.clearSession();
                 loginManager.login(email, generates.getSHA512(password));
@@ -152,7 +155,9 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.forgot_Password_btn)
     public void goToPasswordRemember() {
         startActivity(new Intent(this, EmailActivity.class));
+
     }
+
 
     public void hidePlaceHolder(EditText editText, int textToSend) {
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -172,6 +177,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showProgress(boolean b) {
         // loginBtn.setEnabled(!b);
+    }
+
+    @OnClick(R.id.change_language)
+    public void onViewClicked() {
+        startActivity(new Intent(this, LanguageActivity.class));
     }
 }
 
