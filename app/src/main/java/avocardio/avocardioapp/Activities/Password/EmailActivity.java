@@ -53,7 +53,7 @@ public class EmailActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.remember_password_activity);
+        setContentView(R.layout.activity_remember_password_1);
         ButterKnife.bind(this);
 
         passwordManager = ((App) getApplication()).getPasswordManager();
@@ -65,8 +65,6 @@ public class EmailActivity extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
-
-
 
     @Override
     protected void onStart() {

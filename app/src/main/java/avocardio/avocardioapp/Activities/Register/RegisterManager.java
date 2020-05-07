@@ -55,11 +55,11 @@ public class RegisterManager {
     }
 
 
-    public void register(String email, String password, String firstname, String brithday, String sex, String newsletter) {
+    public void register(String email, String password, String firstname, String brithday, String sex, String newsletter, String countryCode) {
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.email = email;
         registerRequest.firstname = firstname;
-        registerRequest.country = "PL";
+        registerRequest.country = countryCode;
         registerRequest.password = password;
         registerRequest.language = "PL";
         registerRequest.sex = sex;
@@ -82,7 +82,7 @@ public class RegisterManager {
                     //userStorage.deleteAccesToken();
                     if (response.isSuccessful()){
                         RegisterResponse registerResponse = response.body();
-                       // userStorage.saveRegisterResponse(registerResponse);
+                        userStorage.saveRegisterResponse(registerResponse);
                         Log.i("User_hash","-------------------------------------------------------------------");
                         Log.i("User_hash/user storage","-------------------------------------"+ userStorage.getUserHash());
                         Log.i("User_hash/user storage","-------------------------------------"+ userStorage.getAccesToken());

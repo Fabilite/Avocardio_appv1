@@ -48,7 +48,7 @@ public class ActivationAccountActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activation_account_activity);
+        setContentView(R.layout.activity_activation_account);
         ButterKnife.bind(this);
 
         activationManager = ((App) getApplication()).getActivationManager();

@@ -54,7 +54,7 @@ public class App extends Application {
                         Request newRequest = request.newBuilder()
                                 .addHeader("x-api-key", generates.getAvocS())
                                 .addHeader("x-api-secret", generates.getGuacS())
-                                .addHeader("x-access-token",userStorage.getAccesToken())
+                                .addHeader("x-access-token","")
                                 .addHeader("authorization", generates.getSHA512(generates.getAvocS() + generates.getGuacS())).build();
                         return chain.proceed(newRequest);
                     }
@@ -63,12 +63,13 @@ public class App extends Application {
 //        client.readTimeoutMillis();
 //        client.connectTimeoutMillis();
 //        client.writeTimeoutMillis();
+
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(urlTest);
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.client(client);
-        retrofit = builder.build();
 
+        retrofit = builder.build();
         avocardioApi = retrofit.create(AvocardioApi.class);
         userStorage = new UserStorage(PreferenceManager.getDefaultSharedPreferences(this));
         loginManager = new LoginManager(userStorage, avocardioApi, retrofit);

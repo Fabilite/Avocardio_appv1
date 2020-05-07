@@ -66,6 +66,8 @@ public class RegisterActivity_1 extends AppCompatActivity {
     TextView brithdayFieldValidation;
 
     private boolean sexActive = false;
+    private boolean nameAvtive = false;
+    private boolean brithdayActive = false;
 
     private String sexChose = "";
     private String day = "";
@@ -77,26 +79,26 @@ public class RegisterActivity_1 extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_activity_1);
+        setContentView(R.layout.activity_register_1);
         ButterKnife.bind(this);
 
         registerManager = ((App) getApplication()).getRegisterManager();
 
-//        nameField.addTextChangedListener(activeButton);
-//        brithdayField.addTextChangedListener(activeButton);
+        nameField.addTextChangedListener(activeButton);
+        brithdayField.addTextChangedListener(activeButton);
 
         editTextValidation();
         helpers.hidePlaceHolder(nameField, R.string.g_name_placeholder);
     }
 
-    //informujemy Managera o starcie activity
+    //Informujemy Managera o starcie activity
     @Override
     protected void onStart() {
         super.onStart();
         registerManager.onAttach_1(this);
     }
 
-    //informujemy Managera o zatrzymaniu pracy activity
+    //Informujemy Managera o zatrzymaniu pracy activity
     @Override
     protected void onStop() {
         super.onStop();
@@ -109,6 +111,7 @@ public class RegisterActivity_1 extends AppCompatActivity {
         finish();
     }
 
+    //UAKTYWNIANIE BUTTONA
     private TextWatcher activeButton = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,10 +121,9 @@ public class RegisterActivity_1 extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String email = nameField.getText().toString().trim();
-            if ((!email.isEmpty()) && (brithdayField.length() < 10) & (!sexActive)) {
+            if ((!email.isEmpty()) & (brithdayField.getText().toString().length() > 1)) {
                 goNext.setEnabled(true);
                 goNext.setBackground(getResources().getDrawable(R.drawable.button_action_active));
-
             } else {
                 goNext.setEnabled(false);
                 goNext.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
@@ -202,7 +204,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
             }
         });
     }
-
 
     //VALIDACJA WIEKU
     @SuppressLint("WrongConstant")
@@ -358,15 +359,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
         new DatePickerDialog(RegisterActivity_1.this, R.style.MyDataPickerTheme, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
-    //ZMIANA BACKGROUND
-    private void changeBackground(Button button, Button button2) {
-        button.setTextColor(getColor(R.color.white));
-        button.setBackground(getResources().getDrawable(R.drawable.register_button_active_f_m));
-
-        button2.setTextColor(getColor(R.color.colorPrimary));
-        button2.setBackground(getResources().getDrawable(R.drawable.register_button_f_m));
     }
 
     //UKRYWANIE KLAWIATURY PO OPUSZCZENIU KALENDARZA

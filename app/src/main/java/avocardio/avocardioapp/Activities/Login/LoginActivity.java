@@ -23,6 +23,7 @@ import avocardio.avocardioapp.Activities.Password.EmailActivity;
 import avocardio.avocardioapp.Activities.Register.RegisterActivity_1;
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Helpers.Generates;
+import avocardio.avocardioapp.Helpers.HelperMethod;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginManager loginManager;
 
     Generates generates =  new Generates();
+    HelperMethod helperMethod =  new HelperMethod();
 
     private boolean emailV = false;
     private boolean passwordV = false;
@@ -60,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         loginManager = ((App) getApplication()).getLoginManager();
@@ -132,14 +134,14 @@ public class LoginActivity extends AppCompatActivity {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
 
-//        if(emailValidation(email) && passwordValidation(password)){
-            try{
+        if(emailValidation(email) && passwordValidation(password)) {
+            try {
                 loginManager.clearSession();
                 loginManager.login(email, generates.getSHA512(password));
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.getMessage();
             }
-        //}
+        }
     }
 
     @OnClick(R.id.signUp_btn)

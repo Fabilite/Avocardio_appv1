@@ -1,8 +1,10 @@
 package avocardio.avocardioapp.Helpers;
 
 import android.app.Activity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -23,14 +25,42 @@ public class HelperMethod {
     }
 
     //UKRYWANIE PLACHOLDERA PO KLIKNIECIU
-    public void hidePlaceHolder(EditText editText_field, int showMessage) {
-        editText_field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    public void hidePlaceHolder(EditText fieldToChange, int showMessage) {
+        fieldToChange.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus)
-                    editText_field.setHint(showMessage);
+                    fieldToChange.setHint(showMessage);
                 else
-                    editText_field.setHint("");
+                    fieldToChange.setHint("");
             }
         });
     }
+
+    //WALIDACJA HASLA
+    public boolean passwordValidation(String password, TextView view){
+        if(password.length() > 5){
+            view.setText(R.string.g_empty);
+            return true;
+        }else{
+            view.setText(R.string.g_password_is_too_short);
+            return false;
+        }
+    }
+
+    //WALIDACJA EMAIL
+    public boolean emailValidation(String email, TextView view) {
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            view.setText(R.string.g_empty);
+            return true;
+        }else if (email.isEmpty()) {
+            view.setText(R.string.g_field_is_empty);
+            return false;
+        }else{
+            view.setText(R.string.g_wrong_email);
+            return false;
+        }
+    }
+
+
+
 }

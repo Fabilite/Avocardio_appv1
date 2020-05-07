@@ -49,7 +49,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reset_password_activity);
+        setContentView(R.layout.activity_remember_password_2);
         ButterKnife.bind(this);
 
         passwordManager = ((App) getApplication()).getPasswordManager();
