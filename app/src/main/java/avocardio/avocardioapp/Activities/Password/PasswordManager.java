@@ -84,6 +84,7 @@ public class PasswordManager {
                                         break;
                                     case 1004:
                                         emailActivity.popUpError("Time lock");
+                                        emailActivity.timeLock();
                                         break;
                                     default:
                                         emailActivity.popUpError("Something went wrong try again later");
@@ -146,6 +147,7 @@ public class PasswordManager {
                                             break;
                                         case 1004:
                                             resetPasswordActivity.popUpError("Time lock");
+                                            resetPasswordActivity.timeLock();
                                             break;
                                         default:
                                             resetPasswordActivity.popUpError("Something went wrong try again later");
@@ -171,6 +173,5 @@ public class PasswordManager {
         }
 
     }
-
 
 }

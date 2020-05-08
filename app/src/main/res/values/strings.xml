@@ -87,6 +87,7 @@
     <string name="g_Poland">Polish</string>
     <string name="g_English">English</string>
     <string name="g_German">German</string>
+    <string name="g_15_00" translatable="false">15:00</string>
 
 
 </resources>

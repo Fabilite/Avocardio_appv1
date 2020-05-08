@@ -20,8 +20,8 @@ import androidx.core.content.ContextCompat;
 import com.chaos.view.PinView;
 import com.google.android.material.snackbar.Snackbar;
 
-import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
+import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,16 +73,6 @@ public class ActivationAccountActivity extends AppCompatActivity {
         activationManager.onStop();
     }
 
-//    public void changeView(TextView view) {
-//        if (view.length() != 0) {
-//            view.setTextColor(getResources().getColorStateList(R.color.colorPrimary));
-//            view.setBackground(getResources().getDrawable(R.drawable.elipse_edittext_background_active));
-//        } else {
-//            view.setTextColor(getResources().getColorStateList(R.color.dimgray));
-//            view.setBackground(getResources().getDrawable(R.drawable.elipse_edittext_background_unactive));
-//        }
-//    }
-
     //UKRYWANIE KLAWIATURY
     private void hideKeaybord() {
         View view = this.getCurrentFocus();
@@ -106,11 +96,12 @@ public class ActivationAccountActivity extends AppCompatActivity {
     @OnClick(R.id.confirm_button)
     public void onConfirmBtnClicked() {
 
+
         boolean hasErrors = false;
         String code = pinView.getText().toString();
         if (code.length() < 6) {
 //            pinView.setLineColor(getColor(R.color.error_info));
-////            pinView.setTextColor(getColor(R.color.error_info));
+//            pinView.setTextColor(getColor(R.color.error_info));
             hasErrors = true;
         }
         if(code.length() == 6){

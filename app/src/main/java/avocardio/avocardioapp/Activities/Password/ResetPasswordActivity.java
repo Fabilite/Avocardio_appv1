@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -45,6 +49,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
     ConstraintLayout mainLayout;
 
     PasswordManager passwordManager;
+    @BindView(R.id.time_quest)
+    TextView timeQuest;
+    @BindView(R.id.time_disc)
+    LinearLayout timeDisc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         passwordManager = ((App) getApplication()).getPasswordManager();
+        pinView.addTextChangedListener(activeButton);
     }
 
     @OnTouch(R.id.mainLayoutRCode)
@@ -73,11 +82,59 @@ public class ResetPasswordActivity extends AppCompatActivity {
         passwordManager.onStopPas();
     }
 
+    private TextWatcher activeButton = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String code = pinView.getText().toString();
+            if (!code.isEmpty()) {
+                confirmButton.setEnabled(true);
+                confirmButton.setBackground(getResources().getDrawable(R.drawable.button_action_active));
+
+            } else {
+                confirmButton.setEnabled(false);
+                confirmButton.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @OnClick(R.id.back_btn)
     public void backTo() {
         startActivity(new Intent(this, EmailActivity.class));
         finish();
+    }
+
+    public void timeLock() {
+        timeDisc.setVisibility(View.VISIBLE);
+        timeQuest.setVisibility(View.VISIBLE);
+        confirmButton.setEnabled(false);
+
+        new CountDownTimer(900000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+
+                String timeLfet = String.format("%02d:%02d", minutes, seconds);
+                timeView.setText(" " + timeLfet);
+            }
+
+            public void onFinish() {
+                timeView.setText("done!");
+                confirmButton.setEnabled(true);
+            }
+        }.start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -88,10 +145,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         String code = pinView.getText().toString();
 
-        if(code.length() < 6) {
+        if (code.length() < 6) {
             popUpError("Code is to short");
             hasErrors = true;
-        }else if(pinView.length() == 6) {
+        } else if (pinView.length() == 6) {
             hasErrors = false;
             hideKeyboard();
         }

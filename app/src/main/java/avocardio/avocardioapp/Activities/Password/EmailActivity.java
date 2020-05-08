@@ -3,6 +3,7 @@ package avocardio.avocardioapp.Activities.Password;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,11 +44,18 @@ public class EmailActivity extends AppCompatActivity {
     ConstraintLayout mainLayout;
     @BindView(R.id.email_validation)
     TextView emailValidation;
+    @BindView(R.id.timer_view)
+    TextView timerView;
+    @BindView(R.id.time_quest)
+    TextView timeQuest;
+    @BindView(R.id.time_disc)
+    LinearLayout timeDisc;
 
 
     private ProgressBar progressBar;
     private PasswordManager passwordManager;
-    private boolean emailV = false;
+    private boolean sendEmailBtnActive = true;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -84,6 +93,7 @@ public class EmailActivity extends AppCompatActivity {
         finish();
     }
 
+    //ON/OFF button active
     private TextWatcher activeButton = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -94,11 +104,11 @@ public class EmailActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String email = emailField.getText().toString().trim();
-            if(!email.isEmpty()){
+            if (!email.isEmpty() && sendEmailBtnActive) {
                 sendEmailBtn.setEnabled(true);
                 sendEmailBtn.setBackground(getResources().getDrawable(R.drawable.button_action_active));
 
-            }else{
+            } else {
                 sendEmailBtn.setEnabled(false);
                 sendEmailBtn.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
             }
@@ -112,15 +122,15 @@ public class EmailActivity extends AppCompatActivity {
     };
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean emailValidation(String email){
+    private boolean emailValidation(String email) {
 
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             emailValidation.setText(getString(R.string.g_field_is_empty));
             return false;
-        }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailValidation.setText(getString(R.string.g_wrong_email));
             return false;
-        }else{
+        } else {
             emailValidation.setText(getString(R.string.g_empty));
             return true;
         }
@@ -131,12 +141,35 @@ public class EmailActivity extends AppCompatActivity {
     @OnClick(R.id.send_email_btn)
     public void goNext() {
         String email = emailField.getText().toString();
-        if(emailValidation(email)) {
+        if (emailValidation(email)) {
             Intent intent = new Intent(this, ResetPasswordActivity.class);
             intent.putExtra("EXTRA_email1session", email);
             passwordManager.sendEmail(email, intent);
         }
+    }
 
+    public void timeLock() {
+        timeDisc.setVisibility(View.VISIBLE);
+        timeQuest.setVisibility(View.VISIBLE);
+        sendEmailBtn.setEnabled(false);
+        sendEmailBtnActive = false;
+
+        new CountDownTimer(900000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+
+                String timeLfet = String.format("%02d:%02d", minutes, seconds);
+                timerView.setText(" " + timeLfet);
+            }
+
+            public void onFinish() {
+                timerView.setText("done!");
+                sendEmailBtn.setEnabled(true);
+                sendEmailBtnActive = true;
+            }
+        }.start();
     }
 
     public void popUpError(String text) {
@@ -155,4 +188,6 @@ public class EmailActivity extends AppCompatActivity {
     public void showError(String error) {
         Toast.makeText(EmailActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
     }
+
+
 }
