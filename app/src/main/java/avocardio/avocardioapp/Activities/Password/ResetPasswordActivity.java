@@ -174,7 +174,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     public void loginSuccess() {
-        startActivity(new Intent(ResetPasswordActivity.this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("active",2);
+        startActivity(intent);
         finish();
     }
 }

@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
     public void logOut() {
         //CZYSZCZENIE BAZY Z DANYCH LOGOWANIA
         //userStorage.logOut();
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent =  new Intent(this, LoginActivity.class);
+        intent.putExtra("active", 3);
+        startActivity(intent);
         finish();
     }
 

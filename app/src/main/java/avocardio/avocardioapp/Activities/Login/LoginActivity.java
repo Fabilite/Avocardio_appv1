@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView passwordValidation;
     @BindView(R.id.change_language)
     LinearLayout changeLanguage;
+    int response = 0;
+
 
     //Obiekt przechowywania activity
     private LoginManager loginManager;
@@ -67,11 +69,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
         loginManager = ((App) getApplication()).getLoginManager();
 
         hidePlaceHolder(passwordField, R.string.g_password_placeholder);
         hidePlaceHolder(emailField, R.string.g_email_placeholder);
+        Intent intent = getIntent();
+        response = intent.getIntExtra("active", 0);
+        showInformation(response);
+
+    }
+
+    private void tryDoIt(){
+        Intent intent = getIntent();
+        response = intent.getIntExtra("active", 0);
+        showInformation(response);
     }
 
     //Ukrywanie klawiatury po kliknieciu w puste pole
@@ -101,6 +112,32 @@ public class LoginActivity extends AppCompatActivity {
                 .setActionTextColor(ContextCompat.getColor(this, R.color.white));
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(ContextCompat.getColor(this, color));
+        snackbar.show();
+    }
+
+    private void showInformation(int response) {
+        switch (response) {
+            case 1:
+                correctRegistration("Succesful registration");
+                break;
+            case 2:
+              correctRegistration("Password change was successful ");
+                break;
+            case 3:
+                correctRegistration("Logging out correctly");
+                break;
+            default:
+                break;
+        }
+}
+
+
+    //Bottom popUp message
+    public void correctRegistration(String text) {
+        Snackbar snackbar = Snackbar.make(mainLayout, text, Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         snackbar.show();
     }
 
@@ -150,12 +187,13 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.signUp_btn)
     public void goToRegister() {
         startActivity(new Intent(this, RegisterActivity_1.class));
+
+
     }
 
     @OnClick(R.id.forgot_Password_btn)
     public void goToPasswordRemember() {
         startActivity(new Intent(this, EmailActivity.class));
-
     }
 
 

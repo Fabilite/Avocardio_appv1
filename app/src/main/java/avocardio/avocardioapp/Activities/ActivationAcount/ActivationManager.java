@@ -25,6 +25,7 @@ public class ActivationManager {
     private final UserStorage userStorage;
     private Call<ActivationResponse> activationResponseCall;
 
+
     public ActivationManager(UserStorage userStorage, AvocardioApi avocardioApi, Retrofit retrofit) {
         this.avocardioApi = avocardioApi;
         this.retrofit = retrofit;

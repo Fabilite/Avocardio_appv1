@@ -120,7 +120,9 @@ public class ActivationAccountActivity extends AppCompatActivity {
 
 
     public void loginSuccess() {
-        startActivity(new Intent(ActivationAccountActivity.this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("active", 1);
+        startActivity(intent);
         finish();
     }
 

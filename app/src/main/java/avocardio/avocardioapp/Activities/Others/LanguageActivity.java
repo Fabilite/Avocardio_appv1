@@ -86,11 +86,11 @@ public class LanguageActivity extends AppCompatActivity {
         Intent refresh = new Intent(this, SplashActivity.class);
         startActivity(refresh);
 
+
     }
 
     @OnClick(R.id.back_btn)
     public void onViewClicked() {
         finish();
     }
-
 }

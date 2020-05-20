@@ -23,13 +23,14 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Locale;
 import java.util.TimeZone;
 
-import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Activities.Others.LanguageActivity;
 import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.Helpers.HelperMethod;
@@ -112,7 +113,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
 
     @OnClick(R.id.back_btn)
     public void goBack() {
-        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
@@ -133,7 +133,6 @@ public class RegisterActivity_1 extends AppCompatActivity {
                 goNext.setEnabled(false);
                 goNext.setBackground(getResources().getDrawable(R.drawable.button_action_unactive));
             }
-
         }
 
         @Override
@@ -326,6 +325,15 @@ public class RegisterActivity_1 extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         brithdayField.setText(sdf.format(myCalendar.getTime()));
         hideKeaybordAfterAction();
+    }
+
+    //Bottom popUp message
+    public void correctRegistration() {
+        Snackbar snackbar = Snackbar.make(mainLayoutRegister, "Succesful registration", Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(this, R.color.white));
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        snackbar.show();
     }
 
     //Ikona kalendarza jest klikalna

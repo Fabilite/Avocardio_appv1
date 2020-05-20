@@ -13,6 +13,7 @@ import avocardio.avocardioapp.Activities.Login.LoginManager;
 import avocardio.avocardioapp.Activities.Main.MainManager;
 import avocardio.avocardioapp.Activities.Password.PasswordManager;
 import avocardio.avocardioapp.Activities.Register.RegisterManager;
+import avocardio.avocardioapp.DataBase.DbHelper;
 import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.Helpers.UserStorage;
 import okhttp3.Interceptor;
@@ -36,6 +37,8 @@ public class App extends Application {
     private Retrofit retrofit;
     private AvocardioApi avocardioApi;
     private Generates generates = new Generates();
+    DbHelper dbHelper;
+
     final String urlTest = "https://avocardio.hopto.org/avocardio/";
     //final String url = "";
 
@@ -60,17 +63,14 @@ public class App extends Application {
                     }
                 }).addNetworkInterceptor(loggingInterceptor).build();
 
-//        client.readTimeoutMillis();
-//        client.connectTimeoutMillis();
-//        client.writeTimeoutMillis();
-
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(urlTest);
         builder.addConverterFactory(GsonConverterFactory.create());
         builder.client(client);
-
         retrofit = builder.build();
         avocardioApi = retrofit.create(AvocardioApi.class);
+
+       // dbHelper =  new DbHelper(this);
         userStorage = new UserStorage(PreferenceManager.getDefaultSharedPreferences(this));
         loginManager = new LoginManager(userStorage, avocardioApi, retrofit);
         registerManager = new RegisterManager(userStorage, avocardioApi, retrofit);

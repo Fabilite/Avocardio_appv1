@@ -61,7 +61,7 @@ public class RegisterManager {
         registerRequest.firstname = firstname;
         registerRequest.country = countryCode;
         registerRequest.password = password;
-        registerRequest.language = "PL";
+        registerRequest.language = "EN";
         registerRequest.sex = sex;
         registerRequest.birthday = brithday;
         registerRequest.lastname = "";
@@ -70,6 +70,7 @@ public class RegisterManager {
         //PAMIETAJ ZEBY ZMIENIC NA 0
         registerRequest.active = "0";
         registerRequest.newsletter = newsletter;
+
 
         //userStorage.deleteAccesToken();
 

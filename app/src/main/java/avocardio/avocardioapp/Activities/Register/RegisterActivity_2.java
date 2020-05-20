@@ -209,6 +209,7 @@ public class RegisterActivity_2 extends AppCompatActivity implements AdapterView
         String name;
         String brithday;
         String sex;
+        String language;
 
         if (countryC.length() != 2) {
             popUpError("You must choose your country");
