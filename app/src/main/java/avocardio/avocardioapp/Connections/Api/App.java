@@ -3,6 +3,7 @@ package avocardio.avocardioapp.Connections.Api;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import org.greenrobot.greendao.database.Database;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -13,7 +14,8 @@ import avocardio.avocardioapp.Activities.Login.LoginManager;
 import avocardio.avocardioapp.Activities.Main.MainManager;
 import avocardio.avocardioapp.Activities.Password.PasswordManager;
 import avocardio.avocardioapp.Activities.Register.RegisterManager;
-import avocardio.avocardioapp.DataBase.DbHelper;
+import avocardio.avocardioapp.DataBase.DaoMaster;
+import avocardio.avocardioapp.DataBase.DaoSession;
 import avocardio.avocardioapp.Helpers.Generates;
 import avocardio.avocardioapp.Helpers.UserStorage;
 import okhttp3.Interceptor;
@@ -37,7 +39,7 @@ public class App extends Application {
     private Retrofit retrofit;
     private AvocardioApi avocardioApi;
     private Generates generates = new Generates();
-    DbHelper dbHelper;
+    private DaoSession daoSession;
 
     final String urlTest = "https://avocardio.hopto.org/avocardio/";
     //final String url = "";
@@ -69,6 +71,12 @@ public class App extends Application {
         builder.client(client);
         retrofit = builder.build();
         avocardioApi = retrofit.create(AvocardioApi.class);
+
+
+        //creating sqllite database
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "avocardio.db");
+        Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
 
        // dbHelper =  new DbHelper(this);
         userStorage = new UserStorage(PreferenceManager.getDefaultSharedPreferences(this));
@@ -111,5 +119,9 @@ public class App extends Application {
 
     public MainManager getMainManager() {
         return mainManager;
+    }
+
+    public DaoSession getDaoSession(){
+        return  daoSession;
     }
 }

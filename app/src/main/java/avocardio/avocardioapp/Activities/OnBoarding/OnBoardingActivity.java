@@ -17,6 +17,8 @@ import java.util.List;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Activities.Others.LanguageActivity;
+import avocardio.avocardioapp.DataBase.Setup;
+import avocardio.avocardioapp.DataBase.SetupDao;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +42,9 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     private OnBoardingAdapter onBoardingAdapter;
     private LinearLayout linearIndicator;
+    private SetupDao setupDao;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class OnBoardingActivity extends AppCompatActivity {
         linearIndicator = findViewById(R.id.onboarding_indicators);
 
         setDateToOnboarding();
+
+//        DaoSession daoSession = ((App)getApplication()).getDaoSession();
+//        setupDao = daoSession.getSetupDao();
 
         ViewPager2 viewPager = findViewById(R.id.onboarding_viewpager);
         viewPager.setAdapter(onBoardingAdapter);
@@ -119,6 +127,9 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     @OnClick(R.id.skip_btn)
     public void onSkipClicked() {
+        //if clicekd change on invisable on next start
+        //onBoardingClicekd(1);
+        //start activity
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
@@ -127,6 +138,12 @@ public class OnBoardingActivity extends AppCompatActivity {
     @OnClick(R.id.change_language)
     public void onViewClicked() {
         startActivity(new Intent(this, LanguageActivity.class));
+    }
+
+    private void onBoardingClicekd(int click){
+        Setup setup = new Setup();
+        setup.setOnBoardingActive(click);
+        setupDao.update(setup);
     }
 
 }

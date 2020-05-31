@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 import avocardio.avocardioapp.Activities.OnBoarding.SplashActivity;
+import avocardio.avocardioapp.DataBase.DaoSession;
+import avocardio.avocardioapp.DataBase.Setup;
+import avocardio.avocardioapp.DataBase.SetupDao;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +35,9 @@ public class LanguageActivity extends AppCompatActivity {
     @BindView(R.id.confirm_Btn)
     TextView confirmBtn;
 
+    private SetupDao setupDao;
+    private DaoSession daoSession;
+
     Locale myLocale;
 
     @Override
@@ -39,7 +45,12 @@ public class LanguageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
+
+        setupDao = daoSession.getSetupDao();
+
         confirmBtn.setEnabled(false);
+
+
     }
 
     @OnClick({R.id.poland_Choose, R.id.english_Choose, R.id.german_Choose})
@@ -83,14 +94,21 @@ public class LanguageActivity extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+        updateLanguage(lang);
         Intent refresh = new Intent(this, SplashActivity.class);
         startActivity(refresh);
-
-
     }
 
     @OnClick(R.id.back_btn)
     public void onViewClicked() {
         finish();
     }
+
+    public void updateLanguage(String language){
+        Setup setup = new Setup();
+        setup.setLanguage(language);
+        setupDao.insert(setup);
+    }
+
+
 }

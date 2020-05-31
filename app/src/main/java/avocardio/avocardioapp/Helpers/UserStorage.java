@@ -2,7 +2,6 @@ package avocardio.avocardioapp.Helpers;
 
 import android.content.SharedPreferences;
 
-import avocardio.avocardioapp.Connections.ResReq.LoginResponse;
 import avocardio.avocardioapp.Connections.ResReq.RegisterResponse;
 
 //Klasa odpowiada za przechowywanie danych (logowanie)
@@ -17,12 +16,6 @@ public class UserStorage {
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void saveLoginResponse(LoginResponse loginResponse){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(USER_HASH, loginResponse.user_hash);
-        editor.putString(ACCESS_TOKEN,loginResponse.access_token);
-        editor.commit();
-    }
 
     public void saveRegisterResponse(RegisterResponse registerResponse){
         SharedPreferences.Editor editor = sharedPreferences.edit();
