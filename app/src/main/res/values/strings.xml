@@ -88,6 +88,8 @@
     <string name="g_English">English</string>
     <string name="g_German">German</string>
     <string name="g_15_00" translatable="false">15:00</string>
+    <string name="g_problem_not_receiving_code">You didn\'t receive the email? Return to the previous window and generate the code again.</string>
+    <string name="g_choose_your_country">Choose your country</string>
 
 
 </resources>

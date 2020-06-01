@@ -61,4 +61,6 @@
     <string name="g_Poland">Polen</string>
     <string name="g_English">Englisch</string>
     <string name="g_German">Deutsche</string>
+    <string name="g_problem_not_receiving_code">" Sie haben die E-Mail nicht erhalten? Kehren Sie zum vorherigen Fenster zurück und generieren Sie den Code erneut."</string>
+    <string name="g_choose_your_country">" Wähle dein Land"</string>
 </resources>

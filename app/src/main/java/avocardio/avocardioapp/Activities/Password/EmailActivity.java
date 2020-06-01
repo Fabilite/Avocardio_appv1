@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
+import avocardio.avocardioapp.Helpers.HelperMethod;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +52,8 @@ public class EmailActivity extends AppCompatActivity {
     @BindView(R.id.time_disc)
     LinearLayout timeDisc;
 
+    HelperMethod helpers =  new HelperMethod();
+
 
     private ProgressBar progressBar;
     private PasswordManager passwordManager;
@@ -64,6 +67,8 @@ public class EmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remember_password_1);
         ButterKnife.bind(this);
+
+        helpers.hidePlaceHolder(emailField,R.string.g_email_placeholder);
 
         passwordManager = ((App) getApplication()).getPasswordManager();
         emailField.addTextChangedListener(activeButton);

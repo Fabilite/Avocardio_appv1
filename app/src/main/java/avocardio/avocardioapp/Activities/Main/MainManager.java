@@ -56,7 +56,6 @@ public class MainManager {
                     if (response.isSuccessful()) {
                         LoginResponse loginResponse = response.body();
                         if (mainActivity != null) {
-
                             ArrayList<UserData> user_data  = new ArrayList<>(response.body().getUser_data());
                             mainActivity.loginSuccess(response.body().toString());
                             Log.i(mainActivity.getLocalClassName(), "POPRAWNE WYWOLANIE DANYCH" + response.body().getAccess_token());
@@ -83,7 +82,6 @@ public class MainManager {
                         //wywolanie komunikatu z problemami
                         mainActivity.showError(t.getLocalizedMessage());
                     }
-
                 }
             });
         }
