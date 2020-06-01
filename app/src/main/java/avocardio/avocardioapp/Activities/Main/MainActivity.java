@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Connections.Api.App;
+import avocardio.avocardioapp.Helpers.UserStorage;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,25 +29,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.get_userData)
     Button getUserData;
 
-    //private UserStorage userStorage;
+    private UserStorage userStorage;
     private MainManager mainManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //userStorage = ((App) getApplication()).getUserStorage();
-        //sprawdzam czy uzytkownik jest zalogowany
-//        if (userStorage.isHasToLogin()) {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//            return;
-//        }
-
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
         mainManager = ((App) getApplication()).getMainManager();
-        // getUserDates();
+        userStorage = ((App) getApplication()).getUserStorage();
     }
 
     @Override
@@ -63,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.logout_btn)
     public void logOut() {
-        //CZYSZCZENIE BAZY Z DANYCH LOGOWANIA
-        //userStorage.logOut();
+        userStorage.logout();
         Intent intent =  new Intent(this, LoginActivity.class);
         intent.putExtra("active", 3);
         startActivity(intent);

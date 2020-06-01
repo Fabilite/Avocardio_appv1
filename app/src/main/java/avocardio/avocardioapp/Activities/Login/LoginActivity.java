@@ -187,8 +187,6 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.signUp_btn)
     public void goToRegister() {
         startActivity(new Intent(this, RegisterActivity_1.class));
-
-
     }
 
     @OnClick(R.id.forgot_Password_btn)

@@ -26,6 +26,8 @@ public class RegisterManager {
     private final Retrofit retrofit;
     private Call<RegisterResponse> registerResponseCall;
 
+
+
     public RegisterManager(UserStorage userStorage, AvocardioApi avocardioApi, Retrofit retrofit) {
         this.userStorage = userStorage;
         this.avocardioApi = avocardioApi;
@@ -51,7 +53,7 @@ public class RegisterManager {
     }
 
     public void clearUserStorage(){
-        userStorage.clearAll();
+        userStorage.logout();
     }
 
 
@@ -84,11 +86,11 @@ public class RegisterManager {
                     if (response.isSuccessful()){
                         RegisterResponse registerResponse = response.body();
                         userStorage.saveRegisterResponse(registerResponse);
-                        Log.i("User_hash","-------------------------------------------------------------------");
                         Log.i("User_hash/user storage","-------------------------------------"+ userStorage.getUserHash());
-                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.getAccesToken());
-                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.USER_HASH);
-                        Log.i("User_hash/user storage","-------------------------------------"+ userStorage.ACCESS_TOKEN);
+                        //Log.i("User_hash/user storage","-------------------------------------"+ userStorage.USER_HASH);// to zwroci wartosc przypisnaa do stringa nie do key
+                        Log.i("AccesTokenen","-------------------------------------"+ userStorage.getAccesToken());
+
+
                         if (registerActivity_2 != null) {
                             registerActivity_2.registerSucessful();
                         }

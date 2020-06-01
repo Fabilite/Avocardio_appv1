@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 
 import avocardio.avocardioapp.Connections.Api.AvocardioApi;
 import avocardio.avocardioapp.Connections.ResReq.ErrorResponse;
@@ -53,10 +54,13 @@ public class MainManager {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     responseCall = null;
                     if (response.isSuccessful()) {
-                        response.body().toString();
+                        LoginResponse loginResponse = response.body();
                         if (mainActivity != null) {
+
+                            ArrayList<UserData> user_data  = new ArrayList<>(response.body().getUser_data());
                             mainActivity.loginSuccess(response.body().toString());
-                            Log.i(mainActivity.getLocalClassName(), "POPRAWNE WYWOLANIE DANYCH" + response.body());
+                            Log.i(mainActivity.getLocalClassName(), "POPRAWNE WYWOLANIE DANYCH" + response.body().getAccess_token());
+
                         }
                     } else {
                         ResponseBody responseBody = response.errorBody();

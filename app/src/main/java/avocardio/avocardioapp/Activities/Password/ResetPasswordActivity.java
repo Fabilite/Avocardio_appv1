@@ -156,7 +156,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         if (!hasErrors) {
             Intent intent = getIntent();
             String email = intent.getStringExtra("EXTRA_email1session");
-            information.setTextColor(getColor(R.color.colorPrimary));
             try {
                 passwordManager.tryReset(email, code);
             } catch (NullPointerException e) {

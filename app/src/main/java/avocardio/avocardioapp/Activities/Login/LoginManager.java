@@ -43,7 +43,7 @@ public class LoginManager {
     }
 
     public void clearSession() {
-        userStorage.clearAll();
+        userStorage.logout();
     }
 
     public void login(String email, String password) {
@@ -61,6 +61,7 @@ public class LoginManager {
                     loginResponseCall = null;
                     if (response.isSuccessful()) {
                         LoginResponse loginResponse = response.body();
+                        userStorage.saveLoginData(loginResponse);
                         if (loginActivity != null) {
                             loginActivity.loginSuccess();
                         }
@@ -93,7 +94,6 @@ public class LoginManager {
                         //wywolanie komunikatu z problemami
                         //loginActivity.showError(t.getLocalizedMessage());
                     }
-
                 }
             });
         }

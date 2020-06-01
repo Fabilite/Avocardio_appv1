@@ -17,8 +17,9 @@ import java.util.List;
 
 import avocardio.avocardioapp.Activities.Login.LoginActivity;
 import avocardio.avocardioapp.Activities.Others.LanguageActivity;
-import avocardio.avocardioapp.DataBase.Setup;
+import avocardio.avocardioapp.Connections.Api.App;
 import avocardio.avocardioapp.DataBase.SetupDao;
+import avocardio.avocardioapp.Helpers.UserStorage;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +45,7 @@ public class OnBoardingActivity extends AppCompatActivity {
     private LinearLayout linearIndicator;
     private SetupDao setupDao;
 
+    private UserStorage userStorage;
 
 
     @Override
@@ -61,6 +63,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
         ViewPager2 viewPager = findViewById(R.id.onboarding_viewpager);
         viewPager.setAdapter(onBoardingAdapter);
+        userStorage = ((App) getApplication()).getUserStorage();
 
         setIndicators();
         setCurrentIndicators(0);
@@ -127,9 +130,7 @@ public class OnBoardingActivity extends AppCompatActivity {
 
     @OnClick(R.id.skip_btn)
     public void onSkipClicked() {
-        //if clicekd change on invisable on next start
-        //onBoardingClicekd(1);
-        //start activity
+        onBoardingClicekd(1);
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
@@ -140,10 +141,8 @@ public class OnBoardingActivity extends AppCompatActivity {
         startActivity(new Intent(this, LanguageActivity.class));
     }
 
-    private void onBoardingClicekd(int click){
-        Setup setup = new Setup();
-        setup.setOnBoardingActive(click);
-        setupDao.update(setup);
+    private void onBoardingClicekd(int click) {
+        userStorage.saveOnBoardingClick(click);
     }
 
 }

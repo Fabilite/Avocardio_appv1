@@ -14,16 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 import avocardio.avocardioapp.Activities.OnBoarding.SplashActivity;
-import avocardio.avocardioapp.DataBase.DaoSession;
-import avocardio.avocardioapp.DataBase.Setup;
-import avocardio.avocardioapp.DataBase.SetupDao;
+import avocardio.avocardioapp.Connections.Api.App;
+import avocardio.avocardioapp.Helpers.UserStorage;
 import avocardio.avocardioapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LanguageActivity extends AppCompatActivity {
 
+public class LanguageActivity extends AppCompatActivity {
     @BindView(R.id.back_btn)
     ImageButton backBtn;
     @BindView(R.id.poland_Choose)
@@ -35,8 +34,8 @@ public class LanguageActivity extends AppCompatActivity {
     @BindView(R.id.confirm_Btn)
     TextView confirmBtn;
 
-    private SetupDao setupDao;
-    private DaoSession daoSession;
+
+    private UserStorage userStorage;
 
     Locale myLocale;
 
@@ -46,11 +45,8 @@ public class LanguageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_language);
         ButterKnife.bind(this);
 
-        setupDao = daoSession.getSetupDao();
-
+        userStorage = ((App) getApplication()).getUserStorage();
         confirmBtn.setEnabled(false);
-
-
     }
 
     @OnClick({R.id.poland_Choose, R.id.english_Choose, R.id.german_Choose})
@@ -85,16 +81,15 @@ public class LanguageActivity extends AppCompatActivity {
         }
     }
 
-
     //ZMIANA JEZYKA
-    public void setLocale(String lang) {
-        myLocale = new Locale(lang);
+    public void setLocale(String language) {
+        myLocale = new Locale(language);
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        updateLanguage(lang);
+        updateLanguage(language);
         Intent refresh = new Intent(this, SplashActivity.class);
         startActivity(refresh);
     }
@@ -104,11 +99,7 @@ public class LanguageActivity extends AppCompatActivity {
         finish();
     }
 
-    public void updateLanguage(String language){
-        Setup setup = new Setup();
-        setup.setLanguage(language);
-        setupDao.insert(setup);
+    public void updateLanguage(String language) {
+        userStorage.setLANGUAGE(language);
     }
-
-
 }

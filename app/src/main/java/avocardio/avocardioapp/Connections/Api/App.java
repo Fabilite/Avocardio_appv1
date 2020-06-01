@@ -1,7 +1,6 @@
 package avocardio.avocardioapp.Connections.Api;
 
 import android.app.Application;
-import android.preference.PreferenceManager;
 
 import org.greenrobot.greendao.database.Database;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +58,7 @@ public class App extends Application {
                         Request newRequest = request.newBuilder()
                                 .addHeader("x-api-key", generates.getAvocS())
                                 .addHeader("x-api-secret", generates.getGuacS())
-                                .addHeader("x-access-token","")
+                                .addHeader("x-access-token",userStorage.getAccesToken())
                                 .addHeader("authorization", generates.getSHA512(generates.getAvocS() + generates.getGuacS())).build();
                         return chain.proceed(newRequest);
                     }
@@ -79,7 +78,7 @@ public class App extends Application {
         daoSession = new DaoMaster(db).newSession();
 
        // dbHelper =  new DbHelper(this);
-        userStorage = new UserStorage(PreferenceManager.getDefaultSharedPreferences(this));
+        userStorage = new UserStorage(getSharedPreferences("avocardio_preferences",MODE_PRIVATE));
         loginManager = new LoginManager(userStorage, avocardioApi, retrofit);
         registerManager = new RegisterManager(userStorage, avocardioApi, retrofit);
         activationManager = new ActivationManager(userStorage, avocardioApi, retrofit);
